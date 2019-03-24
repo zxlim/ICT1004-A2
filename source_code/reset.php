@@ -19,9 +19,9 @@ require_once("serverside/components/user/reset.php");
 				<div class="col-first">
 					<h1>Reset Password</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="login.html">Login<span class="lnr lnr-arrow-right"></span></a>
-						<a href="reset.html">Reset Password</a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="login.php">Login<span class="lnr lnr-arrow-right"></span></a>
+						<a href="reset.php">Reset Password</a>
 					</nav>
 				</div>
 			</div>

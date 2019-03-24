@@ -19,8 +19,8 @@ require_once("serverside/components/user/register.php");
 				<div class="col-first">
 					<h1>Register</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="register.html">Register</a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="register.php">Register</a>
 					</nav>
 				</div>
 			</div>

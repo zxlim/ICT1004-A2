@@ -203,3 +203,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+## Project-Specific files.
+resources/karma
+resources/gengar
+# WARNING: DO NOT MODIFY THE FOLLOWING LINES!!
+source_code/serverside/private/*
+!source_code/serverside/private/README.md
+# End of DO NOT MODIFY warning.

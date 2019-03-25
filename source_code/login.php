@@ -19,8 +19,8 @@ require_once("serverside/components/user/login.php");
 				<div class="col-first">
 					<h1>Login</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="login.html">Login</a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="login.php">Login</a>
 					</nav>
 				</div>
 			</div>
@@ -38,7 +38,7 @@ require_once("serverside/components/user/login.php");
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<p>Join the <?php safe_echo(APP_TITLE); ?> community now!</p>
-							<a class="primary-btn" href="register.html">Create an Account</a>
+							<a class="primary-btn" href="register.php">Create an Account</a>
 						</div>
 					</div>
 				</div>

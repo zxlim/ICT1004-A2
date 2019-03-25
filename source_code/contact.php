@@ -18,8 +18,8 @@ require_once("serverside/base.php");
 				<div class="col-first">
 					<h1>Contact Us</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="contact.html">Contact Us</a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="contact.php">Contact Us</a>
 					</nav>
 				</div>
 			</div>

@@ -1,3 +1,20 @@
 .nav-logo {
 	max-width: 137px !important;
 }
+
+.no-click {
+	cursor: inherit !important;
+	pointer-events: none !important;
+}
+
+.filter-bar {
+	padding: 0;
+}
+
+.listing-result-count {
+	line-height: 60px;
+	padding: 0 30px;
+	font-size: 16px;
+	font-weight: 400;
+	color: #fff;
+}

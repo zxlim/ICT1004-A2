@@ -19,9 +19,9 @@ require_once("serverside/components/user/verification.php");
 				<div class="col-first">
 					<h1>Email Verification</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="register.html">Register<span class="lnr lnr-arrow-right"></span></a>
-						<a href="#">Email Verification</a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="register.php">Register<span class="lnr lnr-arrow-right"></span></a>
+						<a href="">Email Verification</a>
 					</nav>
 				</div>
 			</div>

@@ -120,16 +120,4 @@ if (defined("CLIENT") === FALSE) {
         </div>
     </div>
 
-    <!-- Search Input -->
-    <div class="search_input" id="search_input_box">
-        <div class="container">
-            <form class="d-flex justify-content-between" name="form-search" id="form-search">
-                <input type="text" class="form-control" id="search_query" name="search_query"
-                       placeholder="Search items or keywords">
-                <button type="submit" class="btn"></button>
-                <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-            </form>
-        </div>
-    </div>
-
 </header>

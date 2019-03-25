@@ -34,17 +34,17 @@ if (defined("CLIENT") === FALSE) {
                                aria-haspopup="true"
                                aria-expanded="false">Shop</a>
                             <ul class="dropdown-menu">
-                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?>">
+                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?> nav-item">
                                     <a class="nav-link" href="listing.php">Home Appliance</a>
                                 </li>
-                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?>">
+                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?> nav-item">
                                     <a class="nav-link" href="listing.php">Furniture</a>
                                 </li>
-                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?>">
+                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?> nav-item">
                                     <a class="nav-link" href="listing.php">Computers and IT</a>
                                 </li>
-                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?>">
-                                    <a class="nav-link" href="listing.php">Kids and Home Repairs and Services</a>
+                                <li class="<?php safe_echo(active_nav(['listing.php'])); ?> nav-item">
+                                    <a class="nav-link" href="listing.php">Kids & Home Repairs</a>
                                 </li>
                             </ul>
                         </li>

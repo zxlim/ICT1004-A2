@@ -23,9 +23,7 @@ require_once("serverside/components/home.php");
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
 									<h1>
-										Nike New
-										<br />
-										Collection!
+										Black Friday!
 									</h1>
 									<p>
 										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
@@ -38,7 +36,7 @@ require_once("serverside/components/home.php");
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="static/img/vendor/banner/banner-img.png" alt="">
+									<img class="img-fluid" src="static/img/black-friday.png" alt="">
 								</div>
 							</div>
 						</div>
@@ -46,10 +44,8 @@ require_once("serverside/components/home.php");
 						<div class="row single-slide">
 							<div class="col-lg-5">
 								<div class="banner-content">
-									h1>
-										Nike New
-										<br />
-										Collection!
+									<h1>
+										Black Friday!
 									</h1>
 									<p>
 										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
@@ -62,7 +58,7 @@ require_once("serverside/components/home.php");
 							</div>
 							<div class="col-lg-7">
 								<div class="banner-img">
-									<img class="img-fluid" src="static/img/vendor/banner/banner-img.png" alt="">
+									<img class="img-fluid" src="static/img/black-friday.png" alt="">
 								</div>
 							</div>
 						</div>
@@ -76,47 +72,43 @@ require_once("serverside/components/home.php");
 	<!-- Features Section -->
 	<section class="features-area section_gap">
 		<div class="container">
+            <h2>Explore Fast Trade</h2>
+            <hr>
 			<div class="row features-inner">
-				
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="single-features">
 						<div class="f-icon">
-							<img src="static/img/vendor/features/f-icon1.png" alt="">
+                            <img src="https://img.icons8.com/ios/50/000000/home-automation.png">
 						</div>
-						<h6>Free Delivery</h6>
-						<p>Free Shipping on all order</p>
+						<h6>Home Applicances</h6>
 					</div>
 				</div>
 				
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="single-features">
 						<div class="f-icon">
-							<img src="static/img/vendor/features/f-icon2.png" alt="">
+                            <img src="https://img.icons8.com/ios/50/000000/sofa.png">
 						</div>
-						<h6>Return Policy</h6>
-						<p>Free Shipping on all order</p>
+						<h6>Furnitures</h6>
 					</div>
 				</div>
 				
 				<div class="col-lg-3 col-md-6 col-sm-6">
 					<div class="single-features">
 						<div class="f-icon">
-							<img src="static/img/vendor/features/f-icon3.png" alt="">
+                            <img src="https://img.icons8.com/ios/50/000000/processor.png">
 						</div>
-						<h6>24/7 Support</h6>
-						<p>Free Shipping on all order</p>
+						<h6>Computers and IT</h6>
 					</div>
 				</div>
-				
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="single-features">
-						<div class="f-icon">
-							<img src="static/img/vendor/features/f-icon4.png" alt="">
-						</div>
-						<h6>Secure Payment</h6>
-						<p>Free Shipping on all order</p>
-					</div>
-				</div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="https://img.icons8.com/ios/50/000000/nailer.png">
+                        </div>
+                        <h6>Kids & Home Repairs</h6>
+                    </div>
+                </div>
 
 			</div>
 		</div>

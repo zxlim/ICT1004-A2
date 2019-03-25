@@ -45,7 +45,7 @@ define("WEBPAGE_TITLE", "Listings");
 		<div class="row">
 			<div class="col-xl-3 col-lg-4 col-md-5">
 				<div class="sidebar-categories">
-					<div class="head">
+					<div class="head bg-dark">
 						Browse Categories
 					</div>
 					<ul class="main-categories">
@@ -61,7 +61,7 @@ define("WEBPAGE_TITLE", "Listings");
 			</div>
 			<div class="col-xl-9 col-lg-8 col-md-7">
 				<!-- Start Filter Bar -->
-				<div class="filter-bar d-flex flex-wrap align-items-center">
+				<div class="filter-bar d-flex flex-wrap align-items-center bg-dark">
 					<div class="listing-result-count">
 						Showing <?php safe_echo(sizeof($results_listings)); ?> result(s)
 					</div>

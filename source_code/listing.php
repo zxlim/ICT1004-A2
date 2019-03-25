@@ -1,6 +1,9 @@
 <?php define("CLIENT", TRUE);
+
 require_once("serverside/base.php");
 require_once("serverside/components/listing/listing.php");
+
+define("WEBPAGE_TITLE", "Listings");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -17,12 +20,20 @@ require_once("serverside/components/listing/listing.php");
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
+					<?php if (isset($selected_cat_name) === FALSE) { ?>
+					<h1>Category Not Found</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="listing.php?id=1">Listings</a>
+					</nav>
+					<?php } else { ?>
 					<h1><?php safe_echo($selected_cat_name); ?></h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="">Listings<span class="lnr lnr-arrow-right"></span></a>
 						<a href=""><?php safe_echo($selected_cat_name); ?></a>
 					</nav>
+					<?php } ?>
 				</div>
 			</div>
 		</div>
@@ -40,7 +51,7 @@ require_once("serverside/components/listing/listing.php");
 					<ul class="main-categories">
 						<?php foreach ($results_categories as $row) { ?>
 						<li class="main-nav-list">
-							<a href="listing.php?cat=<?php safe_echo($row["id"]); ?>">
+							<a href="listing.php?id=<?php safe_echo($row["id"]); ?>">
 								<?php safe_echo($row["name"]); ?>
 							</a>
 						</li>
@@ -61,7 +72,11 @@ require_once("serverside/components/listing/listing.php");
 					<div class="row">
 						<?php if (sizeof($results_listings) === 0) { ?>
 							<div class="col-12">
+								<?php if (isset($selected_cat_name) === TRUE) { ?>
 								<h3 class="p-4">Sorry, there are no items in this category.</h3>
+								<?php } else { ?>
+								<h3 class="p-4">We cannot find the category requested.</h3>
+								<?php } ?>
 							</div>
 						<?php
 						} else {

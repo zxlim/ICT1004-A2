@@ -2,9 +2,28 @@
 	max-width: 137px !important;
 }
 
-.no-click {
-	cursor: inherit !important;
+.no-click-pointer {
+	cursor: default !important;
+}
+
+.no-click-event {
+	cursor: default !important;
 	pointer-events: none !important;
+}
+
+hr .dotted {
+	border: 1px dotted #d5d5d5;
+}
+
+.add-bag .add-btn span {
+	transform: none !important;
+}
+
+.header_area .navbar .nav.navbar-nav.navbar-right .notification {
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	padding: 0;
 }
 
 .filter-bar {

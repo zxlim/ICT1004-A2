@@ -18,7 +18,7 @@ function pw_hash(string $password): string {
 	*/
 	$hash = password_hash($password, PASSWORD_BCRYPT, ["cost" => 12]);
 
-	if ($hash === false) {
+	if ($hash === FALSE) {
 		// Something went wrong when hashing.
 		return "";
 	}
@@ -35,7 +35,7 @@ function pw_verify(string $password, string $hash): bool {
 	* @param	string	$password	The plaintext password.
 	* @param	string	$hash		The hashed password.
 	*
-	* @return	bool	$result		True if password is validated else false.
+	* @return	bool	$result		TRUE if password is validated else FALSE.
 	*/
 	return password_verify($password, $hash);
 }

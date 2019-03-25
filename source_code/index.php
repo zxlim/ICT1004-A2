@@ -18,19 +18,21 @@ require_once("serverside/components/home.php");
 			<div class="row fullscreen align-items-center justify-content-start">
 				<div class="col-lg-12">
 					<div class="active-banner-slider owl-carousel">
-						<!-- single-slide -->
+						<!-- Slider -->
 						<div class="row single-slide align-items-center d-flex">
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
 									<h1>
-										Black Friday!
+										Black Friday
+										<br />
+										Sale!
 									</h1>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+										Lowest prices guaranteed! Find pre-loved items that suit your budget right on FastTrade.
 									</p>
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
+										<a class="add-btn" href="listing.php?id=1"><span class="lnr lnr-cart"></span></a>
+										<span class="add-text text-uppercase">Shop Now</span>
 									</div>
 								</div>
 							</div>
@@ -40,19 +42,23 @@ require_once("serverside/components/home.php");
 								</div>
 							</div>
 						</div>
-						<!-- single-slide -->
+						<!-- End Slider -->
+
+						<!-- Slider -->
 						<div class="row single-slide">
 							<div class="col-lg-5">
 								<div class="banner-content">
 									<h1>
-										Black Friday!
+										Black Friday
+										<br />
+										Sale!
 									</h1>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+										Lowest prices guaranteed! Find pre-loved items that suit your budget right on FastTrade.
 									</p>
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
+										<a class="add-btn" href="listing.php?id=1"><span class="lnr lnr-cart"></span></a>
+										<span class="add-text text-uppercase">Shop Now</span>
 									</div>
 								</div>
 							</div>
@@ -62,6 +68,7 @@ require_once("serverside/components/home.php");
 								</div>
 							</div>
 						</div>
+						<!-- End Slider -->
 					</div>
 				</div>
 			</div>

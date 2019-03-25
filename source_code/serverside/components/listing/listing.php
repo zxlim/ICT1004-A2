@@ -17,17 +17,19 @@ require_once("serverside/functions/database.php");
 
 // Set default category to id:1.
 $selected_cat_id = 1;
-$selected_cat_name = "Default Category";
+$selected_cat_name = NULL;
 
 $results_categories = array();
 $results_listings = array();
 
-if (isset($_GET["cat"]) && validate_int($_GET["cat"])) {
-	$selected_cat_id = (int)($_GET["cat"]);
+if (isset($_GET["id"]) && validate_int($_GET["id"])) {
+	$selected_cat_id = (int)($_GET["id"]);
 }
 
+$current_dt = get_datetime(TRUE);
+
 $sql_categories = "SELECT id, name FROM category ORDER BY id";
-$sql_listings = "SELECT id, title, price FROM listing WHERE NOT EXISTS (SELECT id FROM offer WHERE listing_id = listing.id AND accepted != 1) AND category_id=? ORDER BY id";
+$sql_listings = "SELECT id, title, price FROM listing WHERE NOT EXISTS (SELECT id FROM offer WHERE listing_id = listing.id AND accepted != 1) AND category_id = ? AND DATE(show_until) > ? ORDER BY id";
 
 $conn = get_conn();
 
@@ -51,7 +53,7 @@ if ($query = $conn->prepare($sql_categories)) {
 }
 
 if ($query = $conn->prepare($sql_listings)) {
-	$query->bind_param("i", $selected_cat_id);
+	$query->bind_param("is", $selected_cat_id, $current_dt);
 	$query->execute();
 	$query->bind_result($id, $title, $price);
 

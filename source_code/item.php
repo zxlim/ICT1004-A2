@@ -76,7 +76,7 @@ define("WEBPAGE_TITLE", "Item Details");
 									<?php safe_echo($item["condition"]); ?>/10&nbsp;
 									<?php
 									if ($item["condition"] < 5) {
-										safe_echo("(Bad)");
+										safe_echo("(Poor)");
 									} else if ($item["condition"] >= 5 && $item["condition"] < 8) {
 										safe_echo("(Good)");
 									} else if ($item["condition"] !== 10) {
@@ -160,9 +160,11 @@ define("WEBPAGE_TITLE", "Item Details");
 											<h5>
 												Joined <?php safe_echo($item["user_join_date"]); ?>
 											</h5>
-											<a class="reply_btn" href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
-												See Profile
-											</a>
+											<h5>
+												<a href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
+													See Profile
+												</a>
+											</h5>
 										</div>
 									</div>
 									<p>
@@ -174,6 +176,7 @@ define("WEBPAGE_TITLE", "Item Details");
 										}
 										?>
 									</p>
+									<br /><br />
 								</div>
 							</div>
 						</div>
@@ -184,7 +187,7 @@ define("WEBPAGE_TITLE", "Item Details");
 								if (isset($related_seller_items) === TRUE && empty($related_seller_items) === FALSE) {
 									foreach ($related_items as $row) {
 								?>
-								<div class="col-lg-4 col-md-6 col-sm-6 mb-20">
+								<div class="col-lg-6 col-md-6 col-sm-8 mb-20">
 									<div class="single-related-product d-flex">
 										<a href="item.php?id=<?php safe_echo($row["id"]); ?>">
 											<img class="img-related-item" src="<?php safe_echo($row["picture"]); ?>">
@@ -217,7 +220,7 @@ define("WEBPAGE_TITLE", "Item Details");
 					<div class="row align-items-center">
 						<?php if (isset($related_items) === TRUE && empty($related_items) === FALSE) { ?>
 						<?php foreach ($related_items as $row) { ?>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+						<div class="col-lg-6 col-md-6 col-sm-8 mb-20">
 							<div class="single-related-product d-flex">
 								<a href="item.php?id=<?php safe_echo($row["id"]); ?>">
 									<img class="img-related-item" src="<?php safe_echo($row["picture"]); ?>">

@@ -43,32 +43,6 @@ require_once("serverside/components/home.php");
 							</div>
 						</div>
 						<!-- End Slider -->
-
-						<!-- Slider -->
-						<div class="row single-slide">
-							<div class="col-lg-5">
-								<div class="banner-content">
-									<h1>
-										Black Friday
-										<br />
-										Sale!
-									</h1>
-									<p>
-										Lowest prices guaranteed! Find pre-loved items that suit your budget right on FastTrade.
-									</p>
-									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href="listing.php?id=1"><span class="lnr lnr-cart"></span></a>
-										<span class="add-text text-uppercase">Shop Now</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-7">
-								<div class="banner-img">
-									<img class="img-fluid" src="static/img/black-friday.png" alt="">
-								</div>
-							</div>
-						</div>
-						<!-- End Slider -->
 					</div>
 				</div>
 			</div>

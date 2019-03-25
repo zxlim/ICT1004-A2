@@ -10,8 +10,10 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 }
 
 if (isset($_GET["type"]) && $_GET["type"] === "u") {
+	// User display picture.
 	$sql = "SELECT data, mimetype FROM user_picture WHERE id = ?";
 } else {
+	// Defaults to listing image.
 	$sql = "SELECT data, mimetype FROM picture WHERE id = ?";
 }
 
@@ -23,7 +25,7 @@ if ($query = $conn->prepare($sql)) {
 	$query->bind_result($data, $mimetype);
 
 	if ($query->fetch()) {
-		header("Content-type: ". $mimetype);
+		header("Content-Type: " . $mimetype);
 		echo($data);
 	}
 

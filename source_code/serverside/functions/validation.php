@@ -23,7 +23,7 @@ function validate_notempty(string $input): bool {
 	if (empty($input) || (strlen(trim($input)) === 0)) {
 		return FALSE;
 	} else {
-		return true;
+		return TRUE;
 	}
 }
 

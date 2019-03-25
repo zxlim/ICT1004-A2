@@ -26,8 +26,6 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 	$selected_cat_id = (int)($_GET["id"]);
 }
 
-$current_dt = get_datetime(TRUE);
-
 $sql_categories = "SELECT id, name FROM category ORDER BY id";
 $sql_listings = "SELECT listing.id, listing.title, listing.price, picture.id FROM listing LEFT JOIN picture ON listing.id = picture.listing_id WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1) AND listing.category_id = ? AND DATE(listing.show_until) > ? GROUP BY listing.id ORDER BY listing.id";
 
@@ -52,8 +50,9 @@ if ($query = $conn->prepare($sql_categories)) {
 	$query->close();
 }
 
-if (isset($selected_cat_name) === TRUE) {
-	// Only perform SELECT operation on `listings` table if category is valid.
+if (isset($selected_cat_name)) {
+	$current_dt = get_datetime(TRUE);
+	
 	if ($query = $conn->prepare($sql_listings)) {
 		$query->bind_param("is", $selected_cat_id, $current_dt);
 		$query->execute();

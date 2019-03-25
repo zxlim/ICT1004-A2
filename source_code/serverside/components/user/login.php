@@ -14,4 +14,4 @@ if (defined("CLIENT") === FALSE) {
 
 require_once("serverside/vendor/zxcvbn.php");
 
-use ZxcvbnPhp\Zxcvbn;
+#use ZxcvbnPhp\Zxcvbn;

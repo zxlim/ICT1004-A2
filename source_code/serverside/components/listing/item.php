@@ -74,7 +74,7 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->close();
 }
 
-if (isset($item) === TRUE) {
+if (isset($item)) {
 	if ($query = $conn->prepare($sql_pictures)) {
 		$query->bind_param("i", $item["id"]);
 		$query->execute();

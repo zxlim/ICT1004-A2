@@ -52,7 +52,7 @@ define("WEBPAGE_TITLE", "Login");
 							</div>
 
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password" placeholder="Password">
+								<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 							</div>
 
 							<div class="col-md-12 form-group">

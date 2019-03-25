@@ -13,7 +13,7 @@ require_once("serverside/private/dbpasswd.php");
 function get_conn(): mysqli {
 	/**
 	* A function to create a connection to a MySQL server.
-	* Connection parameters are defined in `constants.php`.
+	* Connection parameters are defined in `dbpasswd.php`.
 	*
 	* @return 	mysqli	$conn	The MySQLi connection object.
 	*/

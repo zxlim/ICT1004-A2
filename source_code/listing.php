@@ -1,8 +1,6 @@
 <?php define("CLIENT", TRUE);
-
 require_once("serverside/base.php");
 require_once("serverside/components/listing/listing.php");
-
 define("WEBPAGE_TITLE", "Listings");
 ?>
 <!DOCTYPE html>
@@ -20,18 +18,18 @@ define("WEBPAGE_TITLE", "Listings");
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<?php if (isset($selected_cat_name) === FALSE) { ?>
-					<h1>Category Not Found</h1>
-					<nav class="d-flex align-items-center">
-						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="listing.php?id=1">Listings</a>
-					</nav>
-					<?php } else { ?>
+					<?php if (isset($selected_cat_name) === TRUE) { ?>
 					<h1><?php safe_echo($selected_cat_name); ?></h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="">Listings<span class="lnr lnr-arrow-right"></span></a>
 						<a href=""><?php safe_echo($selected_cat_name); ?></a>
+					</nav>
+					<?php } else { ?>
+					<h1>Category Not Found</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="listing.php?id=1">Listings</a>
 					</nav>
 					<?php } ?>
 				</div>
@@ -84,13 +82,15 @@ define("WEBPAGE_TITLE", "Listings");
 						?>
 						<div class="col-lg-4 col-md-6">
 							<div class="single-product">
-								<img class="img-fluid" src="static/img/vendor/product/p3.jpg" alt="">
+								<figure class="img-equalise">
+									<img src="<?php safe_echo($row["picture"]); ?>">
+								</figure>
 								<div class="product-details">
 									<h6>
 										<?php safe_echo($row["title"]); ?>
 									</h6>
 									<div class="price">
-										<h6>$<?php safe_echo($row["price"]); ?></h6>
+										<h6>S$<?php safe_echo($row["price"]); ?></h6>
 									</div>
 									<div class="prd-bottom">
 										<a href="item.php?id=<?php safe_echo($row["id"]); ?>" class="social-info">

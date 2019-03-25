@@ -1,6 +1,7 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/login.php");
+define("WEBPAGE_TITLE", "Login");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">

@@ -1,6 +1,7 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/reset.php");
+define("WEBPAGE_TITLE", "Reset Password");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">

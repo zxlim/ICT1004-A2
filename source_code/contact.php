@@ -1,5 +1,6 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
+define("WEBPAGE_TITLE", "Contact Us");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">

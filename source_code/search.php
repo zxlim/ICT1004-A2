@@ -20,7 +20,7 @@ require_once("serverside/components/search.php");
         <?php foreach ($results_listings as $row) { ?>
             <button type="button" class="btn btn-outline-secondary"><?php safe_echo($row["tags"]); ?></button>
         <?php } ?>
-        <div class="col-xl-12 col-lg-8 col-md-7">
+        <div class="col-xl-12 col-lg-8 col-md-7 section_gap">
             <div class="row features-inner">
                 <?php if (sizeof($results_listings) === 0) { ?>
                     <div class="col-12">

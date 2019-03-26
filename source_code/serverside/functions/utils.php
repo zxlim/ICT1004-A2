@@ -41,3 +41,30 @@ function active_nav(array $item): string {
 
 	return "nav-item";
 }
+
+function get_datetime(bool $date_only = FALSE, int $offset = 0): string {
+	/**
+	* Returns the date and time, accounting for any offset provided in seconds.
+	*
+	* @param	bool	$date_only	Only return the date without time.
+	* @param	int		$offset		The offset in seconds to add/subtract from
+	*								the date and time.
+	*
+	* @return	string	$date		The date and time.
+	*/
+	$ts = time();
+
+	if ($offset > 0) {
+		// Add the offset to the timestamp.
+		$ts += $offset;
+	} else if ($offset < 0) {
+		// Subtract the offset from the timestamp.
+		$ts -= $offset;
+	}
+
+	if ($date_only === TRUE) {
+		return date("Y-m-d", $ts);
+	} else {
+		return date("Y-m-d H:i:s", $ts);
+	}
+}

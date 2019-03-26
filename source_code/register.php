@@ -1,6 +1,7 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/register.php");
+define("WEBPAGE_TITLE", "Register");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -114,8 +115,8 @@ if (!empty($_POST["pwdcfm"])) {
 				<div class="col-first">
 					<h1>Register</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="register.html">Register</a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="register.php">Register</a>
 					</nav>
 				</div>
 			</div>

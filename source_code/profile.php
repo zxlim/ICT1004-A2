@@ -1,7 +1,6 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
-require_once("serverside/components/user/verification.php");
-define("WEBPAGE_TITLE", "Verification");
+define("WEBPAGE_TITLE", "Profile");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -18,29 +17,16 @@ define("WEBPAGE_TITLE", "Verification");
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Email Verification</h1>
+					<h1>Profile (TO-DO)</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="register.php">Register<span class="lnr lnr-arrow-right"></span></a>
-						<a href="">Email Verification</a>
+						<a href="">Profile</a>
 					</nav>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- End Banner Section -->
-
-	<!-- Registration Section -->
-	<section class="section_gap">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<!-- TODO: Not provided by template. -->
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Registration Section -->
 
 	<!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

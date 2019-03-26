@@ -18,12 +18,12 @@ function validate_notempty(string $input): bool {
 	*
 	* @param 	string	$input	The string to check.
 	*
-	* @return 	bool	$result	True if string is not empty else false.
+	* @return 	bool	$result	TRUE if string is not empty else FALSE.
 	*/
 	if (empty($input) || (strlen(trim($input)) === 0)) {
-		return false;
+		return FALSE;
 	} else {
-		return true;
+		return TRUE;
 	}
 }
 
@@ -34,12 +34,12 @@ function validate_int($input): bool {
 	*
 	* @param 	mixed	$input	The variable to check.
 	*
-	* @return 	bool	$result	True if variable is an integer else false.
+	* @return 	bool	$result	TRUE if variable is an integer else FALSE.
 	*/
-	if (filter_var($input, FILTER_VALIDATE_INT) === false) {
-		return false;
+	if (filter_var($input, FILTER_VALIDATE_INT) === FALSE) {
+		return FALSE;
 	} else {
-		return true;
+		return TRUE;
 	}
 }
 
@@ -50,12 +50,12 @@ function validate_email($input): bool {
 	*
 	* @param 	mixed	$input	The variable to check.
 	*
-	* @return 	bool	$result	True if variable is an email address else false.
+	* @return 	bool	$result	TRUE if variable is an email address else FALSE.
 	*/
-	if (filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
-		return false;
+	if (filter_var($input, FILTER_VALIDATE_EMAIL) === FALSE) {
+		return FALSE;
 	} else {
-		return true;
+		return TRUE;
 	}
 }
 
@@ -67,13 +67,13 @@ function validate_password(string $input, array $data = array()): bool {
 	* @param 	string	$input	The password to check.
 	* @param	array	$data	Additional user input data to compare with password input.
 	*
-	* @return 	bool	$result	True if password is valid else false.
+	* @return 	bool	$result	TRUE if password is valid else FALSE.
 	*/
 	$zxcvbn = new Zxcvbn();
 	$strength = $zxcvbn->passwordStrength($input, $data);
 	if (strlen($input) < 8 || (int)($strength["score"]) < 2) {
-		return false;
+		return FALSE;
 	} else {
-		return false;
+		return TRUE;
 	}
 }

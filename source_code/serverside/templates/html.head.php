@@ -13,7 +13,14 @@ if (defined("CLIENT") === FALSE) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta name="description" content="FastTrade - Buy and Sell in a click!">
 
-<title><?php safe_echo(APP_TITLE) ?></title>
+<title>
+	<?php
+	safe_echo(APP_TITLE);
+	if (defined("WEBPAGE_TITLE") === TRUE) {
+		safe_echo(sprintf(" | %s", WEBPAGE_TITLE));
+	}
+	?>
+</title>
 
 <link rel="stylesheet" href="static/css/vendor/linearicons.css">
 <link rel="stylesheet" href="static/css/vendor/font-awesome.min.css">

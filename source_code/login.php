@@ -1,6 +1,7 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/login.php");
+define("WEBPAGE_TITLE", "Login");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -19,8 +20,8 @@ require_once("serverside/components/user/login.php");
 				<div class="col-first">
 					<h1>Login</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="login.html">Login</a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="login.php">Login</a>
 					</nav>
 				</div>
 			</div>
@@ -38,7 +39,7 @@ require_once("serverside/components/user/login.php");
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<p>Join the <?php safe_echo(APP_TITLE); ?> community now!</p>
-							<a class="primary-btn" href="register.html">Create an Account</a>
+							<a class="primary-btn" href="register.php">Create an Account</a>
 						</div>
 					</div>
 				</div>
@@ -51,7 +52,7 @@ require_once("serverside/components/user/login.php");
 							</div>
 
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password" placeholder="Password">
+								<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 							</div>
 
 							<div class="col-md-12 form-group">

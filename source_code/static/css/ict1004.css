@@ -50,6 +50,25 @@ hr .dotted {
 	color: #fff;
 }
 
+.listing-title {
+	margin-bottom: 0 !important;
+}
+
+.listing-seller {
+	margin-top: -0.5em !important;
+	font-size: 13px !important;
+	padding-right: 15px !important;
+	
+}
+
+.listing-seller > h6 {
+	margin: 0 !important;
+	display: inline-block !important;
+	font-size: 13px !important;
+	text-transform: none !important;
+	color: #ffba00;
+}
+
 
 /**
 * Image size restrictions.

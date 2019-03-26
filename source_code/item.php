@@ -181,11 +181,11 @@ define("WEBPAGE_TITLE", "Item Details");
 							</div>
 						</div>
 						<div class="col-lg-6">
-							<div class="review_box">
-								<h3>My Other Listings</h3>
+							<h3>My Other Listings</h3>
+							<div class="row review_box">
 								<?php
 								if (isset($related_seller_items) === TRUE && empty($related_seller_items) === FALSE) {
-									foreach ($related_items as $row) {
+									foreach ($related_seller_items as $row) {
 								?>
 								<div class="col-lg-6 col-md-6 col-sm-8 mb-20">
 									<div class="single-related-product d-flex">
@@ -206,9 +206,11 @@ define("WEBPAGE_TITLE", "Item Details");
 									}
 								} else {
 								?>
-								<h5>
-									No Suggestions to Show
-								</h5>
+								<div class="col-12 mb-20">
+									<h6 class="mt-3">
+										No Listings to Show
+									</h6>
+								</div>
 								<?php } ?>
 							</div>
 						</div>
@@ -220,7 +222,7 @@ define("WEBPAGE_TITLE", "Item Details");
 					<div class="row align-items-center">
 						<?php if (isset($related_items) === TRUE && empty($related_items) === FALSE) { ?>
 						<?php foreach ($related_items as $row) { ?>
-						<div class="col-lg-6 col-md-6 col-sm-8 mb-20">
+						<div class="col-lg-4 col-md-6 col-sm-8 mb-20">
 							<div class="single-related-product d-flex">
 								<a href="item.php?id=<?php safe_echo($row["id"]); ?>">
 									<img class="img-related-item" src="<?php safe_echo($row["picture"]); ?>">
@@ -238,10 +240,10 @@ define("WEBPAGE_TITLE", "Item Details");
 						<?php }
 						} else {
 						?>
-						<div class="col-12">
-							<h5 class="text-center">
+						<div class="col-12 mb-20">
+							<h6 class="mt-3 text-center">
 								No Suggestions to Show
-							</h5>
+							</h6>
 						</div>
 						<?php } ?>
 					</div>

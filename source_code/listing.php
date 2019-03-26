@@ -86,9 +86,12 @@ define("WEBPAGE_TITLE", "Listings");
 									<img src="<?php safe_echo($row["picture"]); ?>">
 								</figure>
 								<div class="product-details">
-									<h6>
+									<h6 class="listing-title">
 										<?php safe_echo($row["title"]); ?>
 									</h6>
+									<div class="listing-seller">
+										Listed by: <h6><?php safe_echo($row["user_name"]); ?></h6>
+									</div>
 									<div class="price">
 										<h6>S$<?php safe_echo($row["price"]); ?></h6>
 									</div>

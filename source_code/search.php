@@ -15,7 +15,7 @@ require_once("serverside/components/search.php");
 <!-- Features Section -->
 <section class="features-area section_gap">
     <div class="container section_gap">
-        <h2>Your search results for <?php safe_echo($search_query) ?></h2>
+        <h2>Your search results for "<?php safe_echo($search_query) ?></h2>"
         <hr>
         <form method="post" action="search.php">
             <?php foreach ($results_listings as $row) {

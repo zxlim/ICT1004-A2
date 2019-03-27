@@ -22,7 +22,7 @@ require_once("serverside/components/search.php");
                 foreach (explode(",", $row["tags"]) as $tag) {
                     if ($tag != $search_query) {
                         ?>
-                        <button type="submit" class="btn btn-outline-warning" name="search_query"
+                        <button type="submit" class="btn btn-outline-primary" name="search_query"
                                 value="<?php safe_echo($tag); ?>"><?php safe_echo($tag); ?></button>
                     <?php }
                 }

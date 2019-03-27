@@ -44,7 +44,7 @@ define("WEBPAGE_TITLE", "Item Details");
 	<div class="product_image_area">
 		<div class="container">
 			<div class="row s_product_inner">
-				<div class="col-lg-3">
+				<div class="col-lg-6">
 					<div class="s_Product_carousel">
 						<?php foreach ($item["picture"] as $pic) { ?>
 						<div class="single-prd-item">

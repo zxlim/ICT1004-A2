@@ -41,7 +41,7 @@ require_once("serverside/components/search.php");
                 } else {
                     foreach ($results_listings as $row) {
                         ?>
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-3 col-md-6">
                             <div class="single-product">
                                 <figure class="img-equalise">
                                     <img src="<?php safe_echo($row["picture"]); ?>">

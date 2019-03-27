@@ -17,8 +17,8 @@ require_once("serverside/components/search.php");
     <div class="container section_gap">
         <h2>Your search results for <?php safe_echo($search_query) ?></h2>
         <hr>
-        <?php foreach ($results_listings as $row) { ?>
-            <button type="button" class="btn btn-outline-secondary"><?php safe_echo($row["tags"]); ?></button>
+        <?php foreach ($tags_data as $tag) { ?>
+                <button type="button" class="btn btn-outline-secondary"><?php safe_echo($tag); ?></button>
         <?php } ?>
         <div class="col-xl-12 col-lg-8 col-md-7 section_gap">
             <div class="row features-inner">

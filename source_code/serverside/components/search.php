@@ -36,10 +36,11 @@ if (isset($_POST['search_query'])) {
                 $picture = sprintf("image.php?id=%d", $picture_id);
             }
 
+            $tags_data = explode(",", $tags);
+
             $data = array(
                 "id" => (int)$id,
                 "title" => $title,
-                "tags" => $tags,
                 "price" => (float)($price),
                 "user_name" => $user_name,
                 "picture" => $picture

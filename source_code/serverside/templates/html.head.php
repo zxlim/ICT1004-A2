@@ -21,7 +21,7 @@ if (defined("CLIENT") === FALSE) {
 	}
 	?>
 </title>
-
+<link rel="icon" type="image/png" href="static/img/fasttrade_logo.ico" sizes="32x32" />
 <link rel="stylesheet" href="static/css/vendor/linearicons.css">
 <link rel="stylesheet" href="static/css/vendor/font-awesome.min.css">
 <link rel="stylesheet" href="static/css/vendor/themify-icons.css">

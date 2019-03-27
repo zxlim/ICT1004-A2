@@ -34,7 +34,7 @@ require_once("serverside/components/search.php");
                 <?php if (sizeof($results_listings) === 0) { ?>
                     <div class="col-12">
                         <?php if (isset($selected_cat_name) === False) { ?>
-                            <h3 class="shadow-lg p-3 mb-5 bg-white rounded">Sorry, there are no items found.</h3>
+                            <h3>Sorry, there are no items found.</h3>
                         <?php } ?>
                     </div>
                     <?php

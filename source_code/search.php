@@ -30,11 +30,11 @@ require_once("serverside/components/search.php");
         </form>
 
         <div class="col-xl-12 col-lg-8 col-md-7 section_gap">
-            <div class="row features-inner">
+            <div class="row">
                 <?php if (sizeof($results_listings) === 0) { ?>
                     <div class="col-12">
                         <?php if (isset($selected_cat_name) === False) { ?>
-                            <h3 class="p-4">Sorry, there are no items found.</h3>
+                            <h3 class="shadow-lg p-3 mb-5 bg-white rounded">Sorry, there are no items found.</h3>
                         <?php } ?>
                     </div>
                     <?php
@@ -42,7 +42,7 @@ require_once("serverside/components/search.php");
                     foreach ($results_listings as $row) {
                         ?>
                         <div class="col-lg-3 col-md-6">
-                            <div class="single-product">
+                            <div class="single-product shadow p-3 mb-5 bg-white rounded">
                                 <figure class="img-equalise">
                                     <img src="<?php safe_echo($row["picture"]); ?>">
                                 </figure>

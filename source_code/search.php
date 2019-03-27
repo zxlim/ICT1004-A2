@@ -22,7 +22,7 @@ require_once("serverside/components/search.php");
                 foreach (explode(",", $row["tags"]) as $tag) {
                     if ($tag != $search_query) {
                         ?>
-                        <button type="submit" class="btn btn-outline-primary" name="search_query"
+                        <button type="submit" class="btn btn-outline-warning" name="search_query"
                                 value="<?php safe_echo($tag); ?>"><?php safe_echo($tag); ?></button>
                     <?php }
                 }
@@ -41,7 +41,7 @@ require_once("serverside/components/search.php");
                 } else {
                     foreach ($results_listings as $row) {
                         ?>
-                        <div class="col-lg-3 col-md-6">
+                        <div class="col-lg-4 col-md-6">
                             <div class="single-product shadow p-3 mb-5 bg-white rounded">
                                 <figure class="img-equalise">
                                     <img src="<?php safe_echo($row["picture"]); ?>">

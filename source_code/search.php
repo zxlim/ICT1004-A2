@@ -22,8 +22,8 @@ require_once("serverside/components/search.php");
                 foreach (explode(",", $row["tags"]) as $tag) {
                     if ($tag != $search_query) {
                         ?>
-                        <input type="hidden" name="search_query" value="<?php safe_echo($tag); ?>">
-                        <button type="submit" class="btn btn-outline-secondary"><?php safe_echo($tag); ?></button>
+                        <button type="submit" class="btn btn-outline-secondary" name="search_query"
+                                value="<?php safe_echo($tag); ?>"><?php safe_echo($tag); ?></button>
                     <?php }
                 }
             } ?>

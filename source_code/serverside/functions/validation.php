@@ -9,6 +9,7 @@ if (defined("CLIENT") === FALSE) {
 }
 
 require_once("serverside/vendor/zxcvbn.php");
+use ZxcvbnPhp\Zxcvbn;
 
 
 function validate_notempty(string $input): bool {

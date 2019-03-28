@@ -6,7 +6,7 @@ define("WEBPAGE_TITLE", "Item Details");
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
-    <?php require_once("serverside/templates/html.head.php"); ?>
+	<?php require_once("serverside/templates/html.head.php"); ?>
 </head>
 <body>
 	<!-- Header -->
@@ -21,10 +21,15 @@ define("WEBPAGE_TITLE", "Item Details");
 					<?php if (isset($item) === TRUE) { ?>
 					<h1>Item Details</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="listing.php?id=<?php safe_echo($item["cat_id"]); ?>">Listings<span class="lnr lnr-arrow-right"></span></a>
-						<a href="listing.php?id=<?php safe_echo($item["cat_id"]); ?>"><?php safe_echo($item["cat_name"]); ?><span class="lnr lnr-arrow-right"></span></a>
-						<a href=""><?php safe_echo($item["title"]); ?></a>
+						<a href="index.php">
+							Home<span class="lnr lnr-arrow-right"></span>
+						</a>
+						<a href="listing.php?id=<?php safe_echo($item["cat_id"]); ?>">
+							<?php safe_echo($item["cat_name"]); ?><span class="lnr lnr-arrow-right"></span>
+						</a>
+						<a href="">
+							<?php safe_echo($item["title"]); ?>
+						</a>
 					</nav>
 					<?php } else { ?>
 					<h1>Item Not Found</h1>
@@ -64,14 +69,14 @@ define("WEBPAGE_TITLE", "Item Details");
 						<ul class="list">
 							<hr class="dotted" />
 							<li>
-								<a class="active no-click" href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
+								<a class="active" href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
 									<span><i class="fas fa-user"></i></span>
 									<?php safe_echo($item["user_name"]); ?>
 								</a>
 							</li>
 							<hr class="dotted" />
 							<li>
-								<a class="active no-click">
+								<a class="active no-click-pointer">
 									<span><span><i class="fas fa-award"></i></span></span>
 									<?php safe_echo($item["condition"]); ?>/10&nbsp;
 									<?php
@@ -88,13 +93,13 @@ define("WEBPAGE_TITLE", "Item Details");
 								</a>
 							</li>
 							<li>
-								<a class="active no-click">
+								<a class="active no-click-pointer">
 									<span><span><i class="fas fa-history"></i></span></span>
 									<?php safe_echo($item["item_age"]); ?> month(s)
 								</a>
 							</li>
 							<li>
-								<a class="active no-click">
+								<a class="active no-click-pointer">
 									<span><i class="fas fa-map-marked-alt"></i></span>
 									<?php safe_echo($item["meetup_location"]); ?>
 								</a>
@@ -118,7 +123,7 @@ define("WEBPAGE_TITLE", "Item Details");
 						</p>
 						<div class="card_area d-flex align-items-center">
 							<a class="success-btn" href="#">Make an Offer</a>
-							<a class="info-btn" href="#">Chat with Seller</a>
+							<a class="info-btn" href="message.php?id=<?php safe_echo($item["id"]); ?>">Chat with Seller</a>
 						</div>
 					</div>
 				</div>
@@ -253,9 +258,6 @@ define("WEBPAGE_TITLE", "Item Details");
 	</section>
 	<!-- End Misc Section-->
 	<?php } ?>
-
-	<!-- Artificial Spacing -->
-	<br /><br /><br />
 
 	<!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

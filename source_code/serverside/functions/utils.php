@@ -8,7 +8,7 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-function safe_echo(string $string_raw = "") {
+function safe_echo(string $string_raw = ""): void {
 	/**
 	* A function to safely echo a string into an HTML template.
 	* Encodes some predefined characters into HTML entities.
@@ -32,7 +32,6 @@ function active_nav(array $item): string {
 	*
 	* @return	string	$class	The class values for the HTML element.
 	*/
-
 	foreach ($item as $i) {
 		if (basename($_SERVER["PHP_SELF"]) === $i) {
 			return "nav-item active";

@@ -254,11 +254,6 @@ hr .dotted {
 	height: 10%;
 }
 
-.message-box > .message-details figure {
-	display: inline-block;
-	vertical-align: middle;
-}
-
 .message-box > .message-list {
 	height: 73%;
 	margin-left: 0;

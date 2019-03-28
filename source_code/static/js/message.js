@@ -19,7 +19,6 @@ class FastTradeMessage {
 	fetch() {
 		let FTMsg = this;
 		var ctr = this.count;
-		var new_ctr = 0;
 		var form_data = "action=get&id=" + this.listing_id;
 
 		$.post(this.api_route, form_data, function(response, status) {
@@ -81,25 +80,24 @@ class FastTradeMessage {
 	}
 }
 
-$(document).ready(function() {
-	if ($("#item_id").val() !== null && $("#sender_id").val() !== null) {
-		const msg = new FastTradeMessage($("#listing_id").val(), $("#sender_id").val());
-		msg.fetch();
+// $(document).ready(function() {
+// 	if ($("#item_id").val() !== null && $("#sender_id").val() !== null) {
+// 		const msg = new FastTradeMessage($("#listing_id").val(), $("#sender_id").val());
+// 		msg.fetch();
 
-		// Auto-reload every 10 seconds.
-		setInterval(function() {
-			console.log("[DEBUG] Auto-reloading messages...");
-			msg.fetch();
-		}, (1000 * 5));
+// 		setInterval(function() {
+// 			console.log("[DEBUG] Auto-reloading messages...");
+// 			msg.fetch();
+// 		}, (1000 * 5));
 
-		// Event listener.
-		$("#form-message").on("submit", function(event) {
-			event.preventDefault();
-			msg.send($(this).serialize())
-			$("#msg_data").val("");
-			return false;
-		});
-	} else {
-		console.log("[!] Unable to retrieve required parameters.");
-	}
-});
+// 		// Event listener.
+// 		$("#form-message").on("submit", function(event) {
+// 			event.preventDefault();
+// 			msg.send($(this).serialize())
+// 			$("#msg_data").val("");
+// 			return false;
+// 		});
+// 	} else {
+// 		console.log("[!] Unable to retrieve required parameters.");
+// 	}
+// });

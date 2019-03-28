@@ -60,14 +60,13 @@ if (defined("CLIENT") === FALSE) {
                                 <span class="lnr lnr-magnifier" id="search"></span>
                             </button>
                         </li>
-                        <!-- This part is for selling, do implement session in order to use this feature-->
-                        <li class="<?php safe_echo(active_nav(['selling.php'])); ?>">
-                            <a href="selling.php">
-                                <button type="button" class="genric-btn danger">Sell</button>
-                            </a>
-                        </li>
-
                     </ul>
+
+                    <!-- This part is for selling, do implement session in order to use this feature-->
+                    <a href="selling.php" class="sell_btn">
+                        <button type="button" class="genric-btn danger">Sell</button>
+                    </a>
+
                 </div>
             </div>
         </nav>

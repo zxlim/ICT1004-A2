@@ -18,3 +18,4 @@ if (defined("CLIENT") === FALSE) {
 <script src="static/js/vendor/owl.carousel.min.js"></script>
 <script src="static/js/vendor/theme.js"></script>
 <script src="static/js/ict1004.js"></script>
+<script src="static/js/vendor/dropzone.js"></script>

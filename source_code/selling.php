@@ -19,9 +19,24 @@ require_once("serverside/components/selling.php");
             <div class="container">
                 <div class="row s_product_inner">
                     <div class="col-lg-6">
-                        <h4>Product Image</h4>
-                        <img class="img-fluid" src="static/img/default/listing.jpg" alt="">
+                        <h4>Multiple Files Image</h4>
+                        <div class="kt-dropzone dropzone m-dropzone--primary"
+                             action="serverside/components/selling.php">
+                            <div class="kt-dropzone__msg dz-message needsclick">
+                                <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
+                                <span class="kt-dropzone__msg-desc">Upload up to 10 files</span>
+                            </div>
+                        </div>
+                        <hr/>
+                        <h4>Single Product Image</h4>
+                        <div class="dropzone" action="serverside/components/selling.php">
+                            <div class="kt-dropzone__msg dz-message needsclick">
+                                <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
+                                <span class="kt-dropzone__msg-desc">Only image are allowed for upload</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="col-lg-5 offset-lg-1">
                         <div class="s_product_text">
                             <div class="form-group">
@@ -88,7 +103,6 @@ require_once("serverside/components/selling.php");
         <!--================End Single Product Area =================-->
     </div>
 </section>
-
 
 <!-- Artificial Spacing -->
 <br/><br/><br/>

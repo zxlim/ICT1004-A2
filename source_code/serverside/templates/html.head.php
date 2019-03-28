@@ -33,4 +33,5 @@ if (defined("CLIENT") === FALSE) {
 <link rel="stylesheet" href="static/css/vendor/ion.rangeSlider.skinFlat.css" />
 <link rel="stylesheet" href="static/css/vendor/magnific-popup.css">
 <link rel="stylesheet" href="static/css/vendor/theme.css">
+<link rel="stylesheet" href="static/css/vendor/dropzone.css">
 <link rel="stylesheet" href="static/css/ict1004.css">

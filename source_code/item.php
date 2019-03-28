@@ -6,7 +6,7 @@ define("WEBPAGE_TITLE", "Item Details");
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
-	<?php require_once("serverside/templates/html.head.php"); ?>
+    <?php require_once("serverside/templates/html.head.php"); ?>
 </head>
 <body>
 	<!-- Header -->

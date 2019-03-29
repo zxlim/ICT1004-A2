@@ -118,6 +118,7 @@ require_once("serverside/components/selling.php");
             //     console.log(file);
             // });
             this.on("maxfilesexceeded", function (file) {
+                alert("You can only upload 5 files!");
                 this.removeFile(file);
             });
         },

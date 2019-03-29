@@ -63,6 +63,7 @@ define("WEBPAGE_TITLE", "Register");
                             </div>
 
                             <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" id="loginid" name="loginid" placeholder="Login ID" value="<?php echo $loginid;?>" required>
                                 <span class="errorcolor"><?php echo $loginidErr;?></span>
                             </div>
 

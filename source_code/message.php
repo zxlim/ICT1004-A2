@@ -46,25 +46,51 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 
 	<section class="section_gap">
 		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="message-box bg-white shadow">
-						<div class="message-content-box">
-							<div class="message-content"></div>
+			<div class="message-box bg-white shadow">
+				<div class="row message-details">
+					<div class="col-md-1 col-2"></div>
+					<div class="col-md-9 col-10">
+						<h4 class="vertical-align-middle">
+							<?php safe_echo($item["title"]); ?>
+						</h4>
+					</div>
+					<div class="col-2 d-md-none"></div>
+					<div class="col-md-2 col-10">
+						<h4 class="vertical-align-middle">
+							S$<?php safe_echo($item["price"]); ?>
+						</h4>
+					</div>
+				</div>
+				<div class="row message-list p-2">
+					<div class="col-12">
+						<div class="message-content">
+							<h3 class="text-center vertical-align-middle">No messages yet, start chatting.</h3>
 						</div>
-						<div class="message-input">
-							<form>
-								<input type="hidden" id="item_id" name="item_id" value="<?php safe_echo($item["id"]); ?>" required readonly>
-								<div class="row">
-									<div class="col-10">
-										<input type="text" class="single-input" id="msg_data" name="msg_data" placeholder="Type your message here.">
-									</div>
-									<div class="col-2">
-										<button type="submit" class="genric-btn success circle">Send</button>
-									</div>
+					</div>
+				</div>
+				<div class="row message-input">
+					<div class="col-12">
+						<form id="form-message" name="form-message">
+							<input type="hidden" id="action" name="action" value="send" required readonly>
+							<input type="hidden" id="convo_id" name="id" value="<?php safe_echo($convo_id); ?>" required readonly>
+							<input type="hidden" id="sender_id" name="sender_id" value="<?php safe_echo($sender_id); ?>" required readonly>
+							<div class="row">
+								<!-- Message Input -->
+								<div class="col-1"></div>
+								<div class="col-md-7 col-10">
+									<input type="text" class="single-input" id="msg_data" name="msg_data" placeholder="Type your message here" required>
 								</div>
-							</form>
-						</div>
+								<div class="col-1"></div>
+								<!-- End of Message Input -->
+								<!-- Send button -->
+								<div class="col-1 top-margin d-md-none"></div>
+								<div class="col-md-2 col-10 top-margin text-center">
+									<button type="submit" class="genric-btn success circle btn-block">Send</button>
+								</div>
+								<div class="col-1 top-margin"></div>
+								<!-- End of Send button -->
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

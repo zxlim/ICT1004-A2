@@ -10,117 +10,108 @@ require_once("serverside/functions/validation.php");
 // 	die("Authentication is required to access this resource.");
 // }
 
+$response = array("status" => 200, "data" => array(), "message" => "OK");
+$accept_request = FALSE;
+
 // Check for valid request.
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-	header("HTTP/1.1 405 Method Not Allowed");
-	die("Bad request.");
-} else if (isset($_POST["id"]) === FALSE) {
-	header("HTTP/1.1 400 Bad Request");
-	die("Bad request.");
-} else if (validate_int($_POST["id"]) === FALSE) {
-	header("HTTP/1.1 400 Bad Request");
-	die("Bad request.");
-}
-
-if (isset($_POST["msg_data"])) {
-	if (validate_notempty($_POST["msg_data"])) {
-		$send = TRUE;
-		$msg_data = $_POST["msg_data"];
-	} else {
-		header("HTTP/1.1 400 Bad Request");
-		die("Bad request.");
+	// Only POST method allowed on this endpoint.
+	$response["status"] = 405;
+	$response["message"] = "Method Not Allowed";
+	header("Content-Type: application/json; charset=UTF-8", TRUE, (int)($response["status"]));
+	die(json_encode($response));
+} else if (isset($_POST["id"]) && isset($_POST["action"])) {
+	if (validate_int($_POST["id"]) && validate_notempty($_POST["action"])) {
+		// Check action.
+		if ($_POST["action"] === "get") {
+			// `get` action.
+			$accept_request = TRUE;
+			$action = "get";
+		} else if ($_POST["action"] === "send") {
+			// `send` action.
+			if (isset($_POST["msg_data"]) && validate_notempty($_POST["msg_data"])) {
+				// Ensure there is message data.
+				$accept_request = TRUE;
+				$action = "send";
+				$msg_data = $_POST["msg_data"];
+			}
+		}
 	}
-} else {
-	$send = FALSE;
 }
 
-// Responses will be in json.
-header("Content-Type: application/json; charset=UTF-8");
+if ($accept_request === FALSE) {
+	$response["status"] = 400;
+	$response["message"] = "Bad Request";
+	header("Content-Type: application/json; charset=UTF-8", TRUE, (int)($response["status"]));
+	die(json_encode($response));
+}
 
-$messages = array();
-// Temporary hardcode.
-$sender_id = 1; //(int)($_SESSION["user_id"]);
-$listing_id = (int)($_POST["id"]);
+$user_id = 1; // Temporary hardcode. //(int)($_SESSION["user_id"]);
+$convo_id = (int)($_POST["id"]);
 
 $conn = get_conn();
 
-if ($send) {
-	// New message.
-	$rollback = FALSE;
-	$message_id = NONE;
-	$current_dt = get_datetime();
-
-	$sql_msg = "INSERT INTO message (data, datetime) VALUES (?, ?)";
-	$sql_msg_r = "INSERT INTO message_relation (sender_id, receiver_id, listing_id, message_id) VALUES (?, ?, ?, ?)";
-
-	$sql_msg_rollback = "DELETE FROM message WHERE id = ?";
-
-	if ($query = $conn->prepare($sql_msg)) {
-		$query->bind_param("ss", $msg_data, $current_dt);
-
-		if (!$query->execute()) {
-			// Something went wrong.
-			header("HTTP/1.1 500 Internal Server Error");
-			echo(json_encode(array("message" => "Failed to send message.",)));
-		} else {
-			$message_id = $conn->insert_id();
-		}
-
-		$query->close();
-	}
-
-	if ($message_id !== NONE) {
-		if ($query = $conn->prepare($sql_msg_r)) {
-			$query->bind_param("iii", $sender_id, $listing_id, $message_id);
-
-			if (!$query->execute()) {
-				// Something went wrong.
-				$rollback = TRUE;
-				header("HTTP/1.1 500 Internal Server Error");
-				echo(json_encode(array("message" => "Failed to send message.",)));
-			} else {
-				echo(json_encode(array("message" => "OK",)));
-			}
-
-			$query->close();
-		}
-	}
-
-	if ($rollback) {
-		// Delete the inserted message record.
-		if ($query = $conn->prepare($sql_msg_rollback)) {
-			$query->bind_param("i", $message_id);
-			$query->execute()
-			$query->close();
-		}
-	}
-} else {
-	// Retrieve messages.
-	$sql = "SELECT message_relation.sender_id, message.data, message.datetime FROM message_relation
-			INNER JOIN message ON message.id = message_relation.message_id
-			WHERE message_relation.listing_id = ?
-			AND (message_relation.sender_id = ? OR message_relation.receiver_id = ?)
+if ($action === "get") {
+	$sql = "SELECT message.sender_id, message.data, message.datetime FROM message
+			INNER JOIN conversation ON message.conversation = conversation.id
+			WHERE conversation.id = ?
+			AND (conversation.user1 = ? OR conversation.user2 = ?)
 			ORDER BY message.datetime";
 
+	$sql_read = "UPDATE message
+			INNER JOIN conversation ON conversation.id = message.conversation
+			SET receiver_read = 1
+			WHERE conversation.id = ?
+			AND message.sender_id != ?";
+
 	if ($query = $conn->prepare($sql)) {
-		$query->bind_param("iii", $listing_id, $sender_id, $sender_id);
+		$query->bind_param("iii", $convo_id, $user_id, $user_id);
 		$query->execute();
 		$query->bind_result($msg_sid, $msg_data, $msg_dt);
 
 		while ($query->fetch()) {
 			$row = array(
 				"sender_id" => (int)($msg_sid),
-				"data" => $msg_data,
+				"data" => html_safe($msg_data),
 				"datetime" => $msg_dt,
 			);
 
-			array_push($messages, $row);
+			array_push($response["data"], $row);
 		}
 
 		$query->close();
 	}
 
-	echo(json_encode($messages));
+	if (count($response) !== 0) {
+		// Mark messages as read.
+		if ($query = $conn->prepare($sql_read)) {
+			$query->bind_param("ii", $convo_id, $user_id);
+			$query->execute();
+			$query->close();
+		}
+	}
+} else if ($action === "send") {
+	// New message.
+	$rollback = FALSE;
+	$message_id = NULL;
+	$current_dt = get_datetime();
+
+	$sql = "INSERT INTO message (conversation, sender_id, data, datetime) VALUES (?, ?, ?, ?)";
+
+	if ($query = $conn->prepare($sql)) {
+		$query->bind_param("iiss", $convo_id, $user_id, $msg_data, $current_dt);
+
+		if (!$query->execute()) {
+			// Something went wrong.
+			$response["status"] = 500;
+			$response["message"] = "Failed to send message. " . $query->error;
+		}
+
+		$query->close();
+	}
 }
 
 $conn->close();
+
+header("Content-Type: application/json", TRUE, (int)($response["status"]));
+echo(json_encode($response));

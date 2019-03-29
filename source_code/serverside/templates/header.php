@@ -1,4 +1,7 @@
 <?php
+session_start();
+$login = false;
+
 if (defined("CLIENT") === FALSE) {
     /**
      * Ghetto way to prevent direct access to "include" files.
@@ -6,6 +9,12 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
+
+    if (isset($_SESSION['loginid'])) {
+        //echo "Login Successful!";
+        $login = true;
+    }
+
 ?>
 <header class="header_area sticky-header">
     <div class="main_menu">
@@ -21,6 +30,64 @@ if (defined("CLIENT") === FALSE) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+					<ul class="nav navbar-nav menu_nav ml-auto">
+						<li class="<?php safe_echo(active_nav(['index.php'])); ?>">
+							<a class="nav-link" href="index.php">Home</a>
+						</li>
+						<li class="<?php safe_echo(active_nav(['listing.php', 'item.php'])); ?>">
+							<a class="nav-link" href="listing.php?cat=1">Shop</a>
+						</li>
+						<li class="<?php safe_echo(active_nav(['login.php', 'register.php'])); ?> submenu dropdown">
+							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+							   Account
+							</a>
+							<ul class="dropdown-menu">
+                                <?php
+                                if($login === true){
+                                    ?>
+                                    <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
+                                        <a class="nav-link" href="logout.php">Logout</a>
+                                    </li>
+                                    <?php
+                                }
+                                else{
+                                    ?>
+                                    <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
+                                        <a class="nav-link" href="login.php">Login</a>
+                                    </li>
+
+                                    <li class="<?php safe_echo(active_nav(['register.php'])); ?>">
+                                        <a class="nav-link" href="register.php">Register</a>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+
+							</ul>
+						</li>
+						<li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
+							<a class="nav-link" href="contact.php">Contact Us</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="nav-item">
+							<button class="notification">
+								<span class="lnr lnr-bubble" id="notification"></span>
+							</button>
+						</li>
+						<li class="nav-item">
+							<button class="search">
+								<span class="lnr lnr-magnifier" id="search"></span>
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">

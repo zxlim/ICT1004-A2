@@ -291,15 +291,29 @@
 }
 
 .dropzone .dz-preview .dz-remove {
-    font-size: 14px;
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1000;
+
+    font-size: 1.2em !important;
+    line-height: 1em;
+
     text-align: center;
-    display: block;
-    cursor: pointer;
-    border: none;
+    font-weight: bold;
+    border: 1px solid red !important;
+    border-radius: 1.2em;
+    color: red;
+    background-color: white;
 }
 
 .dropzone .dz-preview .dz-remove:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    opacity:1;
 }
 
 .dropzone .dz-preview:hover .dz-details {

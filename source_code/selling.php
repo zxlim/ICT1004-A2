@@ -17,7 +17,7 @@ require_once("serverside/components/selling.php");
         <!--================Single Product Area =================-->
         <div class="product_image_area">
             <div class="container">
-                <form enctype="multipart/form-data" onsubmit="return formValidation();">
+                <form enctype="multipart/form-data" action="serverside/components/selling.php">
                     <div class="row s_product_inner">
                         <div class="col-lg-6">
                             <h4>Multiple Files Image</h4>
@@ -111,17 +111,21 @@ require_once("serverside/components/selling.php");
     $("div#myDrop").dropzone({
         addRemoveLinks: true,
         acceptedFiles: '.png,.jpg,.jpeg',
+        dictRemoveFile : "x",
         maxFiles: 5,
 
         init: function () {
-            // this.on("success", function (file, data) {
-            //     console.log(file);
-            // });
+            this.on("complete", function (file) {
+                if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
+                    alert("The file uploaded is not in the correct format");
+                    this.removeFile(file);
+                }
+            });
             this.on("maxfilesexceeded", function (file) {
                 alert("You can only upload 5 files!");
                 this.removeFile(file);
             });
-        },
+        }
     });
 </script>
 

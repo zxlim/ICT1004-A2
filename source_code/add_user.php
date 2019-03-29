@@ -1,7 +1,7 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/constants.php");
-require_once("serverside/components/admin/admin.php");
+require_once("serverside/components/admin/user.php");
 
 ?>
 <!DOCTYPE html>
@@ -22,7 +22,7 @@ require_once("serverside/components/admin/admin.php");
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="admin_page.php">Admin Dashboard Page<span class="lnr lnr-arrow-right"></span></a>
-            <a href="add_cat.php">Add Category</a>
+            <a href="add_user.php">Add New User</a>
 					</nav>
 				</div>
 			</div>
@@ -30,7 +30,7 @@ require_once("serverside/components/admin/admin.php");
 	</section>
 	<!-- End Banner Section -->
 
-<?php $catlist = end($results_catdetails);?>
+<?php $userlist = end($results_userdetails);?>
 <!-- Admin Dashboard Page -->
 <div id="page-wrapper">
 
@@ -41,49 +41,30 @@ require_once("serverside/components/admin/admin.php");
 							<h3 class="panel-title">
 								<i class="fa fa-money fa-fw"></i>
 
-                <?php
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-                  //echo $_POST['name'];
-                    if(isset($results_addnewcat)) {
-                      if ($success) {
-                ?>
-                <h3 style="text-align:center">Category has been successfully updated.</h3>
-
-                <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
-                <?php
-}
-else {
-  ?>
-  <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-  <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
-  <?php
-}
-}
-}else {
-                ?>
 							</h3>
 						</div>
-            <form class="row contact_form" name="form-contact" id="form-contact" method="POST" action="add_cat2.php" >
+            <form class="row contact_form" name="form-contact" id="form-contact" method="POST" action="add_user2.php" >
   						<div class="col-md-6">
   							<div class="form-group">
 
-  								<input type="text" class="form-control" id="id" name="id" value="<?php safe_echo($catlist['id']+1); ?>" placeholder="Category ID">
+  								<input type="text" class="form-control" id="id" name="id" value="<?php safe_echo($userlist['id']+1); ?>" placeholder="User ID">
   							</div>
                 <div class="form-group">
-  								<input type="text" class="form-control" id="name" name="name" placeholder="Category Name">
+  								<input type="text" class="form-control" id="name" name="name" placeholder="User Name">
+  							</div>
+                <div class="form-group">
+                  TODO DROPDOWN BOX HERE
+  								<input type="text" class="form-control" id="Gender" name="Gender" >
   							</div>
   						<div class="col-md-12 text-right">
-  							<button type="submit" name="newcat" class="primary-btn">Add New Category</button>
+  							<button type="submit" name="newuser" class="primary-btn">Add New User</button>
   						</div>
   					</form>
 <p></p>
 
 			</div>
     </div>
-    <?php
-}
-    ?>
+
 <!--End Admin Dashboard Page -->
 
   <!-- Footer -->

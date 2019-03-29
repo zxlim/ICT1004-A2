@@ -60,6 +60,7 @@ require_once("serverside/components/admin/admin.php");
 						</div>
             <?php
           }
+          /* Note: this should be removed but everytime i try i break something. SEND HALP */
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //echo $_POST['name'];

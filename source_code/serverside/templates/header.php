@@ -1,6 +1,6 @@
 <?php
-session_start();
-$login = false;
+//session_start();
+//$login = false;
 
 if (defined("CLIENT") === FALSE) {
     /**
@@ -10,10 +10,10 @@ if (defined("CLIENT") === FALSE) {
     die();
 }
 
-    if (isset($_SESSION['loginid'])) {
-        //echo "Login Successful!";
-        $login = true;
-    }
+//    if (isset($_SESSION['loginid'])) {
+//        //echo "Login Successful!";
+//        $login = true;
+//    }
 
 ?>
 <header class="header_area sticky-header">
@@ -46,7 +46,7 @@ if (defined("CLIENT") === FALSE) {
 							</a>
 							<ul class="dropdown-menu">
                                 <?php
-                                if($login === true){
+                                if(session_isauth() === true){
                                     ?>
                                     <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
                                         <a class="nav-link" href="logout.php">Logout</a>
@@ -95,6 +95,7 @@ if (defined("CLIENT") === FALSE) {
                         <li class="<?php safe_echo(active_nav(['index.php'])); ?>">
                             <a class="nav-link" href="index.php">Home</a>
                         </li>
+                        
                         <li class="<?php safe_echo(active_nav(['listing.php', 'item.php'])); ?>">
                             <a class="nav-link" href="listing.php?cat=1">Shop</a>
                         </li>

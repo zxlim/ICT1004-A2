@@ -1,4 +1,5 @@
 <?php define("CLIENT", TRUE);
+define("REQUIRE_SESSION", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/register.php");
 define("WEBPAGE_TITLE", "Register");
@@ -57,28 +58,27 @@ define("WEBPAGE_TITLE", "Register");
                         <form class="row login_form" name="form-login" id="form-login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php echo $name;?>">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php echo $name;?>" required>
                                 <span class="errorcolor"><?php echo $nameErr;?></span>
                             </div>
 
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="loginid" name="loginid" placeholder="Login ID" value="<?php echo $loginid;?>">
                                 <span class="errorcolor"><?php echo $loginidErr;?></span>
                             </div>
 
                             <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
+                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password" required>
                                 <span class="errorcolor"><?php echo $pwdErr;?></span>
                             </div>
 
                             <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="pwdcfm" name="pwdcfm" placeholder="Confirm Password">
+                                <input type="password" class="form-control" id="pwdcfm" name="pwdcfm" placeholder="Confirm Password" required>
                                 <span class="errorcolor"><?php echo $pwdcfmErr;?></span>
 
                             </div>
 
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $email;?>">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $email;?>" required>
                                 <span class="errorcolor"><?php echo $emailErr;?></span>
                             </div>
 

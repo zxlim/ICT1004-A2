@@ -11,3 +11,4 @@ if (defined("CLIENT") === FALSE) {
 	http_response_code(404);
 	die();
 }
+

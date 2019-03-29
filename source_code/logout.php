@@ -1,9 +1,7 @@
-<?php
-session_start();
+<?php define("CLIENT", TRUE);
+require_once("serverside/base.php");
 
-echo "Logout Successfully ";
+//echo "Logout Successfully ";
 
-session_destroy();   // function that Destroys Session
+session_end();   // function that Destroys Session
 header("Location: index.php");
-//echo "<script> location.href='index.php'; </script>";
-?>

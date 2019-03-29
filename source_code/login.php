@@ -48,16 +48,16 @@ define("WEBPAGE_TITLE", "Login");
 						<h3>Log in to enter</h3>
 						<form class="row login_form" name="form-login" id="form-login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="loginid" name="loginid" placeholder="Login ID">
+								<input type="text" class="form-control" id="loginid" name="loginid" placeholder="Login ID" required>
 							</div>
 
 							<div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
+								<input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password" required>
 							</div>
 
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="primary-btn">Log In</button>
-								<a href="reset.php">Forgot Password?</a>
+								<!--<a href="reset.php">Forgot Password?</a>-->
 							</div>
 						</form>
 					</div>

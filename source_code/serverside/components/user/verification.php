@@ -11,7 +11,7 @@ if (defined("CLIENT") === FALSE) {
 	http_response_code(404);
 	die();
 }
-
+require_once("serverside/base.php");
 require_once("serverside/functions/database.php");
 require_once("serverside/functions/security.php");
 
@@ -28,10 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $vericode = test_input($_POST["vericode"]);
     }
     if ($error == 0) {
-        session_start();
+        //session_start();
         $sessionveri = $_SESSION["vericode"];
         //echo "User Input Veri Code-->   ".$vericode;
-       // echo "Session Veri Code-->   ".$sessionveri;
+        //echo "Session Veri Code-->   ".$sessionveri;
        // if (isset($_SESSION['vericode'])) {
 
             if($sessionveri === $vericode){
@@ -52,13 +52,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if (mysqli_query($conn, $sql)) {
                     $last_id = mysqli_insert_id($conn);
-                    echo "New record created successfully. Last inserted ID is: " . $last_id;
+                    //echo "New record created successfully. Last inserted ID is: " . $last_id;
+                    $conn->close();
                     echo "<script> location.href='login.php'; </script>";
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                    $conn->close();
                 }
 
 //                foreach ($_SESSION["registerArray"] as $registerinfo){
+//                    echo "Testing", '<br>';
 //                    echo $registerinfo, '<br>';
 //                }
             } else{

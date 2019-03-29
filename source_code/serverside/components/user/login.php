@@ -17,7 +17,6 @@ require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 require_once("serverside/vendor/zxcvbn.php");
 require_once("serverside/functions/security.php");
-require_once("serverside/components/session.php");
 
 // define variables and set to empty values
 $loginid = $pwd = "";
@@ -56,10 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if(!pw_verify($pwd, $dbarray["password"])){
                 echo "Wrong Password";
+                $conn->close();
             } else {
                 session_start();
+                $_SESSION["is_authenticated"] = TRUE;
                 $_SESSION["loginid"] = $loginid;
                 $_SESSION["user_id"] = $dbarray["id"];
+                $conn->close();
                 echo "<script> location.href='index.php'; </script>";
                 exit;
             }

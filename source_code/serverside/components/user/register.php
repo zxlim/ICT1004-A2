@@ -11,7 +11,7 @@ if (defined("CLIENT") === FALSE) {
 	http_response_code(404);
 	die();
 }
-
+require_once("serverside/base.php");
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 require_once("serverside/functions/security.php");
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $loginidErr = "LoginID already exist";
             $error = 1;
         }
-
+        $conn->close();
     }
 
     if(!empty($_POST["email"])) {
@@ -109,6 +109,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $emailErr = "Email already exist";
             $error = 1;
         }
+
+        $conn->close();
     }
 
     if(!empty($_POST["email"])){
@@ -130,19 +132,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-
     if ($error == 0) {
 
         // In this condition, you need to check for email verification also.
+
+        //HASH THE REGISTERED PASSWORD HERE BEFORE INSERTING INTO ARRAY
+        $pwd = pw_hash($pwd);
+
+        session_end();
+        session_start();
+        $registerArray = array($name, $loginid, $pwd, $email, $gender);
+        $_SESSION["registerArray"] = $registerArray;
+
         try {
             //Server settings
-            $mail->SMTPDebug = 2;                                       // Enable verbose debug output
+            $mail->SMTPDebug = 0;                                       // Enable verbose debug output
             $mail->isSMTP();                                            // Set mailer to use SMTP
-
-//    $mail->Host       = 'smtp.mailgun.org';  // Specify main and backup SMTP servers
-//    $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-//    $mail->Username   = 'ict1004@fasttrade.zxlim.xyz';                     // SMTP username
-//    $mail->Password   = '958246cb4df682de04c806c1bf7245fa4e348a7cd2ba6c21ba60af6ab61a2c70';                               // SMTP password
 
             $mail->Host       = 'smtp.mailgun.org';  // Specify main and backup SMTP servers
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
@@ -170,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //Generate a random code
             $verificationcode = md5(uniqid(rand(), true));
-            session_start();
+          //  session_start();
             $_SESSION["vericode"] = $verificationcode;
 
             $mail->Body    = 'Hello '.$name.'!'.'<br><br>You have entered <b>'.$email.'</b> as your email address. <br><br> Verify your account by using this code! <br><br> '.$verificationcode;
@@ -178,17 +183,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
-            echo 'Message has been sent';
+            //echo 'Message has been sent';
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
 
-        //HASH THE REGISTERED PASSWORD HERE BEFORE INSERTING INTO ARRAY
-        $pwd = pw_hash($pwd);
 
-        session_start();
-        $registerArray = array($name, $loginid, $pwd, $email, $gender);
-        $_SESSION["registerArray"] = $registerArray;
         echo "<script> location.href='verification.php'; </script>";
         exit;
     }

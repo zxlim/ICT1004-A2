@@ -1,4 +1,5 @@
 <?php define("CLIENT", TRUE);
+define("REQUIRE_SESSION", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/verification.php");
 define("WEBPAGE_TITLE", "Verification");

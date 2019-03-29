@@ -13,3 +13,4 @@ if (defined("CLIENT") === FALSE) {
 
 require_once("serverside/constants.php");
 require_once("serverside/functions/utils.php");
+require_once("serverside/components/session.php");

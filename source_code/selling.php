@@ -17,23 +17,15 @@ require_once("serverside/components/selling.php");
         <!--================Single Product Area =================-->
         <div class="product_image_area">
             <div class="container">
-                <form method="post">
+                <form enctype="multipart/form-data" onsubmit="return formValidation();">
                     <div class="row s_product_inner">
                         <div class="col-lg-6">
                             <h4>Multiple Files Image</h4>
-                            <div class="kt-dropzone dropzone m-dropzone--primary"
+                            <div id="dropzone-form" class="kt-dropzone dropzone m-dropzone--primary"
                                  action="serverside/components/selling.php">
                                 <div class="kt-dropzone__msg dz-message needsclick">
                                     <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
-                                    <span class="kt-dropzone__msg-desc">Upload up to 10 files</span>
-                                </div>
-                            </div>
-                            <hr/>
-                            <h4>Single Product Image</h4>
-                            <div class="dropzone" action="serverside/components/selling.php">
-                                <div class="kt-dropzone__msg dz-message needsclick">
-                                    <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
-                                    <span class="kt-dropzone__msg-desc">Only image are allowed for upload</span>
+                                    <span class="kt-dropzone__msg-desc">Upload up to 5 files</span>
                                 </div>
                             </div>
                         </div>
@@ -112,6 +104,22 @@ require_once("serverside/components/selling.php");
 <?php require_once("serverside/templates/footer.php"); ?>
 <!-- End Footer -->
 
+<script>
+    window.onload = function () {
+        Dropzone.options.dropzoneForm = {
+            addRemoveLinks: true,
+            acceptedFiles: "image/*",
+            init: function () {
+                this.on("success", function (file, data) {
+                    console.log(file.type());
+                    // if (file.type !== "image/jpeg" && file.type !== "image/png") {
+
+                    // }
+                });
+            }
+        }
+    };
+</script>
 <?php require_once("serverside/templates/html.js.php"); ?>
 </body>
 </html>

@@ -21,6 +21,7 @@ require_once("serverside/functions/security.php");
 // define variables and set to empty values
 $loginid = $pwd = "";
 $error = 0;
+$loginErr = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["loginid"])) {
@@ -54,7 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            // echo "       Password in DB: " . $dbarray["password"]; // This is the DB hashed password of the loginID
 
             if(!pw_verify($pwd, $dbarray["password"])){
-                echo "Wrong Password";
+                //echo "Wrong Password";
+                $loginErr = true;
                 $conn->close();
             } else {
                 session_start();

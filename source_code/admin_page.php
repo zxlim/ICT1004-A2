@@ -1,6 +1,9 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/constants.php");
+require_once("serverside/components/admin/admin.php");
+require_once("serverside/components/admin/user.php");
+
 
 
 ?>
@@ -34,11 +37,8 @@ require_once("serverside/constants.php");
 
 			<div class="container-fluid">
 
-				<!-- /.row -->
 
-				<!-- /.row -->
-        <?php  require_once("serverside/components/admin/admin.php");
-        ?>
+
         <div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -88,7 +88,7 @@ require_once("serverside/constants.php");
 								<i class="fa fa-money fa-fw"></i> User Report
 							</h3>
 						</div>
-            <button type="button" onClick="location.href='register.php'">Add User</button>
+            <button type="button" onClick="location.href='add_user.php'">Add User</button>
             <p></p>
 						<div class="panel-body">
 							<div class="table-responsive">
@@ -120,7 +120,17 @@ require_once("serverside/constants.php");
                       echo "<td>";
                       safe_echo($row["gender"]);
                       echo "</td>";
-                      echo "<td><button type='button' onClick='UpdateUser()'>Enable/Disable Account</button><p></p>";
+                      echo "<td>";
+                      if (!isset($row["suspended"]) || $row["suspended"] == 0) {
+                        $row["suspended"] = "Not suspended";
+                      }
+                      else {
+                        $row["suspended"] = "Suspended";
+                      }
+
+                      safe_echo($row["suspended"]);
+                      echo "</td>";
+                      echo "<td><button type='button'><a href='edit_account.php?edituser=".$row['id']."'>Enable/Disable Account</button><p></p>";
                       echo "<button type='button'><a href='admin_page.php?deluser=".$row['id']."'>Delete User</a></button></td>";
                       echo "</tr>";
                     }

@@ -26,7 +26,7 @@ require_once("serverside/components/admin/admin.php");
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="admin_page.php">Admin Dashboard Page<span class="lnr lnr-arrow-right"></span></a>
-            <a href="update_cat.php?updatecat">Update Category</a>
+            <a href="add_cat.php">Add New Category</a>
 					</nav>
 				</div>
 			</div>
@@ -56,11 +56,11 @@ require_once("serverside/components/admin/admin.php");
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //echo $_POST['name'];
-              if(isset($results_updatecatdetails)) {
+              if(isset($results_addnewcat)) {
                 if ($success) {
             //echo "success ";
 ?>
-    <h3 style="text-align:center">Category has been successfully updated.</h3>
+    <h3 style="text-align:center">New Category has been successfully added.</h3>
 
     <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
 <?php
@@ -72,7 +72,7 @@ require_once("serverside/components/admin/admin.php");
             <?php
           }
         }
-    }else {
+    } else {
 
     ?>
     <h2 style="test-align:center">You found a new page! Heres a cookie!</h2>

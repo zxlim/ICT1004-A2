@@ -51,12 +51,12 @@ require_once("serverside/components/selling.php");
                                 <div class="row">
                                     <div class="col-lg-3 form-group">
                                         <h4>Condition</h4>
-                                        <input type="number" class="form-control" placeholder="1">
+                                        <input type="number" class="form-control" placeholder="1" min="1" max="10">
                                     </div>
 
                                     <div class="col-lg-4 form-group">
                                         <h4>Product Age</h4>
-                                        <input type="number" class="form-control" placeholder="1">
+                                        <input type="number" class="form-control" placeholder="1" min="1">
                                     </div>
 
                                     <div class="col-lg-5 form-group">
@@ -104,8 +104,8 @@ require_once("serverside/components/selling.php");
 <!-- Footer -->
 <?php require_once("serverside/templates/footer.php"); ?>
 <!-- End Footer -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <?php require_once("serverside/templates/html.js.php"); ?>
+
 <script type="text/javascript">
     Dropzone.autoDiscover = false;
     $("div#myDrop").dropzone({

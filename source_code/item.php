@@ -123,7 +123,7 @@ define("WEBPAGE_TITLE", "Item Details");
 						</p>
 						<div class="card_area d-flex align-items-center">
 							<a class="success-btn" href="#">Make an Offer</a>
-							<a class="info-btn" href="message.php?id=<?php safe_echo($item["id"]); ?>">Chat with Seller</a>
+							<a class="info-btn" href="<?php safe_echo($convo_link); ?>">Chat with Seller</a>
 						</div>
 					</div>
 				</div>

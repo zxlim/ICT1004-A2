@@ -17,7 +17,6 @@ require_once("serverside/components/admin/admin.php");
 
 
 
-
   <!-- Banner Section -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
@@ -27,13 +26,7 @@ require_once("serverside/components/admin/admin.php");
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="admin_page.php">Admin Dashboard Page<span class="lnr lnr-arrow-right"></span></a>
-            <?php
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            echo "<a href='#'>Update Category</a>";
-          } else {
-              foreach ($results_selectedupdatecatdetails as $row) {
-            ?>
-            <a href="update_cat.php?updatecat=<?php safe_echo($row['id']); ?>">Update Category</a>
+            <a href="update_cat.php?updatecat">Update Category</a>
 					</nav>
 				</div>
 			</div>
@@ -59,55 +52,35 @@ require_once("serverside/components/admin/admin.php");
 							</h3>
 						</div>
             <?php
-          }
+
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //echo $_POST['name'];
               if(isset($results_updatecatdetails)) {
                 if ($success) {
-          ?>
-          <h3 style="text-align:center">Category has been successfully updated.</h3>
-
-          <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
-          <?php
-}
-else {
+            //echo "success ";
 ?>
-<h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-<button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+    <h3 style="text-align:center">Category has been successfully updated.</h3>
+
+    <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
 <?php
-}
-}
-} else {
-
-       foreach ($results_selectedupdatecatdetails as $row) {
+          }
+          else {
+            ?>
+            <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
+            <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+            <?php
+          }
+        }
+    }
     ?>
-            <form class="row contact_form" name="form-contact" id="form-contact" action="update_cat2.php" METHOD="POST">
-  						<div class="col-md-6">
-  							<div class="form-group">
 
-  								<input type="text" class="form-control" id="id" name="id" value="<?php safe_echo($row['id']); ?>" readonly>
-  							</div>
-                <div class="form-group">
-  								<input type="text" class="form-control" id="name" name="name" value="<?php safe_echo($row['name']);} ?>">
-  							</div>
-  						<div class="col-md-12 text-right">
-
-  							<button type="submit"  name="updatecat" class="primary-btn">Update</button>
-  						</div>
-
-
-  					</form>
             <p></p>
 					</div>
 				</div>
 
 			</div>
     </div>
-    <?php
-  }
-}
-  ?>
 <!--End Admin Dashboard Page -->
 
   <!-- Footer -->

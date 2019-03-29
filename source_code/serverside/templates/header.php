@@ -1,4 +1,7 @@
 <?php
+session_start();
+$login = false;
+
 if (defined("CLIENT") === FALSE) {
     /**
      * Ghetto way to prevent direct access to "include" files.
@@ -6,6 +9,12 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
+
+    if (isset($_SESSION['loginid'])) {
+        //echo "Login Successful!";
+        $login = true;
+    }
+
 ?>
 <header class="header_area sticky-header">
     <div class="main_menu">
@@ -36,12 +45,27 @@ if (defined("CLIENT") === FALSE) {
 							   Account
 							</a>
 							<ul class="dropdown-menu">
-								<li class="<?php safe_echo(active_nav(['login.php'])); ?>">
-									<a class="nav-link" href="login.php">Login</a>
-								</li>
-								<li class="<?php safe_echo(active_nav(['register.php'])); ?>">
-									<a class="nav-link" href="register.php">Register</a>
-								</li>
+                                <?php
+                                if($login === true){
+                                    ?>
+                                    <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
+                                        <a class="nav-link" href="logout.php">Logout</a>
+                                    </li>
+                                    <?php
+                                }
+                                else{
+                                    ?>
+                                    <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
+                                        <a class="nav-link" href="login.php">Login</a>
+                                    </li>
+
+                                    <li class="<?php safe_echo(active_nav(['register.php'])); ?>">
+                                        <a class="nav-link" href="register.php">Register</a>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+
 							</ul>
 						</li>
 						<li class="<?php safe_echo(active_nav(['contact.php'])); ?>">

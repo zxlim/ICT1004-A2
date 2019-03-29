@@ -46,13 +46,13 @@ define("WEBPAGE_TITLE", "Login");
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
-						<form class="row login_form" name="form-login" id="form-login">
+						<form class="row login_form" name="form-login" id="form-login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="loginid" name="loginid" placeholder="Login ID">
 							</div>
 
 							<div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+								<input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
 							</div>
 
 							<div class="col-md-12 form-group">

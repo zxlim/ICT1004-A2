@@ -21,6 +21,8 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 	header("Location: listing.php");
 }
 
+$current_user_id = 1;
+
 $item = NULL;
 $related_items = array();
 $related_seller_items = array();
@@ -53,6 +55,9 @@ AND listing.id != ?
 AND DATE(listing.show_until) > ?
 GROUP BY listing.id
 ORDER BY listing.id DESC LIMIT 4";
+
+$sql_convo = "SELECT id FROM conversation WHERE (user1 = ? OR user2 = ?)";
+$sql_convo_create = "INSERT INTO conversation (listing_id, user1, user2) VALUES (?, ?, ?)";
 
 $sql_pictures = "SELECT id FROM picture WHERE listing_id = ?";
 
@@ -163,6 +168,35 @@ if (isset($item)) {
 		}
 
 		$query->close();
+	}
+
+	if ($current_user_id === (int)($item["user_id"])) {
+		$convo_link = "message_all.php";
+	} else {
+		$convo_id = NULL;
+		
+		if ($query = $conn->prepare($sql_convo)) {
+			$query->bind_param("ii", $current_user_id, $current_user_id);
+			$query->execute();
+			$query->bind_result($id);
+
+			if ($query->fetch()) {
+				$convo_id = $id;
+			}
+
+			$query->close();
+		}
+
+		if ($convo_id === NULL) {
+			if ($query = $conn->prepare($sql_convo_create)) {
+				$query->bind_param("iii", $item["id"], $item["user_id"], $current_user_id);
+				$query->execute();
+				$convo_id = $query->insert_id;
+				$query->close();
+			}
+		}
+
+		$convo_link = sprintf("message.php?id=%d", $convo_id);
 	}
 }
 

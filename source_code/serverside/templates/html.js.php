@@ -7,7 +7,8 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 ?>
-<script src="static/js/vendor/jquery-2.2.4.min.js"></script>
+//<script src="static/js/vendor/jquery-2.2.4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="static/js/vendor/popper.js"></script>
 <script src="static/js/vendor/bootstrap.min.js"></script>
 <script src="static/js/vendor/jquery.ajaxchimp.min.js"></script>
@@ -18,5 +19,5 @@ if (defined("CLIENT") === FALSE) {
 <script src="static/js/vendor/owl.carousel.min.js"></script>
 <script src="static/js/vendor/theme.js"></script>
 <script src="static/js/ict1004.js"></script>
-<script src="static/js/vendor/dropzone.js"></script>
-<script src="static/js/vendor/dropzone.min.js"></script>
+<script src="static/js/vendor/dropzone.js" type="text/javascript"></script>
+<script src="static/js/vendor/dropzone.min.js" type="text/javascript"></script>

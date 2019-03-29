@@ -21,11 +21,12 @@ require_once("serverside/components/selling.php");
                     <div class="row s_product_inner">
                         <div class="col-lg-6">
                             <h4>Multiple Files Image</h4>
-                            <div id="dropzone-form" class="kt-dropzone dropzone m-dropzone--primary"
+                            <div id="myDrop" class="kt-dropzone dropzone m-dropzone--primary"
                                  action="serverside/components/selling.php">
                                 <div class="kt-dropzone__msg dz-message needsclick">
                                     <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
-                                    <span class="kt-dropzone__msg-desc">Upload up to 5 files</span>
+                                    <p><span class="kt-dropzone__msg-desc">Only allows .png .jpg .jpeg to be uploaded</span></p>
+                                    <p><span class="kt-dropzone__msg-desc">Upload up to 5 files</span></p>
                                 </div>
                             </div>
                         </div>
@@ -103,23 +104,25 @@ require_once("serverside/components/selling.php");
 <!-- Footer -->
 <?php require_once("serverside/templates/footer.php"); ?>
 <!-- End Footer -->
-
-<script>
-    window.onload = function () {
-        Dropzone.options.dropzoneForm = {
-            addRemoveLinks: true,
-            acceptedFiles: "image/*",
-            init: function () {
-                this.on("success", function (file, data) {
-                    console.log(file.type());
-                    // if (file.type !== "image/jpeg" && file.type !== "image/png") {
-
-                    // }
-                });
-            }
-        }
-    };
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <?php require_once("serverside/templates/html.js.php"); ?>
+<script type="text/javascript">
+    Dropzone.autoDiscover = false;
+    $("div#myDrop").dropzone({
+        addRemoveLinks: true,
+        acceptedFiles: '.png,.jpg,.jpeg',
+        maxFiles: 5,
+
+        init: function () {
+            // this.on("success", function (file, data) {
+            //     console.log(file);
+            // });
+            this.on("maxfilesexceeded", function (file) {
+                this.removeFile(file);
+            });
+        },
+    });
+</script>
+
 </body>
 </html>

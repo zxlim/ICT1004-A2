@@ -40,9 +40,31 @@ require_once("serverside/components/admin/admin.php");
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								<i class="fa fa-money fa-fw"></i>
+
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                  //echo $_POST['name'];
+                    if(isset($results_addnewcat)) {
+                      if ($success) {
+                ?>
+                <h3 style="text-align:center">Category has been successfully updated.</h3>
+
+                <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+                <?php
+}
+else {
+  ?>
+  <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
+  <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+  <?php
+}
+}
+}else {
+                ?>
 							</h3>
 						</div>
-            <form class="row contact_form" name="form-contact" id="form-contact">
+            <form class="row contact_form" name="form-contact" id="form-contact" method="POST" >
   						<div class="col-md-6">
   							<div class="form-group">
 
@@ -52,13 +74,16 @@ require_once("serverside/components/admin/admin.php");
   								<input type="text" class="form-control" id="name" name="name" placeholder="Category Name">
   							</div>
   						<div class="col-md-12 text-right">
-  							<button type="submit" value="submit" class="primary-btn">Add New Category</button>
+  							<button type="submit" name="newcat" class="primary-btn">Add New Category</button>
   						</div>
   					</form>
 <p></p>
 
 			</div>
     </div>
+    <?php
+}
+    ?>
 <!--End Admin Dashboard Page -->
 
   <!-- Footer -->

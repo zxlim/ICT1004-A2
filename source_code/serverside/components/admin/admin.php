@@ -19,10 +19,14 @@ $selected_update_cat_id = 99999;
 $selected_update_cat_name = NULL;
 $delete_user = 99999;
 $delete_cat = 99999;
+$new_id = 9999;
+$new_cat_name = NULL;
 
 $results_userdetails = array();
 $results_catdetails = array();
+$results_selectedupdatecatdetails = array();
 $results_updatecatdetails = array();
+$results_addnewcat = array();
 
 /* Getting current id's for category and user */
 if (isset($_GET["id"]) && validate_int($_GET["id"])) {
@@ -46,7 +50,7 @@ if (isset($_GET['delcat']) && validate_int($_GET["delcat"])) {
 
 $sql_userdetails = "SELECT id, name, email, gender FROM user ORDER BY id";
 $sql_catdetails = "SELECT * from category ORDER BY id";
-$sql_updatecatdetails = "SELECT * from category where id='$selected_update_cat_id'";
+$sql_selectedupdatecatdetails = "SELECT * from category where id='$selected_update_cat_id'";
 $sql_deleteuser = "DELETE FROM user WHERE id='$delete_user'";
 $sql_deletecat = "DELETE FROM category WHERE id='$delete_cat'";
 
@@ -95,7 +99,7 @@ if ($query = $conn->prepare($sql_catdetails)) {
 }
 
 /* Storing selected results from what admin selected in admin_page.php and listing out on update_cat.php */
-if ($query = $conn->prepare($sql_updatecatdetails)) {
+if ($query = $conn->prepare($sql_selectedupdatecatdetails)) {
 	$query->execute();
 	$query->bind_result($id, $name);
 
@@ -109,10 +113,38 @@ if ($query = $conn->prepare($sql_updatecatdetails)) {
 			$selected_update_cat_name = $name;
 		}
 
-		array_push($results_updatecatdetails, $data);
+		array_push($results_selectedupdatecatdetails, $data);
 	}
 	$query->close();
 }
+
+
+if (isset($_POST["updatecat"])) {
+	$selected_update_cat_id = $_POST['id'];
+	$selected_update_cat_name = $_POST['name'];
+	//print_r(explode(",",$str,2));
+}
+
+
+
+
+$sql_updatecatdetails = "UPDATE category SET name='$selected_update_cat_name' WHERE (id='$selected_update_cat_id')";
+//echo $sql_updatecatdetails;
+/* Storing selected results from what admin selected in admin_page.php and listing out on update_cat.php */
+if ($query = $conn->prepare($sql_updatecatdetails)) {
+// echo $_POST["id"];
+	$query->execute();
+
+	if ($query->execute()) {
+		$success = 1;
+	}
+	else {
+		$success = 0;
+	}
+		array_push($results_updatecatdetails, $data);
+	$query->close();
+}
+
 
 /* deleting user from db */
 	if ($query = $conn->prepare($sql_deleteuser)) {
@@ -131,7 +163,27 @@ if ($query = $conn->prepare($sql_updatecatdetails)) {
 	//header('location: admin_page.php');
 }
 
+if (isset($_POST["newcat"])) {
+	$selected_update_cat_id = $_POST['id'];
+	$selected_update_cat_name = $_POST['name'];
+	//print_r(explode(",",$str,2));
+}
 
+$sql_add_new_cat = "INSERT INTO category(id, name) VALUES($new_id, '$new_cat_name')";
+
+if ($query = $conn->prepare($sql_add_new_cat)) {
+// echo $_POST["id"];
+	$query->execute();
+
+	if ($query->execute()) {
+		$success = 1;
+	}
+	else {
+		$success = 0;
+	}
+		array_push($results_addnewcat, $data);
+	$query->close();
+}
 
 $conn->close();
 

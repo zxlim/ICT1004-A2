@@ -8,19 +8,25 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-function safe_echo(string $string_raw = "") {
+function html_safe(string $string_raw): string {
 	/**
-	* A function to safely echo a string into an HTML template.
-	* Encodes some predefined characters into HTML entities.
+	* A function to encode some predefined characters into HTML entities.
 	*
 	* @param	string	$string_raw	The string to encode and echo.
 	*/
-	if (strlen($string_raw) !== 0) {
-		// Only proceed if string has characters.
-		// Encode string to UTF-8, then encode HTML entities.
-		$string = utf8_encode($string_raw);
-		echo(htmlspecialchars($string));
-	}
+	// Encode string to UTF-8, then encode HTML entities.
+	$string = utf8_encode($string_raw);
+	return htmlspecialchars($string);
+}
+
+function safe_echo(string $string): void {
+	/**
+	* A function to safely echo a string into an HTML template.
+	* Makes use of `html_safe` function.
+	*
+	* @param	string	$string		The string to echo.
+	*/
+	echo(html_safe($string));
 }
 
 function active_nav(array $item): string {
@@ -32,7 +38,6 @@ function active_nav(array $item): string {
 	*
 	* @return	string	$class	The class values for the HTML element.
 	*/
-
 	foreach ($item as $i) {
 		if (basename($_SERVER["PHP_SELF"]) === $i) {
 			return "nav-item active";

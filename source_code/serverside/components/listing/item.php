@@ -18,18 +18,41 @@ require_once("serverside/functions/database.php");
 if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 	$item_id = (int)($_GET["id"]);
 } else {
-	header("Location: listing.php?cat=1");
+	header("Location: listing.php");
 }
 
 $item = NULL;
 $related_items = array();
 $related_seller_items = array();
 
-$sql_item = "SELECT listing.id, listing.title, listing.description, listing.tags, listing.price, listing.condition, listing.item_age, listing.meetup_location, category.id, category.name, user.id, user.name, user.join_date, user.bio, user_picture.id FROM listing INNER JOIN category ON listing.category_id = category.id INNER JOIN user ON listing.seller_id = user.id LEFT JOIN user_picture ON user.id = user_picture.user_id WHERE listing.id = ?";
+$sql_item = "SELECT listing.id, listing.title, listing.description, listing.tags,
+listing.price, listing.condition, listing.item_age, listing.meetup_location,
+category.id, category.name, user.id, user.name, user.join_date, user.bio, user_picture.id
+FROM listing
+INNER JOIN category ON listing.category_id = category.id
+INNER JOIN user ON listing.seller_id = user.id
+LEFT JOIN user_picture ON user.id = user_picture.user_id
+WHERE listing.id = ?";
 
-$sql_listings = "SELECT listing.id, listing.title, listing.price, picture.id FROM listing LEFT JOIN picture ON listing.id = picture.listing_id WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1) AND listing.category_id = ? AND DATE(listing.show_until) > ? AND listing.id != ? GROUP BY listing.id ORDER BY listing.view_counts DESC LIMIT 3";
+$sql_related_listings = "SELECT listing.id, listing.title, listing.price, picture.id
+FROM listing
+LEFT JOIN picture ON listing.id = picture.listing_id
+WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
+AND listing.id != ?
+AND DATE(listing.show_until) > ?
+AND listing.category_id = ?
+GROUP BY listing.id
+ORDER BY listing.view_counts DESC LIMIT 9";
 
-$sql_seller_listings = "SELECT listing.id, listing.title, listing.price, picture.id FROM listing LEFT JOIN picture ON listing.id = picture.listing_id WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1) AND listing.seller_id = ? AND DATE(listing.show_until) > ? AND listing.id != ? GROUP BY listing.id ORDER BY listing.id DESC LIMIT 4";
+$sql_seller_listings = "SELECT listing.id, listing.title, listing.price, picture.id
+FROM listing
+LEFT JOIN picture ON listing.id = picture.listing_id
+WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
+AND listing.seller_id = ?
+AND listing.id != ?
+AND DATE(listing.show_until) > ?
+GROUP BY listing.id
+ORDER BY listing.id DESC LIMIT 4";
 
 $sql_pictures = "SELECT id FROM picture WHERE listing_id = ?";
 
@@ -91,8 +114,8 @@ if (isset($item)) {
 		array_push($item["picture"], "static/img/default/listing.jpg");
 	}
 
-	if ($query = $conn->prepare($sql_listings)) {
-		$query->bind_param("isi", $item["cat_id"], $current_dt, $item["id"]);
+	if ($query = $conn->prepare($sql_related_listings)) {
+		$query->bind_param("isi", $item["id"], $current_dt, $item["cat_id"]);
 		$query->execute();
 		$query->bind_result($id, $title, $price, $picture_id);
 
@@ -117,7 +140,8 @@ if (isset($item)) {
 	}
 
 	if ($query = $conn->prepare($sql_seller_listings)) {
-		$query->bind_param("isi", $item["user_id"], $current_dt, $item["id"]);
+		/* Get the other listings by the seller. */
+		$query->bind_param("isi", $item["user_id"], $item["id"], $current_dt);
 		$query->execute();
 		$query->bind_result($id, $title, $price, $picture_id);
 

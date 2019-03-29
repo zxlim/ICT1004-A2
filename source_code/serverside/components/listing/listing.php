@@ -27,7 +27,16 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 }
 
 $sql_categories = "SELECT id, name FROM category ORDER BY id";
-$sql_listings = "SELECT listing.id, listing.title, listing.price, user.name, picture.id FROM listing INNER JOIN user ON listing.seller_id = user.id LEFT JOIN picture ON listing.id = picture.listing_id WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1) AND listing.category_id = ? AND DATE(listing.show_until) > ? GROUP BY listing.id ORDER BY listing.id";
+
+$sql_listings = "SELECT listing.id, listing.title, listing.price, user.name, picture.id, user_picture.id
+FROM listing INNER JOIN user ON listing.seller_id = user.id
+LEFT JOIN picture ON listing.id = picture.listing_id
+LEFT JOIN user_picture ON user.id = user_picture.user_id
+WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
+AND listing.category_id = ?
+AND DATE(listing.show_until) > ?
+GROUP BY listing.id
+ORDER BY listing.id";
 
 $conn = get_conn();
 
@@ -56,10 +65,15 @@ if (isset($selected_cat_name)) {
 	if ($query = $conn->prepare($sql_listings)) {
 		$query->bind_param("is", $selected_cat_id, $current_dt);
 		$query->execute();
-		$query->bind_result($id, $title, $price, $user_name, $picture_id);
+		$query->bind_result($id, $title, $price, $user_name, $picture_id, $user_pic_id);
 
 		while ($query->fetch()) {
 			$picture = "static/img/default/listing.jpg";
+			$user_picture = "static/img/default/user.jpg";
+
+			if ($user_pic_id !== NULL) {
+				$user_picture = sprintf("image.php?id=%d&type=u", $user_pic_id);
+			}
 
 			if ($picture_id !== NULL) {
 				$picture = sprintf("image.php?id=%d", $picture_id);
@@ -70,6 +84,7 @@ if (isset($selected_cat_name)) {
 				"title" => $title,
 				"price" => (float)($price),
 				"user_name" => $user_name,
+				"user_pic" => $user_picture,
 				"picture" => $picture,
 			);
 			array_push($results_listings, $data);

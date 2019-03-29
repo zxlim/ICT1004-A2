@@ -21,9 +21,12 @@ define("WEBPAGE_TITLE", "Listings");
 					<?php if (isset($selected_cat_name) === TRUE) { ?>
 					<h1><?php safe_echo($selected_cat_name); ?></h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="">Listings<span class="lnr lnr-arrow-right"></span></a>
-						<a href=""><?php safe_echo($selected_cat_name); ?></a>
+						<a href="index.php">
+							Home<span class="lnr lnr-arrow-right"></span>
+						</a>
+						<a href="">
+							<?php safe_echo($selected_cat_name); ?>
+						</a>
 					</nav>
 					<?php } else { ?>
 					<h1>Category Not Found</h1>
@@ -81,10 +84,12 @@ define("WEBPAGE_TITLE", "Listings");
 							foreach ($results_listings as $row) {
 						?>
 						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<figure class="img-equalise">
-									<img src="<?php safe_echo($row["picture"]); ?>">
-								</figure>
+							<div class="single-product shadow p-3 mb-5 bg-white rounded">
+								<a href="item.php?id=<?php safe_echo($row["id"]); ?>">
+									<figure class="img-equalise">
+										<img src="<?php safe_echo($row["picture"]); ?>">
+									</figure>
+								</a>
 								<div class="product-details">
 									<h6 class="listing-title">
 										<?php safe_echo($row["title"]); ?>

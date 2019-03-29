@@ -13,6 +13,7 @@ if (defined("CLIENT") === FALSE) {
 
 # Web application parameters.
 define("APP_TITLE", "FastTrade");
+define("APP_ROOT", dirname($_SERVER["REQUEST_URI"]));
 
 # Database connection parameters.
 require_once("serverside/private/dbpasswd.php");

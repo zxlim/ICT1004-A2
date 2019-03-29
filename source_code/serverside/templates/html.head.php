@@ -21,7 +21,7 @@ if (defined("CLIENT") === FALSE) {
 	}
 	?>
 </title>
-
+<link rel="icon" type="image/png" href="static/img/fasttrade_logo.ico" sizes="32x32" />
 <link rel="stylesheet" href="static/css/vendor/linearicons.css">
 <link rel="stylesheet" href="static/css/vendor/font-awesome.min.css">
 <link rel="stylesheet" href="static/css/vendor/themify-icons.css">
@@ -33,4 +33,5 @@ if (defined("CLIENT") === FALSE) {
 <link rel="stylesheet" href="static/css/vendor/ion.rangeSlider.skinFlat.css" />
 <link rel="stylesheet" href="static/css/vendor/magnific-popup.css">
 <link rel="stylesheet" href="static/css/vendor/theme.css">
+<link rel="stylesheet" href="static/css/vendor/dropzone.css">
 <link rel="stylesheet" href="static/css/ict1004.css">

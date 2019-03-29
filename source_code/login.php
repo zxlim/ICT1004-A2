@@ -59,6 +59,11 @@ define("WEBPAGE_TITLE", "Login");
 								<button type="submit" value="submit" class="primary-btn">Log In</button>
 								<!--<a href="reset.php">Forgot Password?</a>-->
 							</div>
+                            <?php if($loginErr){ ?>
+                            <div class="col-md-12 form-group alert alert-danger text-center">
+                                Wrong Login ID or Password!
+                            </div>
+                            <?php } ?>
 						</form>
 					</div>
 				</div>

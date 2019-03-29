@@ -40,15 +40,27 @@ if (defined("CLIENT") === FALSE) {
                         <li class="<?php safe_echo(active_nav(['listing.php', 'item.php'])); ?>">
                             <a class="nav-link" href="listing.php?cat=1">Shop</a>
                         </li>
+                        <li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
+                            <a class="nav-link" href="contact.php">Contact Us</a>
+                        </li>
+
                         <li class="<?php safe_echo(active_nav(['login.php', 'register.php'])); ?> submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">
+                                <?php if (session_isauth() === true){?>
+                                    <span class="lnr lnr-user dropdown-toggle" id=user" ></span>
+                                <?php } else {?>
                                 Account
+                                <?php } ?>
                             </a>
                             <ul class="dropdown-menu">
                                 <?php
                                 if (session_isauth() === true) {
                                     ?>
+                                    <li class="<?php safe_echo(active_nav(['profile.php'])); ?>">
+                                        <a class="nav-link" href="profile.php">Profile</a>
+                                    </li>
+
                                     <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
                                         <a class="nav-link" href="logout.php">Logout</a>
                                     </li>
@@ -65,13 +77,10 @@ if (defined("CLIENT") === FALSE) {
                                     <?php
                                 }
                                 ?>
-
                             </ul>
                         </li>
-                        <li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
-                            <a class="nav-link" href="contact.php">Contact Us</a>
-                        </li>
                     </ul>
+
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item">
                             <button class="notification">
@@ -84,9 +93,11 @@ if (defined("CLIENT") === FALSE) {
                             </button>
                         </li>
                     </ul>
-                    <a href="selling.php" class="sell_btn">
-                        <button type="button" class="genric-btn danger">Sell</button>
-                    </a>
+                    <?php if (session_isauth() === true) {?>
+                        <a href="selling.php" class="sell_btn">
+                            <button type="button" class="genric-btn danger">Sell</button>
+                        </a>
+                    <?php }?>
                 </div>
             </div>
         </nav>

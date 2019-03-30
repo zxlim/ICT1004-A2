@@ -240,7 +240,9 @@ hr .dotted {
 .sell_btn {
 	margin-left: 20px;
 }
-
+.error{
+	color: red;
+}
 /**
 * Chat styling.
 */

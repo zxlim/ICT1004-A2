@@ -1,6 +1,6 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
-//require_once("serverside/components/selling.php");
+require_once("serverside/components/selling.php");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -42,22 +42,27 @@ require_once("serverside/base.php");
                     </div>
 
                     <div class="col-lg-5 offset-lg-1">
-                        <form name='creating' onSubmit="return formValidation();">
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                             <div class="s_product_text">
+                                <div class="form-group" id="hidden_fields"></div>
+
                                 <div class="form-group">
                                     <h4>Product Name</h4>
                                     <input type="text" name="product_name" class="form-control" placeholder="iPhone">
+                                    <span class="error"><?php echo $product_nameErr; ?></span>
                                 </div>
 
                                 <div class="form-group">
                                     <h4>Product Description</h4>
                                     <textarea class="form-control" id="productDesc" name="product_desc"
                                               rows="5"></textarea>
+                                    <span class="error"><?php echo $product_descErr; ?></span>
                                 </div>
 
                                 <div class="form-group">
                                     <h4>Price</h4>
                                     <input type="text" class="form-control" name="price" placeholder="100">
+                                    <span class="error"><?php echo $priceErr; ?></span>
                                 </div>
 
                                 <div class="row">
@@ -66,16 +71,18 @@ require_once("serverside/base.php");
                                         <input type="number" name="condition" class="form-control" placeholder="1"
                                                min="1"
                                                max="10">
+                                        <span class="error"><?php echo $conditionErr; ?></span>
                                     </div>
 
                                     <div class="col-lg-4 form-group">
                                         <h4>Product Age</h4>
                                         <input type="number" name="age" class="form-control" placeholder="1" min="1">
+                                        <span class="error"><?php echo $ageErr; ?></span>
                                     </div>
 
                                     <div class="col-lg-5 form-group">
                                         <h4>Category</h4>
-                                        <select class="form-control" id="categorySelection">
+                                        <select class="nice-select" id="categorySelection" name="category">
                                             <option></option>
                                             <option>Home Appliances</option>
                                             <option>Computers & IT</option>
@@ -83,12 +90,13 @@ require_once("serverside/base.php");
                                             <option>Kids</option>
                                             <option>Home Repairs and Services</option>
                                         </select>
+                                        <span class="error"><?php echo $categoryErr; ?></span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6 form-group">
                                         <h4>Meetup Location</h4>
-                                        <select class="form-control" id="categorySelection">
+                                        <select class="nice-select" id="categorySelection" name="location">
                                             <option></option>
                                             <option>Central</option>
                                             <option>North</option>
@@ -96,6 +104,7 @@ require_once("serverside/base.php");
                                             <option>East</option>
                                             <option>West</option>
                                         </select>
+                                        <span class="error"><?php echo $locationErr; ?></span>
                                     </div>
 
                                     <div class="card_area d-flex align-items-center">
@@ -158,15 +167,15 @@ require_once("serverside/base.php");
                         alert("The file uploaded is not in the correct format");
                         this.removeFile(file);
                     }
-                    fileCount+=1;
-                    if(fileCount > 5) {
+                    fileCount += 1;
+                    if (fileCount > 5) {
                         alert("5 files have already been uploaded");
                         this.removeFile(file);
                     }
                 });
 
                 this.on("complete", function (file) {
-                    if(fileCount <= 5) {
+                    if (fileCount <= 5) {
                         upload(file);
                     } else {
                         alert("5 files have already been uploaded");
@@ -204,7 +213,9 @@ require_once("serverside/base.php");
 
         $.ajax(settings).done(function (response) {
             var obj = JSON.parse(response);
-            $("#preview").append("<img src='" + obj.data.link + "' class='img-thumbnail' width='175' height='175'>");
+            var link = obj.data.link;
+            $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'>");
+            $("#hidden_fields").append("<input type='hidden' name='imgur_link[]' value='" + link + "'>");
         });
     }
 </script>

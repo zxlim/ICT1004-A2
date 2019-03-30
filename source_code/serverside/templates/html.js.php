@@ -19,4 +19,3 @@ if (defined("CLIENT") === FALSE) {
 <script src="static/js/vendor/theme.js"></script>
 <script src="static/js/ict1004.js"></script>
 <script src="static/js/vendor/dropzone.js" type="text/javascript"></script>
-<script src="static/js/vendor/dropzone.min.js" type="text/javascript"></script>

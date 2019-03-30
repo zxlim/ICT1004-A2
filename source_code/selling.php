@@ -170,7 +170,7 @@ require_once("serverside/base.php");
             $.ajax({
                 url: "upload.php",
                 success: function (data) {
-                    $('#preview').html(data).css("width", '100%');
+                    $('#preview').html(data);
                 }
             });
         }

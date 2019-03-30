@@ -1,7 +1,7 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/constants.php");
-require_once("serverside/components/admin/admin.php");
+require_once("serverside/components/admin/user.php");
 
 
 ?>
@@ -26,7 +26,7 @@ require_once("serverside/components/admin/admin.php");
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="admin_page.php">Admin Dashboard Page<span class="lnr lnr-arrow-right"></span></a>
-            <a href="add_cat.php">Add New Category</a>
+            <a href="#">Delete User</a>
 					</nav>
 				</div>
 			</div>
@@ -56,12 +56,11 @@ require_once("serverside/components/admin/admin.php");
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //echo $_POST['name'];
-              if(isset($results_addnewcat)) {
-                if ($successadd) {
+              if(isset($results_deleteuser)) {
+                if ($successuserdel) {
             //echo "success ";
 ?>
-    <h3 style="text-align:center">New Category has been successfully added.</h3>
-
+    <h3 style="text-align:center">User has been successfully deleted.</h3>
 
 <?php
           }
@@ -70,10 +69,10 @@ require_once("serverside/components/admin/admin.php");
             <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
 
             <?php
-          }
-        } ?>
-        <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
-        <?php
+          } ?>
+          <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+          <?php
+        }
     } else {
 
     ?>

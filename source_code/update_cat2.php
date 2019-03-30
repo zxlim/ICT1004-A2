@@ -57,21 +57,22 @@ require_once("serverside/components/admin/admin.php");
 
             //echo $_POST['name'];
               if(isset($results_updatecatdetails)) {
-                if ($success) {
+                if ($successupdate) {
             //echo "success ";
 ?>
     <h3 style="text-align:center">Category has been successfully updated.</h3>
 
-    <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+
 <?php
           }
           else {
             ?>
             <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-            <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
             <?php
           }
-        }
+        } ?>
+        <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+        <?php
     }else {
 
     ?>

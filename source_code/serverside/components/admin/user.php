@@ -21,12 +21,16 @@ $selected_new_user_id = 99999;
 $selected_new_user_name = NULL;
 $suspended_state = 255;
 $delete_user = 99999;
+$select_delete_user = 99999;
+
 
 $results_userdetails = array();
-$results_updateuser = array();
+//$results_updateuser = array();
 $results_selectedupdateuserdetails = array();
 $results_updateuserdetails = array();
 $results_addnewuser = array();
+$results_selectdeleteuser = array();
+$results_deleteuser = array();
 
 if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 	$selected_id = (int)($_GET["id"]);
@@ -36,12 +40,18 @@ if (isset($_GET["edituser"]) && validate_int($_GET["edituser"])) {
 	$selected_update_user_id = (int)($_GET["edituser"]);
 }
 
+if (isset($_POST["deleteuser"])) {
+	$delete_user = (int)($_POST["id"]);
+
+}
 if (isset($_GET["deluser"]) && validate_int($_GET["deluser"])) {
-	$delete_user = (int)($_GET["deluser"]);
+	$select_delete_user = (int)($_GET["deluser"]);
+
 }
 
 $sql_userdetails = "SELECT id, name, email, gender, suspended FROM user ORDER BY id";
 $sql_selectedupdateuserdetails = "SELECT id, name, loginid, email, suspended from user where id='$selected_update_user_id'";
+$sql_selecteddeleteuser = "SELECT id, name, loginid, email, suspended from user where id='$select_delete_user'";
 $sql_deleteuser = "DELETE FROM user WHERE id='$delete_user'";
 
 $conn = get_conn();
@@ -139,10 +149,41 @@ if ($query = $conn->prepare($sql_add_new_user)) {
 	$query->close();
 }
 
+if ($query = $conn->prepare($sql_selecteddeleteuser)) {
+	$query->execute();
+	$query->bind_result($id, $name, $loginid, $email, $suspended);
+
+	while ($query->fetch()) {
+		$data = array(
+			"id" => (int)($id),
+			"name" => $name,
+      "loginid" => $loginid,
+      "email" => $email,
+      "suspended" => $suspended,
+		);
+
+		if ($selected_update_user_id === (int)($id)) {
+			$selected_update_user_name = $name;
+      $selected_update_loginid = $loginid;
+      $selected_update_email = $email;
+      $suspended_state = $suspended;
+		}
+		array_push($results_selectdeleteuser, $data);
+	}
+	$query->close();
+}
+
 /* deleting user from db */
 	if ($query = $conn->prepare($sql_deleteuser)) {
 		$query->execute();
-	$_SESSION['message'] = "User deleted!";
+
+	if($query->execute()) {
+		$successuserdel = 1;
+	}
+	else {
+		$successuserdel = 0;
+	}
+	array_push($results_deleteuser, $data);
   	$query->close();
 	//header('location: admin_page.php');
 }

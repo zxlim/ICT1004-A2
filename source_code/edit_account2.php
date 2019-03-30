@@ -57,22 +57,23 @@ require_once("serverside/components/admin/user.php");
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //echo $_POST['name'];
-              if(isset($results_updateuser)) {
+              if(isset($results_updateuserdetails)) {
                 if ($success) {
             //echo "success ";
 ?>
     <h3 style="text-align:center">Account has been <?php if ($suspended_state) {?> Disabled <?php } else { ?> Enabled <?php } ?>.</h3>
 
-    <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
 <?php
           }
           else {
             ?>
             <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-            <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+
             <?php
           }
-        }
+        } ?>
+        <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+        <?php
     } else {
 
     ?>

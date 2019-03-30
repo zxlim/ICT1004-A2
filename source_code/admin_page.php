@@ -70,7 +70,7 @@ require_once("serverside/components/admin/user.php");
                       safe_echo($row["name"]);
                       echo "</td>";
                       echo "<td><button type='button'> <a href='update_cat.php?updatecat=".$row['id']."'>Update Category</a></button><p></p>";
-                      echo "<button type='button'><a href='admin_page.php?delcat=".$row['id']."'>Delete Category</a></button></td>";
+                      echo "<button type='button'><a href='del_cat.php?delcat=".$row['id']."'>Delete Category</a></button></td>";
                       echo "</tr>";
                     }
                     ?>
@@ -99,6 +99,7 @@ require_once("serverside/components/admin/user.php");
                       <th>Name</th>
                       <th>Email</th>
                       <th>Gender</th>
+                      <th>Status</th>
                       <th>Details</th>
 										</tr>
 									</thead>
@@ -131,7 +132,7 @@ require_once("serverside/components/admin/user.php");
                       safe_echo($row["suspended"]);
                       echo "</td>";
                       echo "<td><button type='button'><a href='edit_account.php?edituser=".$row['id']."'>Enable/Disable Account</button><p></p>";
-                      echo "<button type='button'><a href='admin_page.php?deluser=".$row['id']."'>Delete User</a></button></td>";
+                      echo "<button type='button'><a href='del_user.php?deluser=".$row['id']."'>Delete User</a></button></td>";
                       echo "</tr>";
                     }
                     ?>

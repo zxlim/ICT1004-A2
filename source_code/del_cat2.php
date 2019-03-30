@@ -26,7 +26,7 @@ require_once("serverside/components/admin/admin.php");
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="admin_page.php">Admin Dashboard Page<span class="lnr lnr-arrow-right"></span></a>
-            <a href="add_cat.php">Add New Category</a>
+            <a href="#">Delete Category</a>
 					</nav>
 				</div>
 			</div>
@@ -56,11 +56,11 @@ require_once("serverside/components/admin/admin.php");
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //echo $_POST['name'];
-              if(isset($results_addnewcat)) {
-                if ($successadd) {
+              if(isset($results_deletecat)) {
+                if ($successdel) {
             //echo "success ";
 ?>
-    <h3 style="text-align:center">New Category has been successfully added.</h3>
+    <h3 style="text-align:center">Category has been successfully deleted.</h3>
 
 
 <?php

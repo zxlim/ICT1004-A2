@@ -2,6 +2,7 @@
 require_once("serverside/base.php");
 require_once("serverside/constants.php");
 require_once("serverside/components/admin/admin.php");
+require_once("serverside/components/admin/user.php");
 
 
 ?>
@@ -17,6 +18,7 @@ require_once("serverside/components/admin/admin.php");
 
 
 
+
   <!-- Banner Section -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
@@ -26,7 +28,7 @@ require_once("serverside/components/admin/admin.php");
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="admin_page.php">Admin Dashboard Page<span class="lnr lnr-arrow-right"></span></a>
-            <a href="add_cat.php">Add New Category</a>
+            <a href="del_cat.php?delcat=">Delete Category</a>
 					</nav>
 				</div>
 			</div>
@@ -39,9 +41,6 @@ require_once("serverside/components/admin/admin.php");
 
 			<div class="container-fluid">
 
-				<!-- /.row -->
-
-				<!-- /.row -->
 
 
         <div class="col-lg-12">
@@ -51,44 +50,38 @@ require_once("serverside/components/admin/admin.php");
 								<i class="fa fa-money fa-fw"></i>
 							</h3>
 						</div>
-            <?php
-
-          if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            //echo $_POST['name'];
-              if(isset($results_addnewcat)) {
-                if ($successadd) {
-            //echo "success ";
-?>
-    <h3 style="text-align:center">New Category has been successfully added.</h3>
-
 
 <?php
-          }
-          else {
-            ?>
-            <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
 
-            <?php
-          }
-        } ?>
-        <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
-        <?php
-    } else {
+  foreach ($results_selectedupdatecatdetails as $row) {
 
-    ?>
-    <h2 style="test-align:center">You found a new page! Heres a cookie!</h2>
-    <button class="primary-btn" onclick="location.href='index.php'">Back to Main</button>
-    <?php
-    }
-     ?>
+ ?>
+            <form class="row contact_form" name="form-contact" id="form-contact" action="del_cat2.php" METHOD="POST">
+  						<div class="col-md-6">
+  							<div class="form-group">
 
+  							ID:	<input type="text" class="form-control" id="id" name="id" value="<?php safe_echo($row['id']); ?>" readonly>
+  							</div>
+                <div class="form-group">
+  							Name:	<input type="text" class="form-control" id="name" name="name" value="<?php safe_echo($row['name']); }?>" readonly>
+  							</div>
+
+
+                <h3>Are you sure you want to delete this category?</h3>
+
+  						<div class="col-md-12 text-right">
+  							<button type="submit"  name="deletecat" class="primary-btn">Delete Category</button>
+  						</div>
+
+
+  					</form>
             <p></p>
 					</div>
 				</div>
 
 			</div>
     </div>
+
 <!--End Admin Dashboard Page -->
 
   <!-- Footer -->

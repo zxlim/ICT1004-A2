@@ -17,14 +17,16 @@ $selected_cat_name = NULL;
 $selected_update_cat_id = 99999;
 $selected_update_cat_name = NULL;
 $delete_cat = 99999;
-$new_cat_name = NULL;
 $new_id = 9999;
+$new_cat_name = NULL;
+
 
 
 $results_catdetails = array();
 $results_selectedupdatecatdetails = array();
 $results_updatecatdetails = array();
 $results_addnewcat = array();
+$results_deletecat = array();
 
 /* Getting current id's for category and user */
 if (isset($_GET["id"]) && validate_int($_GET["id"])) {
@@ -40,7 +42,18 @@ if (isset($_GET["updatecat"]) && validate_int($_GET["updatecat"])) {
 
 
 if (isset($_GET['delcat']) && validate_int($_GET["delcat"])) {
-	$delete_cat = $_GET['delcat'];
+	$selected_update_cat_id = $_GET['delcat'];
+}
+
+if (isset($_POST["deletecat"])) {
+	$delete_cat = (int)($_POST["id"]);
+
+}
+
+if (isset($_POST["newcat"])) {
+	$new_id = (int)($_POST["id"]);
+	$new_cat_name = $_POST["name"];
+
 }
 
 
@@ -106,51 +119,61 @@ $sql_updatecatdetails = "UPDATE category SET name='$selected_update_cat_name' WH
 //echo $sql_updatecatdetails;
 /* Storing selected results from what admin selected in admin_page.php and listing out on update_cat.php */
 if ($query = $conn->prepare($sql_updatecatdetails)) {
-// echo $_POST["id"];
+	// echo $_POST["id"];
 	$query->execute();
-
 	if ($query->execute()) {
-		$success = 1;
+		$successupdate = 1;
 	}
 	else {
-		$success = 0;
+		$successupdate = 0;
 	}
-		array_push($results_updatecatdetails, $data);
+	array_push($results_updatecatdetails, $data);
 	$query->close();
 }
 
 
 
 /*deleting cat from db */
-	if ($query = $conn->prepare($sql_deletecat)) {
-		$query->execute();
-	$_SESSION['message'] = "Category deleted!";
-  	$query->close();
-	//header('location: admin_page.php');
+
+if ($query = $conn->prepare($sql_deletecat)) {
+	// echo $_POST["id"];
+	$query->execute();
+
+	if ($query->execute()) {
+		$successdel = 1;
+	}
+	else {
+		$successdel = 0;
+	}
+	array_push($results_deletecat, $data);
+	$query->close();
 }
 
+//header('location: admin_page.php');
+
+
 if (isset($_POST["newcat"])) {
-	$selected_update_cat_id = $_POST['id'];
-	$selected_update_cat_name = $_POST['name'];
+	$new_id = $_POST['id'];
+	$new_cat_name = $_POST['name'];
 	//print_r(explode(",",$str,2));
 }
 
 $sql_add_new_cat = "INSERT INTO category(id, name) VALUES($new_id, '$new_cat_name')";
 
 if ($query = $conn->prepare($sql_add_new_cat)) {
-// echo $_POST["id"];
+
 	$query->execute();
 
 	if ($query->execute()) {
-		$success = 1;
+		$successadd = 1;
 	}
 	else {
-		$success = 0;
+		$successadd = 0;
 	}
-		array_push($results_addnewcat, $data);
+	array_push($results_addnewcat, $data);
 	$query->close();
 }
 
 $conn->close();
 
- ?>
+?>

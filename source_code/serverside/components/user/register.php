@@ -11,215 +11,190 @@ if (defined("CLIENT") === FALSE) {
 	http_response_code(404);
 	die();
 }
-require_once("serverside/base.php");
+
+if ($session_is_authenticated === TRUE) {
+	header("HTTP/1.1 403 Forbidden");
+	header("Location: index.php");
+	die("You are not allowed to access the requested resource.");
+}
+
 require_once("serverside/functions/validation.php");
-require_once("serverside/functions/database.php");
 require_once("serverside/functions/security.php");
-require ('serverside/PHPMailer/PHPMailerAutoload.php');
-//require_once("serverside/vendor/zxcvbn.php");
+require_once("serverside/functions/database.php");
+require_once("serverside/vendor/PHPMailer.php");
 
-//use ZxcvbnPhp\Zxcvbn;
+use PHPMailer\PHPMailer\PHPMailer;
 
-// define variables and set to empty values
-$gender = $loginid = $name = $email = $pwd = $pwdcfm = $verificationcode = "";
-$genderError = $loginidErr = $nameErr = $emailErr = $pwdErr = $pwdcfmErr = $chbxErr = "";
-$error = 0;
-$mail = new PHPMailer(true);
+
+$error_register = FALSE;
+$error_message = NULL;
+
+$gender = "N";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    if (empty($_POST["firstname"])) {
-//        $firstnameErr = "Please enter your first name";
-//    } else {
-//        $firstname = test_input($_POST["firstname"]);
-//    }
-//    if (empty($_POST["lastname"])) {
-//        $lastnameErr = "Please enter your last name";
-//    } else {
-//        $lastname = test_input($_POST["lastname"]);
-//    }
-    if (empty($_POST["name"])) {
-        $nameErr = "Please enter your name";
-        $error = 1;
+	// POST request.
+	if (validate_notempty($_POST["name"]) === FALSE) {
+		$error_register = TRUE;
+		$error_name = "Please enter your name.";
+	}
+	
+	if (validate_notempty($_POST["loginid"]) === FALSE) {
+		$error_register = TRUE;
+		$error_loginid = "Please enter a Login ID.";
+	}
 
-    } else {
-        $name = test_input($_POST["name"]);
-    }
+	if (validate_notempty($_POST["email"]) === FALSE) {
+		$error_register = TRUE;
+		$error_email = "Please enter your email address.";
+	} else if (validate_email($_POST["email"]) === FALSE) {
+		$error_register = TRUE;
+		$error_email = "Please enter a valid email address.";
+	}
 
-    if (empty($_POST["loginid"])) {
-        $loginidErr = "Please enter a Login ID";
-        $error = 1;
+	if (validate_notempty($_POST["gender"]) === FALSE) {
+		// Gender is optional in the requirements spec sheet.
+		$_POST["gender"] = "N";
+		// $error_register = TRUE;
+		// $error_gender = "Please select a gender.";
+	}
 
-    } else {
-        $loginid = test_input($_POST["loginid"]);
-    }
+	if (validate_notempty($_POST["password1"]) === FALSE) {
+		$error_register = TRUE;
+		$error_pw1 = "Please enter your password.";
+	} else if (validate_notempty($_POST["password2"]) === FALSE) {
+		$error_register = TRUE;
+		$error_pw2 = "Please confirm your password.";
+	} else if ($_POST["password1"] !== $_POST["password2"]) {
+		$error_register = TRUE;
+		$error_pw2 = "Please check that you have entered the correct password.";
+	} else if (validate_password($_POST["password1"], array($_POST["name"], $_POST["loginid"], $_POST["email"]))) {
+		$error_register = TRUE;
+		$error_pw1 = "Please choose a stronger password.";
+	}
 
-    if (empty($_POST["email"])) {
-        $emailErr = "Please enter a email address";
-        $error = 1;
+	if ($error_register === FALSE) {
+		// Second round: Enforce unique entries for some data.
 
-    } else {
-        $email = test_input($_POST["email"]);
-    }
+		$sql_loginid = "SELECT id FROM user WHERE loginid = ?";
+		$sql_email = "SELECT id FROM user WHERE email = ?";
 
-    if (empty($_POST["pwd"])) {
-        $pwdErr = "Please enter the Password";
-        $error = 1;
+		$conn = get_conn();
 
-    } else {
-        $pwd = test_input($_POST["pwd"]);
-    }
-    if (empty($_POST["pwdcfm"])) {
-        $pwdcfmErr = "Please enter the confirmed Password";
-        $error = 1;
+		if ($query = $conn->prepare($sql_loginid)) {
+			$query->bind_param("s", $_POST["loginid"]);
+			$query->execute();
+			$query->bind_result($id);
 
-    } else {
-        $pwdcfm = test_input($_POST["pwdcfm"]);
-    }
-    if (empty($_POST["gender"])) {
-        $genderError = "Please select a gender";
-        $error = 1;
+			if ($query->fetch()) {
+				$error_register = TRUE;
+				$error_loginid = "Please choose another Login ID.";
+			}
 
-    } else {
-        $gender = test_input($_POST["gender"]);
-    }
+			$query->close();
+		}
 
-    //Also need to tell them if loginID already existed, need to supply another
-    if(!empty($_POST["loginid"])){
-        $conn = get_conn();
-        $sql = $result = "";
-        $sql = "SELECT * FROM user WHERE loginid='$loginid'";
-        $results = mysqli_query($conn, $sql);
-        $dbarray = mysqli_fetch_assoc($results);
+		if ($query = $conn->prepare($sql_email)) {
+			$query->bind_param("s", $_POST["email"]);
+			$query->execute();
+			$query->bind_result($id);
 
-        if ($dbarray) { // if array exists
-            $loginidErr = "LoginID already exist";
-            $error = 1;
-        }
-        $conn->close();
-    }
+			if ($query->fetch()) {
+				$error_register = TRUE;
+				$error_email = "Please choose another email address.";
+			}
 
-    if(!empty($_POST["email"])) {
-        $conn = get_conn();
-        $sql = $result = "";
-        $sql = "SELECT * FROM user WHERE email='$email'";
-        $results = mysqli_query($conn, $sql);
-        $dbarray = mysqli_fetch_assoc($results);
+			$query->close();
+		}
 
-        if ($dbarray) { // if array exists
-            $emailErr = "Email already exist";
-            $error = 1;
-        }
+		$conn->close();
+	}
 
-        $conn->close();
-    }
+	if ($error_register === FALSE) {
+		// After passing second round.
+		switch (trim($_POST["gender"])) {
+			case "M":
+				// Male.
+				$gender = "M";
+				break;
+			case "F":
+				// Female.
+				$gender = "F";
+				break;
+			case "O":
+				// Others.
+				$gender = "O";
+				break;
+			default:
+				// Not specified, prefer not to say.
+				$gender = "N";
+				break;
+		}
 
-    if(!empty($_POST["email"])){
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Please enter a valid email address";
-            $error = 1;
-        }
-    }
-    if (!empty($_POST["pwd"])) {
-        if(strlen($pwd) < 8 || (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $pwd))){
-            $pwdErr = "Your password should be alphanumeric and contains at least 8 characters";
-            $error = 1;
-        }
-    }
-    if (!empty($_POST["pwdcfm"])) {
-        if($pwdcfm != $pwd){
-            $pwdcfmErr = "Your password confirm does not match your password";
-            $error = 1;
-        }
-    }
+		date_default_timezone_set(APP_TZ);
 
-    if ($error == 0) {
+		if (session_isstarted() === TRUE) {
+			session_restart();
+		} else {
+			session_start();
+		}
 
-        // In this condition, you need to check for email verification also.
+		$_SESSION["is_register"] = TRUE;
+		$_SESSION["registration_data"] = array(
+			"name" => trim($_POST["name"]),
+			"loginid" => trim($_POST["loginid"]),
+			"password" => pw_hash($_POST["password1"]),
+			"email" => trim($_POST["email"]),
+			"gender" => $gender,
+			"code" => trim(generate_token(12)),
+			"code_attempt" => 0,
+			"code_expiry" => (int)(strtotime(get_datetime(FALSE, 900))),
+		);
 
-        //HASH THE REGISTERED PASSWORD HERE BEFORE INSERTING INTO ARRAY
-        $pwd = pw_hash($pwd);
+		$data = $_SESSION["registration_data"];
 
-        session_end();
-        session_start();
-        $registerArray = array($name, $loginid, $pwd, $email, $gender);
-        $_SESSION["registerArray"] = $registerArray;
+		$mailer = new PHPMailer();
+		$mailer->isSMTP();
+		$mailer->SMTPDebug = 0;
+		$mailer->Host = SMTP_HOST;
+		$mailer->Port = SMTP_PORT;
+		$mailer->SMTPSecure = SMTP_CRYPTO;
+		$mailer->SMTPAuth = SMTP_AUTH;
+		$mailer->Username = SMTP_USER;
+		$mailer->Password = SMTP_PASS;
+		$mailer->setFrom(SMTP_FROM, SMTP_FROM_NAME);
+		$mailer->addReplyTo(SMTP_REPLY, SMTP_REPLY_NAME);
+		$mailer->addAddress($data["email"], $data["name"]);
+		$mailer->isHTML(true);
+		$mailer->Subject = "[FastTrade 08] Please verify your email address";
 
-        try {
-            //Server settings
-            $mail->SMTPDebug = 0;                                       // Enable verbose debug output
-            $mail->isSMTP();                                            // Set mailer to use SMTP
+		$mailer->Body = sprintf(
+			("Hello %s,<br /><br />" .
+			"Thank you for registering an account with us!<br />" .
+			"In order to complete registration, you need to verify your email address using the following verification code:" .
+			"<br /><br />" .
+			"<strong>%s</strong>" .
+			"<br /><br />" .
+			"The verification code will expire in 15 minutes.<br />" .
+			"If you did not perform this action, you may safely ignore this email." .
+			"<br /><br /><br />" .
+			"Yours sincerely,<br />FastTrade 08 Support<br />"),
+			$data["name"], $data["code"]);
 
-            $mail->Host       = 'smtp.mailgun.org';  // Specify main and backup SMTP servers
-            $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'postmaster@fasttrade.zxlim.xyz';                     // SMTP username
-            $mail->Password   = '7327c6e86a1ef1914fef0579249ed265-985b58f4-9669320e';                               // SMTP password
+		$mailer->AltBody = sprintf(
+			("Hello %s,\n\n" .
+			"Thank you for registering an account with us!\n" .
+			"In order to complete registration, you need to verify your email address using the following verification code:" .
+			"\n\n%s\n\nThe verification code will expire in 15 minutes.\n" .
+			"If you did not perform this action, you may safely ignore this email.\n\n\n" .
+			"Yours sincerely,\nFastTrade Support"),
+			$data["name"], $data["code"]);
 
-            $mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
-            //$mail->Port       = 587;                                  // TCP port to connect to
-            $mail->Port       = 587;
-            //Recipients
-            $mail->setFrom('no-reply@fasttrade.zxlim.xyz', 'Mailer');
-            $mail->addAddress('piedutch111@gmail.com', 'Joe User');     // Add a recipient
-            // $mail->addAddress('ellen@example.com');               // Name is optional
-            // $mail->addReplyTo('info@example.com', 'Information');
-            // $mail->addCC('cc@example.com');
-            // $mail->addBCC('bcc@example.com');
-
-            // Attachments
-            // $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-
-            // Content
-            $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = 'Email Verification from FastTrade';
-
-            //Generate a random code
-            $verificationcode = md5(uniqid(rand(), true));
-          //  session_start();
-            $_SESSION["vericode"] = $verificationcode;
-
-            $mail->Body    = 'Hello '.$name.'!'.'<br><br>You have entered <b>'.$email.'</b> as your email address. <br><br> Verify your account by using this code! <br><br> '.$verificationcode;
-            // <b>in bold!</b>
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-            $mail->send();
-            //echo 'Message has been sent';
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
-
-
-        echo "<script> location.href='verification.php'; </script>";
-        exit;
-    }
+		if (!$mailer->send()) {
+			session_end();
+			$error_register = TRUE;
+			$error_message = "An error has been encountered. Please try again later.";
+		} else {
+			header("Location: verify.php");
+		}
+	}
 }
-
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
-////    $firstname = test_input($_POST["firstname"]);
-////    $lastname = test_input($_POST["lastname"]);
-//    $email = test_input($_POST["email"]);
-//    $pwd = test_input($_POST["pwd"]);
-//    $pwdcfm = test_input($_POST["pwdcfm"]);
-//}
-
-
-
-//    $result = mysqli_query($conn, $sql);
-//    if (mysqli_num_rows($result) > 0) {
-//        while($row = mysqli_fetch_assoc($result)) {
-//            echo $row["name"];
-//        }
-//    }
-
-    //Get datetime from function here
-
-
-
-//}

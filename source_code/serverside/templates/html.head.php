@@ -26,6 +26,7 @@ if (defined("CLIENT") === FALSE) {
 <link rel="stylesheet" href="static/css/vendor/font-awesome.min.css">
 <link rel="stylesheet" href="static/css/vendor/themify-icons.css">
 <link rel="stylesheet" href="static/css/vendor/bootstrap.css">
+<link rel="stylesheet" href="static/css/vendor/animate.min.css">
 <link rel="stylesheet" href="static/css/vendor/owl.carousel.css">
 <link rel="stylesheet" href="static/css/vendor/nice-select.css">
 <link rel="stylesheet" href="static/css/vendor/nouislider.min.css">

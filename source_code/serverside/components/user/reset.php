@@ -11,7 +11,3 @@ if (defined("CLIENT") === FALSE) {
 	http_response_code(404);
 	die();
 }
-
-require_once("serverside/vendor/zxcvbn.php");
-
-#use ZxcvbnPhp\Zxcvbn;

@@ -21,14 +21,16 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 	header("Location: listing.php");
 }
 
-$current_user_id = 1;
+if ($session_is_authenticated === TRUE) {
+	$current_user_id = (int)($_SESSION["user_id"]);
+}
 
 $item = NULL;
 $related_items = array();
 $related_seller_items = array();
 
 $sql_item = "SELECT listing.id, listing.title, listing.description, listing.tags,
-listing.price, listing.condition, listing.item_age, listing.meetup_location,
+listing.price, listing.condition, listing.item_age, listing.meetup_location, listing.show_until,
 category.id, category.name, user.id, user.name, user.join_date, user.bio, user_picture.id
 FROM listing
 INNER JOIN category ON listing.category_id = category.id
@@ -56,9 +58,6 @@ AND DATE(listing.show_until) > ?
 GROUP BY listing.id
 ORDER BY listing.id DESC LIMIT 4";
 
-$sql_convo = "SELECT id FROM conversation WHERE (user1 = ? OR user2 = ?)";
-$sql_convo_create = "INSERT INTO conversation (listing_id, user1, user2) VALUES (?, ?, ?)";
-
 $sql_pictures = "SELECT id FROM picture WHERE listing_id = ?";
 
 $conn = get_conn();
@@ -68,35 +67,37 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->bind_param("i", $item_id);
 	$query->execute();
 	$query->bind_result(
-		$id, $title, $description, $tags, $price, $condition, $item_age, $meetup_location,
+		$id, $title, $description, $tags, $price, $condition, $item_age, $meetup_location, $show_until,
 		$cat_id, $cat_name, $user_id, $user_name, $user_join_date, $user_bio, $user_pic_id
 	);
 
 	if ($query->fetch()) {
-		$user_picture = "static/img/default/user.jpg";
+		if (strtotime($show_until) > strtotime($current_dt) || ($current_user_id === (int)($user_id))) {
+			$user_picture = "static/img/default/user.jpg";
 
-		if ($user_pic_id !== NULL) {
-			$user_picture = sprintf("image.php?id=%d&type=u", $user_pic_id);
+			if ($user_pic_id !== NULL) {
+				$user_picture = sprintf("image.php?id=%d&type=u", $user_pic_id);
+			}
+
+			$item = array(
+				"id" => (int)($id),
+				"title" => $title,
+				"description" => $description,
+				"tags" => $tags,
+				"price" => (float)($price),
+				"condition" => (int)($condition),
+				"item_age" => (int)($item_age),
+				"meetup_location" => $meetup_location,
+				"cat_id" => (int)($cat_id),
+				"cat_name" => $cat_name,
+				"user_id" => (int)($user_id),
+				"user_name" => $user_name,
+				"user_join_date" => date("M Y", strtotime($user_join_date)),
+				"user_bio" => $user_bio,
+				"user_pic" => $user_picture,
+				"picture" => array(),
+			);
 		}
-
-		$item = array(
-			"id" => (int)($id),
-			"title" => $title,
-			"description" => $description,
-			"tags" => $tags,
-			"price" => (float)($price),
-			"condition" => (int)($condition),
-			"item_age" => (int)($item_age),
-			"meetup_location" => $meetup_location,
-			"cat_id" => (int)($cat_id),
-			"cat_name" => $cat_name,
-			"user_id" => (int)($user_id),
-			"user_name" => $user_name,
-			"user_join_date" => date("M Y", strtotime($user_join_date)),
-			"user_bio" => $user_bio,
-			"user_pic" => $user_picture,
-			"picture" => array(),
-		);
 	}
 
 	$query->close();
@@ -170,33 +171,39 @@ if (isset($item)) {
 		$query->close();
 	}
 
-	if ($current_user_id === (int)($item["user_id"])) {
-		$convo_link = "message_all.php";
-	} else {
-		$convo_id = NULL;
-		
-		if ($query = $conn->prepare($sql_convo)) {
-			$query->bind_param("ii", $current_user_id, $current_user_id);
-			$query->execute();
-			$query->bind_result($id);
-
-			if ($query->fetch()) {
-				$convo_id = $id;
-			}
-
-			$query->close();
-		}
-
-		if ($convo_id === NULL) {
-			if ($query = $conn->prepare($sql_convo_create)) {
-				$query->bind_param("iii", $item["id"], $item["user_id"], $current_user_id);
+	if ($session_is_authenticated === TRUE) {
+		if ($current_user_id === (int)($item["user_id"])) {
+			$convo_link = "message_list.php";
+		} else {
+			$convo_id = NULL;
+			$sql_convo = "SELECT id FROM conversation WHERE (user1 = ? OR user2 = ?)";
+			$sql_convo_create = "INSERT INTO conversation (listing_id, user1, user2) VALUES (?, ?, ?)";
+			
+			if ($query = $conn->prepare($sql_convo)) {
+				$query->bind_param("ii", $current_user_id, $current_user_id);
 				$query->execute();
-				$convo_id = $query->insert_id;
+				$query->bind_result($id);
+
+				if ($query->fetch()) {
+					$convo_id = $id;
+				}
+
 				$query->close();
 			}
-		}
 
-		$convo_link = sprintf("message.php?id=%d", $convo_id);
+			if ($convo_id === NULL) {
+				if ($query = $conn->prepare($sql_convo_create)) {
+					$query->bind_param("iii", $item["id"], $item["user_id"], $current_user_id);
+					$query->execute();
+					$convo_id = $query->insert_id;
+					$query->close();
+				}
+			}
+
+			$convo_link = sprintf("message.php?id=%d", $convo_id);
+		}
+	} else {
+		$convo_link = "login.php";
 	}
 }
 

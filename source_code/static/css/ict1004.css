@@ -6,6 +6,27 @@
 	transform: translateY(-50%);
 }
 
+.auto-margin {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.text-info {
+	color: #38a4ff !important;
+}
+
+.text-success {
+	color: #9bca3e !important;
+}
+
+.text-warning {
+	color: #f4e700 !important;
+}
+
+.text-danger {
+	color: #bd2527 !important;
+}
+
 .nav-logo {
 	max-width: 137px !important;
 }
@@ -194,32 +215,32 @@ hr .dotted {
 	border-radius: 5px;
 }
 
-.success-btn {
-	/* success-btn: Gradient */
+.success-btn, .success-bg {
+	/* success: Gradient */
 	background: -webkit-linear-gradient(90deg, #85cba8 0%, #9bca3e 100%);
 	background: -moz-linear-gradient(90deg, #85cba8 0%, #9bca3e 100%);
 	background: -o-linear-gradient(90deg, #85cba8 0%, #9bca3e 100%);
 	background: linear-gradient(90deg, #85cba8 0%, #9bca3e 100%);
 }
 
-.info-btn {
-	/* info-btn: Gradient */
+.info-btn, .info-bg {
+	/* info: Gradient */
 	background: -webkit-linear-gradient(90deg, #4cd3e3 0%, #38a4ff 100%);
 	background: -moz-linear-gradient(90deg, #4cd3e3 0%, #38a4ff 100%);
 	background: -o-linear-gradient(90deg, #4cd3e3 0%, #38a4ff 100%);
 	background: linear-gradient(90deg, #4cd3e3 0%, #38a4ff 100%);
 }
 
-.warning-btn {
-	/* warning-btn: Gradient */
+.warning-btn, .warning-bg {
+	/* warning: Gradient */
 	background: -webkit-linear-gradient(90deg, #ffdb6f 0%, #f4e700 100%);
 	background: -moz-linear-gradient(90deg, #ffdb6f 0%, #f4e700 100%);
 	background: -o-linear-gradient(90deg, #ffdb6f 0%, #f4e700 100%);
 	background: linear-gradient(90deg, #ffdb6f 0%, #f4e700 100%);
 }
 
-.danger-btn {
-	/* danger-btn: Gradient */
+.danger-btn, .danger-bg {
+	/* danger: Gradient */
 	background: -webkit-linear-gradient(90deg, #f44a40 0%, #bd2527 100%);
 	background: -moz-linear-gradient(90deg, #f44a40 0%, #bd2527 100%);
 	background: -o-linear-gradient(90deg, #f44a40 0%, #bd2527 100%);
@@ -237,22 +258,26 @@ hr .dotted {
 	text-align: center;
 	cursor: pointer;
 }
+
 .sell_btn {
 	margin-left: 20px;
 }
+
 .error{
 	color: red;
 }
-/**
-* Chat styling.
-*/
 
+/**
+* FastTrade Messenger styling.
+*/
 .message-box {
-	height: 45em !important;
+	height: 40em;
 }
 
 .message-box > .message-details {
 	height: 10%;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
 }
 
 .message-box > .message-list {
@@ -313,6 +338,10 @@ hr .dotted {
 }
 
 @media (max-width: 767px) {
+	.message-box {
+		height: 46em !important;
+	}
+
 	.message-box > .message-list {
 		height: 63%;
 	}
@@ -324,6 +353,20 @@ hr .dotted {
 
 	.top-margin {
 		margin-top: 20px;
+	}
+}
+
+@media (max-width: 321px) {
+	.message-box {
+		height: 35em !important;
+	}
+
+	.message-box > .message-details {
+		height: 15%;
+	}
+
+	.message-box > .message-list {
+		height: 58%;
 	}
 }
 
@@ -364,3 +407,6 @@ hr .dotted {
 	font-size: 1em !important;
 	cursor: help;
 }
+/**
+* End of FastTrade Messenger styling.
+*/

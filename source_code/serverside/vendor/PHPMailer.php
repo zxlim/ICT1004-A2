@@ -1,6 +1,6 @@
 <?php
 ##############################
-# base.php
+# PHPMailer.php
 ##############################
 
 if (defined("CLIENT") === FALSE) {
@@ -11,6 +11,6 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-require_once("serverside/constants.php");
-require_once("serverside/functions/utils.php");
-require_once("serverside/components/session.php");
+require_once("serverside/vendor/PHPMailerSrc/Exception.php");
+require_once("serverside/vendor/PHPMailerSrc/PHPMailer.php");
+require_once("serverside/vendor/PHPMailerSrc/SMTP.php");

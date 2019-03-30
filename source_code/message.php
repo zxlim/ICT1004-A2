@@ -1,4 +1,5 @@
 <?php define("CLIENT", TRUE);
+define("REQUIRE_AUTH", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/listing/message.php");
 define("WEBPAGE_TITLE", "Chat with Seller");
@@ -48,16 +49,20 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 	<!-- FastTrade Messenger -->
 	<section class="section_gap">
 		<div class="container">
+			<h3 class="text-center mb-3">
+				Chatting with <span class="text-info"><?php safe_echo($item["user_name"]); ?></span>
+			</h3>
 			<div class="message-box bg-white shadow">
 				<div class="row message-details">
-					<div class="col-md-1 col-2"></div>
-					<div class="col-md-9 col-10">
+					<div class="col-md-1 col-1"></div>
+					<div class="col-md-9 col-11">
 						<h4 class="vertical-align-middle">
 							<?php safe_echo($item["title"]); ?>
+							
 						</h4>
 					</div>
-					<div class="col-2 d-md-none"></div>
-					<div class="col-md-2 col-10">
+					<div class="col-1 d-sm-block d-md-none"></div>
+					<div class="col-md-2 col-11">
 						<h4 class="vertical-align-middle">
 							S$<?php safe_echo($item["price"]); ?>
 						</h4>
@@ -80,12 +85,12 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 								<!-- Message Input -->
 								<div class="col-1"></div>
 								<div class="col-md-7 col-10">
-									<input type="text" class="single-input" id="msg_data" name="msg_data" placeholder="Type your message here" required>
+									<input type="text" class="single-input" id="msg_data" name="msg_data" placeholder="Type your message here">
 								</div>
 								<div class="col-1"></div>
 								<!-- End of Message Input -->
 								<!-- Send button -->
-								<div class="col-1 top-margin d-md-none"></div>
+								<div class="col-1 top-margin d-sm-block d-md-none"></div>
 								<div class="col-md-2 col-10 top-margin text-center">
 									<button type="submit" class="genric-btn success circle btn-block">Send</button>
 								</div>
@@ -106,6 +111,6 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 	<!-- End Footer -->
 
 	<?php require_once("serverside/templates/html.js.php"); ?>
-	<script src="static/js/message.js"></script>
+	<script src="static/js/ftmessenger_api.js"></script>
 </body>
 </html>

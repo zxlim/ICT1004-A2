@@ -12,70 +12,76 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
+if ($session_is_authenticated === TRUE) {
+	header("HTTP/1.1 403 Forbidden");
+	header("Location: index.php");
+	die("You are not allowed to access the requested resource.");
+}
 
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
-require_once("serverside/vendor/zxcvbn.php");
 require_once("serverside/functions/security.php");
 
-// define variables and set to empty values
-$loginid = $pwd = "";
-$error = 0;
-$loginErr = false;
+$delay = FALSE;
+$error_login = FALSE;
+$error_message = "Invalid credentials.";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["loginid"])) {
-        $loginidErr = "Please enter a Login ID";
-        $error += 1;
-    } else {
-        $loginid = test_input($_POST["loginid"]);
-    }
-    if (empty($_POST["pwd"])) {
-        $pwdErr = "Please enter the Password";
-        $error += 1;
-    } else {
-        $pwd = test_input($_POST["pwd"]);
-    }
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+	// POST request.
 
-    if ($error == 0) {
-        $conn = get_conn();
-        $dbarray = $sql = $dbpwd = $result = "";
+	if (isset($_POST["loginid"]) === FALSE || validate_notempty($_POST["loginid"]) === FALSE) {
+		$error_login = TRUE;
+		$error_message = "Please enter your Login ID.";
+	} else if (isset($_POST["password"]) === FALSE || validate_notempty($_POST["password"]) === FALSE) {
+		$error_login = TRUE;
+		$error_message = "Please enter your password.";
+	} else {
+		// Input fields validated.
+		$sql = "SELECT id, loginid, name, password FROM user WHERE loginid = ?";
 
+		$conn = get_conn();
 
-        //Call the DB and get the hash and compare with the hashed input pwd here.
-        //$pwd = pw_hash($pwd); //Hashed input pwd
+		if ($query = $conn->prepare($sql)) {
+			$query->bind_param("s", $_POST["loginid"]);
+			$query->execute();
+			$query->bind_result($id, $loginid, $name, $password);
 
-        //Querying hashed pwd in DB
-        $sql = "SELECT * FROM user WHERE loginid='$loginid'";
-        $results = mysqli_query($conn, $sql);
-        $dbarray = mysqli_fetch_assoc($results);
+			if ($query->fetch()) {
+				if (pw_verify($_POST["password"], $password) === TRUE) {
+					// Authentication successful.
+					session_start();
+					$_SESSION["is_authenticated"] = TRUE;
+					$_SESSION["user_id"] = (int)($id);
+					$_SESSION["user_loginid"] = $loginid;
+					$_SESSION["user_name"] = $name;
+				} else {
+					// Password mismatch.
+					$delay = TRUE;
+					$error_login = TRUE;
+				}
 
-        if ($dbarray) { // if array exists
-           // echo "Input password: " . $pwd; // This is the input hashed password of the loginID
-           // echo "       Password in DB: " . $dbarray["password"]; // This is the DB hashed password of the loginID
+				// Unset the value of the password variable.
+				unset($password);
+			} else {
+				// No such Login ID.
+				$delay = TRUE;
+				$error_login = TRUE;
+			}
 
-            if(!pw_verify($pwd, $dbarray["password"])){
-                //echo "Wrong Password";
-                $loginErr = true;
-                $conn->close();
-            } else {
-                session_start();
-                $_SESSION["is_authenticated"] = TRUE;
-                $_SESSION["loginid"] = $loginid;
-                $_SESSION["user_id"] = $dbarray["id"];
-                $conn->close();
-                echo "<script> location.href='index.php'; </script>";
-                exit;
-            }
-        }
-    }
+			$query->close();
+		} else {
+			// Something went wrong.
+			$error_login = TRUE;
+			$error_message = "An error has been encountered. Please try again later.";
+		}
+
+		$conn->close();
+
+		if ($delay) {
+			// Deter brute force attempts.
+			sleep(2);
+		} else if ($error_login === FALSE) {
+			header("Location: index.php");
+		}
+	}
 }
-
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-#use ZxcvbnPhp\Zxcvbn;

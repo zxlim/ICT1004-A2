@@ -12,8 +12,11 @@ if (defined("CLIENT") === FALSE) {
 }
 
 # Web application parameters.
-define("APP_TITLE", "FastTrade");
+define("APP_TITLE", "FastTrade 08");
 define("APP_ROOT", dirname($_SERVER["REQUEST_URI"]));
+define("APP_DOMAIN", $_SERVER["SERVER_NAME"]);
+define("APP_TZ", "Asia/Singapore");
 
-# Database connection parameters.
+# Sensitive parameters.
 require_once("serverside/private/dbpasswd.php");
+require_once("serverside/private/smtp.php");

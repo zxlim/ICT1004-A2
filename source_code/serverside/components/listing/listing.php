@@ -15,7 +15,7 @@ if (defined("CLIENT") === FALSE) {
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
-// Set default category to id:1.
+// Set default category to id: 1.
 $selected_cat_id = 1;
 $selected_cat_name = NULL;
 

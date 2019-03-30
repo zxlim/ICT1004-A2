@@ -9,19 +9,20 @@ if (defined("CLIENT") === FALSE) {
 }
 
 require_once("serverside/vendor/zxcvbn.php");
+
 use ZxcvbnPhp\Zxcvbn;
 
 
-function validate_notempty(string $input): bool {
+function validate_notempty($input): bool {
 	/**
-	* A function to check whether a string variable is empty.
+	* A function to check whether a variable is empty or not yet set.
 	* Used for input validation.
 	*
-	* @param 	string	$input	The string to check.
+	* @param 	mixed	$input	The input to check.
 	*
-	* @return 	bool	$result	TRUE if string is not empty else FALSE.
+	* @return 	bool	$result	TRUE if variable is not empty else FALSE.
 	*/
-	if (empty($input) || (strlen(trim($input)) === 0)) {
+	if (isset($input) === FALSE || empty($input) || (strlen(trim($input)) === 0)) {
 		return FALSE;
 	} else {
 		return TRUE;

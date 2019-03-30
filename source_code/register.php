@@ -1,41 +1,13 @@
 <?php define("CLIENT", TRUE);
-define("REQUIRE_SESSION", TRUE);
+define("REGISTER_ENDPOINT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/register.php");
 define("WEBPAGE_TITLE", "Register");
-
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
 	<?php require_once("serverside/templates/html.head.php"); ?>
-
-    <style>
-        .errorcolor {
-            color:red;
-        }
-    </style>
-
-
-    <script type="text/javascript">
-        function validation()
-        {
-            var a = document.form.pass.value;
-            if(a=="")
-            {
-                alert("Please Enter Your Password");
-                document.form.pass.focus();
-                return false;
-            }
-            if ((a.length < 4) || (a.length > 8))
-            {
-                alert("Your Password must be 4 to 8 Character");
-                document.form.pass.select();
-                return false;
-            }
-        }
-    </script>
-
 </head>
 <body>
 
@@ -59,80 +31,79 @@ define("WEBPAGE_TITLE", "Register");
 	</section>
 	<!-- End Banner Section -->
 
-    <!-- Login Section -->
-    <section class="login_box_area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="login_box_img">
-                        <img class="img-fluid" src="static/img/vendor/login.jpg" alt="">
-                        <div class="hover">
-                            <h4>New to our website?</h4>
-                            <p>Join the <?php safe_echo(APP_TITLE); ?> community now!</p>
-                            <a class="primary-btn" href="register.html">Create an Account</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="login_form_inner">
-                        <h3>Register An Account With Us!</h3>
-                        <form class="row login_form" name="form-login" id="form-login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-
-                            <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php echo $name;?>" required>
-                                <span class="errorcolor"><?php echo $nameErr;?></span>
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="loginid" name="loginid" placeholder="Login ID" value="<?php echo $loginid;?>" required>
-                                <span class="errorcolor"><?php echo $loginidErr;?></span>
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password" required>
-                                <span class="errorcolor"><?php echo $pwdErr;?></span>
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="pwdcfm" name="pwdcfm" placeholder="Confirm Password" required>
-                                <span class="errorcolor"><?php echo $pwdcfmErr;?></span>
-
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $email;?>" required>
-                                <span class="errorcolor"><?php echo $emailErr;?></span>
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <!--<input type="text" class="form-control" id="gender" name="gender" placeholder="Gender">-->
-                                <select name="gender" id="gender" required>
-                                    <option disabled selected>Gender</option>
-                                    <option value="Male" <?php if($gender == "Male"){?> selected="selected" <?php }?>>Male</option>
-                                    <option value="Female" <?php if($gender == "Female"){?> selected="selected" <?php }?>>Female</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 form-group" align="left">
-                                <span class="errorcolor"><?php echo $genderError;?></span>
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Proceed</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Login Section -->
-
 	<!-- Registration Section -->
-	<section class="section_gap">
+	<section class="login_box_area section_gap">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">
-					<!-- TODO: Not provided by template. -->
+				<div class="col-12">
+					<div class="login_form_inner pb-5">
+						<h3>Register An Account With Us!</h3>
+						<form class="row login_form" name="form-register" id="form-register" action="register.php" method="post">
+
+							<div class="col-12 form-group">
+								<input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php if (isset($_POST["name"])) { safe_echo($_POST["name"]); } ?>">
+								<?php if (isset($error_name)) { ?>
+									<span class="text-danger"><?php safe_echo($error_name); ?></span>
+								<?php } ?>
+							</div>
+
+							<div class="col-12 form-group">
+								<input type="text" class="form-control" id="loginid" name="loginid" placeholder="Login ID" value="<?php if (isset($_POST["loginid"])) { safe_echo($_POST["loginid"]); } ?>">
+								<?php if (isset($error_loginid)) { ?>
+									<span class="text-danger"><?php safe_echo($error_loginid); ?></span>
+								<?php } ?>
+							</div>
+
+							<div class="col-12 form-group">
+								<input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?php if (isset($_POST["email"])) { safe_echo($_POST["email"]); } ?>">
+								<?php if (isset($error_email)) { ?>
+									<span class="text-danger"><?php safe_echo($error_email); ?></span>
+								<?php } ?>
+							</div>
+
+							<div class="col-12 form-group">
+								<input type="password" class="form-control" id="password1" name="password1" placeholder="Password">
+								<?php if (isset($error_password1)) { ?>
+									<span class="text-danger"><?php safe_echo($error_password1); ?></span>
+								<?php } ?>
+							</div>
+
+							<div class="col-12 form-group">
+								<input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password">
+								<span class="text-danger" id="error-password2">
+									<?php if (isset($error_password2)) { safe_echo($error_password2); } ?>
+								</span>
+							</div>
+
+							<div class="col-12 form-group auto-margin">
+								<label>Gender</label>
+								<select class="default-select wide" id="gender" name="gender" required>
+									<option disabled>Gender</option>
+									<option value="N"<?php if ($gender === "N") { ?> selected="selected"<?php }?>>
+										Prefer not to say
+									</option>
+									<option value="M"<?php if ($gender === "M") { ?> selected="selected"<?php }?>>
+										Male
+									</option>
+									<option value="F"<?php if ($gender === "F") { ?> selected="selected"<?php }?>>
+										Female
+									</option>
+									<option value="O"<?php if ($gender === "O") { ?> selected="selected"<?php }?>>
+										Others
+									</option>
+								</select>
+							</div>
+							<div class="col-12 form-group" align="left">
+								<?php if (isset($error_gender)) { ?>
+									<span class="text-danger"><?php safe_echo($error_gender); ?></span>
+								<?php } ?>
+							</div>
+
+							<div class="col-12 form-group">
+								<button type="submit" value="submit" class="primary-btn">Register</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -144,5 +115,13 @@ define("WEBPAGE_TITLE", "Register");
 	<!-- End Footer -->
 
 	<?php require_once("serverside/templates/html.js.php"); ?>
+
+	<?php if (validate_notempty($error_message) === TRUE) { ?>
+	<script>
+		$(document).ready(function() {
+			notify("<?php safe_echo($error_message); ?>", "danger");
+		});
+	</script>
+	<?php } ?>
 </body>
 </html>

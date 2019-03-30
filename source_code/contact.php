@@ -56,18 +56,18 @@ define("WEBPAGE_TITLE", "Contact Us");
 					<form class="row contact_form" name="form-contact" id="form-contact">
 						<div class="col-md-6">
 							<div class="form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+								<input type="text" class="form-control single-input" id="name" name="name" placeholder="Enter your name">
 							</div>
 							<div class="form-group">
-								<input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address">
+								<input type="email" class="form-control single-input" id="email" name="email" placeholder="Enter your email address">
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject">
+								<input type="text" class="form-control single-input" id="subject" name="subject" placeholder="Enter subject">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<textarea class="form-control" name="message" id="message" rows="1" placeholder="Enter message"></textarea>
+								<textarea class="form-control single-textarea" name="message" id="message" rows="1" placeholder="Enter message"></textarea>
 							</div>
 						</div>
 						<div class="col-md-12 text-right">

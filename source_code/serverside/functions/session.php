@@ -8,6 +8,11 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
+function set_session_defaults(): void {
+	session_name("FastTrade08");
+	session_set_cookie_params(0, APP_ROOT, APP_DOMAIN, FALSE, TRUE);
+}
+
 function session_isstarted(): bool {
 	/**
 	* A function to check if PHP session has started.
@@ -39,6 +44,23 @@ function session_isauth(): bool {
 	}
 }
 
+function session_isregmode(): bool {
+	/**
+	* A function to check if a client session is being used for registration.
+	*
+	* @return	bool	$result		TRUE if client is in registration mode else FALSE.
+	*/
+	if (session_isstarted() === FALSE) {
+		// Session not yet started.
+		return FALSE;
+	} else if (isset($_SESSION["is_register"]) && (bool)($_SESSION["is_register"]) === TRUE) {
+		return TRUE;
+	} else {
+		// Not in registration mode.
+		return FALSE;
+	}
+}
+
 function session_end(): bool {
 	/**
 	* A function to end a session instance and invalidate the session cookie.
@@ -47,7 +69,7 @@ function session_end(): bool {
 	* @return	bool	$result		TRUE if operation succeeded else FALSE.
 	*/
 	if (session_isstarted() === TRUE) {
-		if (session_unset() && session_destroy() && setcookie(session_name(), "", (time() - 3600), APP_ROOT)) {
+		if (session_unset() && session_destroy() && setcookie(session_name(), "", (time() - 3600), APP_ROOT, APP_DOMAIN, FALSE, TRUE)) {
 			return TRUE;
 		} else {
 			// Failed to end session.
@@ -57,4 +79,14 @@ function session_end(): bool {
 		// Nothing to end. Session not started.
 		return FALSE;
 	}
+}
+
+function session_restart(): void {
+	/**
+	* A function to start a fresh session with previous session data,
+	* including session cookie and session ID invalidated.
+	*/
+	session_unset();
+	session_regenerate_id(TRUE);
+	$_SESSION["is_authenticated"] = FALSE;
 }

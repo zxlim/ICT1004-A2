@@ -2,7 +2,6 @@
 require_once("serverside/base.php");
 require_once("serverside/functions/database.php");
 require_once("serverside/functions/validation.php");
-//require_once("serverside/components/session.php");
 
 $action = NULL;
 $convo_id = NULL;
@@ -19,16 +18,16 @@ $response = array(
 // Responses are in JSON.
 header("Content-Type: application/json; charset=UTF-8");
 
-/*if (session_isauth() === FALSE) {
+if (session_isauth() === FALSE) {
 	// Client not authenticated.
 	$response["status"] = 401;
 	$response["message"] = "Authentication is required to access this resource";
-} else*/ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"]) && validate_int($_GET["id"])) {
+} else if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"]) && validate_int($_GET["id"])) {
 	// GET request.
 	if (isset($_GET["ctr"]) === FALSE || validate_int($_GET["ctr"]) === FALSE) {
 		// Bad request.
 		$response["status"] = 400;
-		$response["message"] = "Invalid counter";
+		$response["message"] = "Bad Request";
 	} else {
 		// Valid request.
 		$action = "fetch";
@@ -40,8 +39,8 @@ header("Content-Type: application/json; charset=UTF-8");
 	// POST request.
 	if (isset($_POST["msg_data"]) === FALSE || validate_notempty($_POST["msg_data"]) === FALSE) {
 		// Bad request.
-		$response["status"] = 400;
-		$response["message"] = "Bad Request";
+		$response["status"] = 428;
+		$response["message"] = "Your message cannot be empty.";
 	} else {
 		// Valid request.
 		$action = "send";
@@ -63,13 +62,13 @@ if ($valid_request === FALSE) {
 		header("HTTP/1.1 401 Unauthorised");
 	} else if ($response["status"] === 405) {
 		header("HTTP/1.1 405 Method Not Allowed");
+	} else if ($response["status"] === 428) {
+		header("HTTP/1.1 428 Precondition Required");
 	}
 	die(json_encode($response));
 }
 
-// $user_id = (int)($_SESSION["user_id"]);
-// Temporary hardcode.
-$user_id = 1;
+$user_id = (int)($_SESSION["user_id"]);
 
 $conn = get_conn();
 

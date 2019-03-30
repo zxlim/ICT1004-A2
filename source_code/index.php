@@ -23,13 +23,9 @@ require_once("serverside/components/home.php");
 							<div class="col-lg-5 col-md-6">
 								<div class="banner-content">
                                     <br /><br />
-                                    <?php
-                                    if(session_isauth() === true){
-                                        $loginid = $_SESSION["loginid"];
-                                        echo "<h2> Welcome $loginid!<h2>";
-                                    }
-                                    ?>
-
+                                    <?php if ($session_is_authenticated === TRUE) { ?>
+                                        <h2> Welcome, <?php safe_echo($_SESSION["user_name"]); ?>!<h2>
+                                    <?php } ?>
                                     <br />
 									<h1>
 										Black Friday

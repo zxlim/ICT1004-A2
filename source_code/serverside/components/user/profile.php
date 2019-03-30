@@ -62,6 +62,3 @@ if ($query = $conn->prepare($sql_selectuser)) {
 }
 
 $conn->close();
-
-#use ZxcvbnPhp\Zxcvbn;
-?>

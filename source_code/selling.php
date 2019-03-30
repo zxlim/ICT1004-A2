@@ -123,6 +123,7 @@ require_once("serverside/base.php");
 <?php require_once("serverside/templates/html.js.php"); ?>
 
 <script type="text/javascript">
+    var fileCount = 0;
     Dropzone.autoDiscover = false;
     $(document).ready(function () {
         $("div#myDrop").dropzone({
@@ -157,10 +158,19 @@ require_once("serverside/base.php");
                         alert("The file uploaded is not in the correct format");
                         this.removeFile(file);
                     }
+                    fileCount+=1;
+                    if(fileCount > 5) {
+                        alert("5 files have already been uploaded");
+                        this.removeFile(file);
+                    }
                 });
 
                 this.on("complete", function (file) {
-                    upload(file);
+                    if(fileCount <= 5) {
+                        upload(file);
+                    } else {
+                        alert("5 files have already been uploaded");
+                    }
                     if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
                         var _this = this;
                         _this.removeAllFiles();

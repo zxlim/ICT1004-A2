@@ -68,5 +68,6 @@ if ($query = $conn->prepare($sql_item)) {
 
 $conn->close();
 
+// Temporary hardcode.
 //$sender_id = $_SESSION["user_id"];
 $sender_id = 1;

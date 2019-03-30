@@ -255,12 +255,45 @@ hr .dotted {
 }
 
 .message-box > .message-list {
+	position: relative;
 	height: 73%;
 	margin-left: 0;
 	margin-right: 0;
 	overflow-y: scroll !important;
 	border-bottom: 1px dotted rgba(40, 40, 40, 0.4);
 	background-color: rgba(240, 240, 240, 0.7);
+}
+
+.message-box .message-scroller {
+	display: none;
+	position: absolute;
+	z-index: 10;
+	top: -2em;
+	right: 25px;
+	padding: 0.15em;
+	font-size: 3em !important;
+	background-color: rgba(50, 50, 50, 0.6);
+	color: rgba(200, 200, 200, 0.6);
+	border-radius: 10%;
+	-webkit-transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
+	-moz-transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
+	-o-transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
+	transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
+}
+
+.message-box .message-scroller:hover,
+.message-box .message-scroller:active {
+	background: -webkit-linear-gradient(90deg, rgba(76, 211, 227, 0.9) 0%, rgba(56, 164, 255, 0.9) 100%);
+	background: -moz-linear-gradient(90deg, rgba(76, 211, 227, 0.9) 0%, rgba(56, 164, 255, 0.9) 100%);
+	background: -o-linear-gradient(90deg, rgba(76, 211, 227, 0.9) 0%, rgba(56, 164, 255, 0.9) 100%);
+	background: linear-gradient(90deg, rgba(76, 211, 227, 0.9) 0%, rgba(56, 164, 255, 0.9) 100%);
+	color: rgba(250, 250, 250, 1);
+	border-radius: 50%;
+	cursor: pointer;
+	-webkit-transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
+	-moz-transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
+	-o-transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
+	transition: background 0.5s ease 0s, color 0.5s, border-radius 0.3s ease 0s;
 }
 
 .message-box > .message-list .message-content {
@@ -302,10 +335,31 @@ hr .dotted {
 }
 
 .message-box > .message-list .ftmsg.ftmsg-sender {
-	background-color: #38a4ff !important;
+	background-color: #9bca3e !important;
 	color: #fff !important;
 }
 
 .message-box > .message-list .ftmsg.ftmsg-receiver {
 	background-color: #fff;
+}
+
+.message-box > .message-list .msg-datetime {
+	text-align: right !important;
+	font-size: 0.7em;
+	margin-bottom: -1.3em;
+}
+
+.message-box > .message-list .ftmsg.ftmsg-sender .msg-datetime {
+	color: #fff !important;
+}
+
+.message-box > .message-list .ftmsg.ftmsg-receiver .msg-datetime {
+	color: #888888 !important;
+}
+
+.message-box > .message-list .msg-read {
+	padding-left: 1em;
+	color: #38a4ff;
+	font-size: 1em !important;
+	cursor: help;
 }

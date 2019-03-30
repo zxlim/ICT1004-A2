@@ -1,6 +1,7 @@
 function formValidation() {
-    var product_name = document.creating.name;
-    var product_desc = document.creating.desc;
+    console.log("INSIDE");
+    var product_name = document.creating.product_name;
+    var product_desc = document.creating.product_desc;
     var price = document.creating.price;
     var condition = document.creating.condition;
     var product_age = document.creating.age;

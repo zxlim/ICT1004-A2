@@ -31,7 +31,8 @@ if (false !== $files) {
             $output .= '
    <div class="col-lg-4">
     <img src="' . $folder_name . $file . '" class="img-thumbnail" width="175" height="175" style="height:175px;" />
-    <button type="button" class="btn btn-link remove_image" id="' . $file . '">Remove</button>
+    <hr>
+    <button type="button" class="genric-btn danger-border small remove_image" id="' . $file . '">Remove</button>
    </div>
    ';
         }

@@ -5,7 +5,7 @@ $user_id = 1;
 $folder_name = 'serverside/components/uploads/' . $user_id . '/';
 
 if (!file_exists($folder_name)) {
-    mkdir($folder_name, true);
+    mkdir($folder_name, 0777,true);
 }
 
 if (!empty($_FILES)) {

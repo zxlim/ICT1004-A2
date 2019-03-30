@@ -1,5 +1,4 @@
 function formValidation() {
-    console.log("INSIDE");
     var product_name = document.creating.product_name;
     var product_desc = document.creating.product_desc;
     var price = document.creating.price;

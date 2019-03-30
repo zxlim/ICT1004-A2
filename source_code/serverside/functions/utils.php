@@ -47,16 +47,25 @@ function active_nav(array $item): string {
 	return "nav-item";
 }
 
-function get_datetime(bool $date_only = FALSE, int $offset = 0): string {
+function get_datetime(bool $date_only = FALSE, int $offset = 0, string $tz = "Asia/Singapore"): string {
 	/**
 	* Returns the date and time, accounting for any offset provided in seconds.
 	*
 	* @param	bool	$date_only	Only return the date without time.
 	* @param	int		$offset		The offset in seconds to add/subtract from
 	*								the date and time.
+	* @param	string	$tz			The timezone to use when getting the date.
 	*
 	* @return	string	$date		The date and time.
 	*/
+	if (in_array($tz, timezone_identifiers_list(), TRUE) === TRUE) {
+		// Valid timezone passed, use it.
+		date_default_timezone_set($tz);
+	} else {
+		// Default timezone.
+		date_default_timezone_set("Asia/Singapore");
+	}
+
 	$ts = time();
 
 	if ($offset > 0) {

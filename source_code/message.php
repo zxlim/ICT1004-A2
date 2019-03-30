@@ -19,7 +19,7 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
 					<?php if (isset($item) === TRUE) { ?>
-					<h1>Chat with Seller (TODO)</h1>
+					<h1>Chat with Seller</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.php">
 							Home<span class="lnr lnr-arrow-right"></span>
@@ -32,7 +32,7 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 						</a>
 					</nav>
 					<?php } else { ?>
-					<h1>Item Not Found</h1>
+					<h1>Chat Not Found</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="listing.php?id=1">Listings</a>
@@ -44,6 +44,8 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 	</section>
 	<!-- End Banner Section -->
 
+	<?php if (isset($item) === TRUE) { ?>
+	<!-- FastTrade Messenger -->
 	<section class="section_gap">
 		<div class="container">
 			<div class="message-box bg-white shadow">
@@ -70,8 +72,8 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 				</div>
 				<div class="row message-input">
 					<div class="col-12">
+						<div class="message-scroller" title="Scroll to newest message"><i class="fas fa-chevron-down"></i></div>
 						<form id="form-message" name="form-message">
-							<input type="hidden" id="action" name="action" value="send" required readonly>
 							<input type="hidden" id="convo_id" name="id" value="<?php safe_echo($convo_id); ?>" required readonly>
 							<input type="hidden" id="sender_id" name="sender_id" value="<?php safe_echo($sender_id); ?>" required readonly>
 							<div class="row">
@@ -96,6 +98,8 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 			</div>
 		</div>
 	</section>
+	<!-- End FastTrade Messenger -->
+	<?php } ?>
 
 	<!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

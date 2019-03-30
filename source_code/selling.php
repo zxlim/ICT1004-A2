@@ -1,6 +1,6 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
-require_once("serverside/components/upload.php");
+//require_once("serverside/components/upload.php");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -21,7 +21,7 @@ require_once("serverside/components/upload.php");
                 <div class="row s_product_inner">
                     <div class="col-lg-6">
                         <h4>Multiple Files Image</h4>
-                        <form action="serverside/components/upload.php" method="post" enctype="multipart/form-data">
+                        <form action="upload.php" method="post" enctype="multipart/form-data">
                             <div id="myDrop" class="kt-dropzone dropzone m-dropzone--primary">
                                 <div class="kt-dropzone__msg dz-message needsclick">
                                     <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
@@ -32,9 +32,14 @@ require_once("serverside/components/upload.php");
                                 </div>
                             </div>
                         </form>
+
+                        <br>
                         <div align="center">
                             <button type="button" class="btn btn-info" id="upload-all">Upload</button>
                         </div>
+
+                        <br>
+                        <div id="preview" class="dropzone"></div>
                     </div>
 
                     <div class="col-lg-5 offset-lg-1">
@@ -113,50 +118,76 @@ require_once("serverside/components/upload.php");
 <?php require_once("serverside/templates/footer.php"); ?>
 <!-- End Footer -->
 <?php require_once("serverside/templates/html.js.php"); ?>
+
 <script type="text/javascript">
     Dropzone.autoDiscover = false;
+    $(document).ready(function () {
+        $("div#myDrop").dropzone({
+            url: 'upload.php',
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            acceptedFiles: '.png,.jpg,.jpeg',
+            maxFiles: 5,
+            parallelUploads: 5,
 
-    $("div#myDrop").dropzone({
-        url: 'serverside/components/upload.php',
-        paramName: "file",
-        addRemoveLinks: true,
-        autoProcessQueue: false,
-        acceptedFiles: '.png,.jpg,.jpeg',
-        maxFiles: 5,
-        parallelUploads: 5,
-        uploadMultiple: true,
+            // Strings
+            dictRemoveFileConfirmation: "Are you Sure?",
+            dictRemoveFile: "x",
+            dictCancelUpload: "x",
 
-        // Strings
-        dictRemoveFileConfirmation: "Are you Sure?",
-        dictRemoveFile: "x",
-        dictCancelUpload: "x",
+            init: function () {
+                var submitButton = document.querySelector('#upload-all');
+                myDropzone = this;
+                submitButton.addEventListener("click", function () {
+                    myDropzone.processQueue();
+                });
 
-        init: function () {
-            var submitButton = document.querySelector('#upload-all');
-            myDropzone = this;
-            submitButton.addEventListener("click", function () {
-                myDropzone.processQueue();
-            });
-            this.on("complete", function () {
-                if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
-                    var _this = this;
-                    _this.removeAllFiles();
+                this.on("addedfile", function (file) {
+                    if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
+                        alert("The file uploaded is not in the correct format");
+                        this.removeFile(file);
+                    }
+                });
+
+                this.on("complete", function () {
+                    if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
+                        var _this = this;
+                        _this.removeAllFiles();
+                    }
+                    list_image();
+                });
+
+                this.on("maxfilesexceeded", function (file) {
+                    alert("You can only upload 5 files!");
+                    this.removeFile(file);
+                });
+            },
+        });
+
+        list_image();
+
+        function list_image() {
+            $.ajax({
+                url: "upload.php",
+                success: function (data) {
+                    $('#preview').html(data).css("width", '100%');
                 }
             });
-
-            // this.on("complete", function (file) {
-            //     if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
-            //         alert("The file uploaded is not in the correct format");
-            //         this.removeFile(file);
-            //     }
-            // });
-            this.on("maxfilesexceeded", function (file) {
-                alert("You can only upload 5 files!");
-                this.removeFile(file);
-            });
         }
-    });
 
+        $(document).on('click', '.remove_image', function () {
+            var name = $(this).attr('id');
+            $.ajax({
+                url: "upload.php",
+                method: "POST",
+                data: {name: name},
+                success: function (data) {
+                    list_image();
+                }
+            })
+        });
+
+    });
 </script>
 </body>
 </html>

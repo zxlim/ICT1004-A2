@@ -137,7 +137,7 @@ require_once("serverside/base.php");
             headers: {
                 'Cache-Control': null, //required for cors
                 'X-Requested-With': null, //required for cors
-                'Authorization': "Client-ID 49630672d27b9b2" //replace YOUR_CLIENT_ID with the one obtained from imgur
+                'Authorization': "Client-ID b0fe35e83401711"
             },
 
             // Strings
@@ -184,7 +184,7 @@ require_once("serverside/base.php");
             "method": "POST",
             "timeout": 0,
             "headers": {
-                "Authorization": "Client-ID 49630672d27b9b2"
+                "Authorization": "Client-ID b0fe35e83401711"
             },
             "processData": false,
             "mimeType": "multipart/form-data",
@@ -193,7 +193,8 @@ require_once("serverside/base.php");
         };
 
         $.ajax(settings).done(function (response) {
-            console.log(response);
+            var obj = JSON.parse(response);
+            $("#preview").append("<img src='" + obj.data.link + "' class='img-thumbnail' width='175' height='175'>");
         });
     }
 </script>

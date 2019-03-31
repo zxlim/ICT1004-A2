@@ -30,7 +30,7 @@ $related_items = array();
 $related_seller_items = array();
 
 $sql_item = "SELECT listing.id, listing.title, listing.description, listing.tags,
-listing.price, listing.condition, listing.item_age, listing.meetup_location, listing.show_until,
+listing.price, listing.item_condition, listing.item_age, listing.meetup_location, listing.show_until,
 category.id, category.name, user.id, user.name, user.join_date, user.bio, user_picture.id
 FROM listing
 INNER JOIN category ON listing.category_id = category.id

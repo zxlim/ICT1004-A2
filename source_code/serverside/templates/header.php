@@ -113,7 +113,7 @@ if (defined("CLIENT") === FALSE) {
 				<div class="col-lg-4 col-md-12">
 					<ul class="shadow" id="ftnotification-list">
 						<li>
-							No new notifications.
+							<a class="no-click-event" href="#">No new notifications.</a>
 						</li>
 					</ul>
 				</div>

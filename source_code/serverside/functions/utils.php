@@ -13,20 +13,40 @@ function html_safe(string $string_raw): string {
 	* A function to encode some predefined characters into HTML entities.
 	*
 	* @param	string	$string_raw	The string to encode and echo.
+	*
+	* @return	string	$str		The encoded string.
 	*/
 	// Encode string to UTF-8, then encode HTML entities.
-	$string = utf8_encode($string_raw);
-	return htmlspecialchars($string);
+	if (strlen(trim($string_raw)) !== 0) {
+		$string = utf8_encode($string_raw);
+		return htmlspecialchars($string);
+	}
+	return "";
 }
 
-function safe_echo(string $string): void {
+function safe_echo($string): void {
 	/**
 	* A function to safely echo a string into an HTML template.
 	* Makes use of `html_safe` function.
 	*
-	* @param	string	$string		The string to echo.
+	* @param	mixed	$string		The string to echo.
 	*/
-	echo(html_safe($string));
+	if ($string !== NULL) {
+		$str = (string)($string);
+		echo(html_safe($str));
+	}
+}
+
+function truncate(string $string_raw, int $limit): string {
+	/**
+	* A function to truncate a string to a predefined limit.
+	*
+	* @param	string	$string_raw	The string to truncate.
+	* @param	int		$limit		The point to truncate at.
+	*
+	* @return	string	$str		The truncated string.
+	*/
+	return mb_strimwidth($string_raw, 0, $limit, "...");
 }
 
 function active_nav(array $item): string {

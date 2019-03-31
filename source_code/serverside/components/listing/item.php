@@ -38,7 +38,7 @@ INNER JOIN user ON listing.seller_id = user.id
 LEFT JOIN user_picture ON user.id = user_picture.user_id
 WHERE listing.id = ?";
 
-$sql_related_listings = "SELECT listing.id, listing.title, listing.price, picture.id
+$sql_related_listings = "SELECT listing.id, listing.title, listing.price, picture.url
 FROM listing
 LEFT JOIN picture ON listing.id = picture.listing_id
 WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
@@ -48,7 +48,7 @@ AND listing.category_id = ?
 GROUP BY listing.id
 ORDER BY listing.view_counts DESC LIMIT 9";
 
-$sql_seller_listings = "SELECT listing.id, listing.title, listing.price, picture.id
+$sql_seller_listings = "SELECT listing.id, listing.title, listing.price, picture.url
 FROM listing
 LEFT JOIN picture ON listing.id = picture.listing_id
 WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
@@ -58,7 +58,7 @@ AND DATE(listing.show_until) > ?
 GROUP BY listing.id
 ORDER BY listing.id DESC LIMIT 4";
 
-$sql_pictures = "SELECT id FROM picture WHERE listing_id = ?";
+$sql_pictures = "SELECT url FROM picture WHERE listing_id = ?";
 
 $conn = get_conn();
 $current_dt = get_datetime(TRUE);
@@ -68,15 +68,13 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->execute();
 	$query->bind_result(
 		$id, $title, $description, $tags, $price, $condition, $item_age, $meetup_location, $show_until,
-		$cat_id, $cat_name, $user_id, $user_name, $user_join_date, $user_bio, $user_pic_id
+		$cat_id, $cat_name, $user_id, $user_name, $user_join_date, $user_bio, $user_picture
 	);
 
 	if ($query->fetch()) {
 		if (strtotime($show_until) > strtotime($current_dt) || ($current_user_id === (int)($user_id))) {
-			$user_picture = "static/img/default/user.jpg";
-
-			if ($user_pic_id !== NULL) {
-				$user_picture = sprintf("image.php?id=%d&type=u", $user_pic_id);
+			if ($user_picture === NULL) {
+				$user_picture = "static/img/default/user.jpg";
 			}
 
 			$item = array(
@@ -107,10 +105,10 @@ if (isset($item)) {
 	if ($query = $conn->prepare($sql_pictures)) {
 		$query->bind_param("i", $item["id"]);
 		$query->execute();
-		$query->bind_result($picture_id);
+		$query->bind_result($picture_url);
 
 		while ($query->fetch()) {
-			array_push($item["picture"], sprintf("image.php?id=%d", $picture_id));
+			array_push($item["picture"], $picture_url);
 		}
 
 		$query->close();
@@ -123,20 +121,18 @@ if (isset($item)) {
 	if ($query = $conn->prepare($sql_related_listings)) {
 		$query->bind_param("isi", $item["id"], $current_dt, $item["cat_id"]);
 		$query->execute();
-		$query->bind_result($id, $title, $price, $picture_id);
+		$query->bind_result($id, $title, $price, $picture_url);
 
 		while ($query->fetch()) {
-			$picture = "static/img/default/listing.jpg";
-
-			if ($picture_id !== NULL) {
-				$picture = sprintf("image.php?id=%d", $picture_id);
+			if ($picture_url === NULL) {
+				$picture_url = "static/img/default/listing.jpg";
 			}
 
 			$data = array(
 				"id" => (int)($id),
 				"title" => $title,
 				"price" => (float)($price),
-				"picture" => $picture,
+				"picture" => $picture_url,
 			);
 
 			array_push($related_items, $data);
@@ -149,20 +145,18 @@ if (isset($item)) {
 		/* Get the other listings by the seller. */
 		$query->bind_param("isi", $item["user_id"], $item["id"], $current_dt);
 		$query->execute();
-		$query->bind_result($id, $title, $price, $picture_id);
+		$query->bind_result($id, $title, $price, $picture_url);
 
 		while ($query->fetch()) {
-			$picture = "static/img/default/listing.jpg";
-
-			if ($picture_id !== NULL) {
-				$picture = sprintf("image.php?id=%d", $picture_id);
+			if ($picture_url === NULL) {
+				$picture_url = "static/img/default/listing.jpg";
 			}
 
 			$data = array(
 				"id" => (int)($id),
 				"title" => $title,
 				"price" => (float)($price),
-				"picture" => $picture,
+				"picture" => $picture_url,
 			);
 
 			array_push($related_seller_items, $data);

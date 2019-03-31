@@ -11,10 +11,12 @@ if (defined("CLIENT") === FALSE) {
 require_once("serverside/functions/database.php");
 
 $urlsErr = $product_nameErr = $product_descErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
-$urls = $product_name = $product_desc = $tags = $price = $condition = $age = $category = $location = "";
+$user_id = $urls = $product_name = $product_desc = $tags = $price = $condition = $age = $category = $location = "";
 $links_array = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_id = $_POST["user_id"];
+
     if (isset($_POST["imgur_link"])) {
         $links = $_POST["imgur_link"];
         foreach ($links as $key => $link) {
@@ -111,8 +113,21 @@ if ($query = $conn->prepare($cat_result)) {
 
 
 if (isset($_POST['form_selling'])) {
-    $insert_listing = "INSERT INTO listing('title', 'description', 'tags', 'price', 'condition', 'item_age', 'meetup_location', 'seller_id', 'category_id') VALUES(?,?,?,?,?,?,?,?,?)";
+    $insert_listing = "INSERT INTO listing('title', 'description', 'tags', 'price', 'condition', 'item_age', 'meetup_location', 'show_until', 'seller_id', 'category_id') VALUES(?,?,?,?,?,?,?,?,?)";
+    $insert_imgur = "INSERT INTO picture ('listing_id', 'imgur_link') VALUES(?,?)";
     $current_dt = get_datetime(TRUE);
+    if ($query = $conn->prepare($insert_listing)) {
+        $query->bind_param("sssiiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $current_dt, $user_id, $category);
+        $query->execute();
+        $inserted_listing_id = $conn->lastInsertId();
+
+        if ($query2 = $conn->prepare($insert_imgur)) {
+            foreach ($links_array as $link) {
+                $query2->bind_param("is", $inserted_listing_id, $link);
+                $query2->execute();
+            }
+        }
+    }
 }
 
 function test_input($data)

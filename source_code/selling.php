@@ -45,7 +45,7 @@ require_once("serverside/components/selling.php");
                             <div class="s_product_text">
                                 <div class="form-group" id="hidden_fields"></div>
 
-                                <input type="hidden" id="user_id" name="user_id" value="">
+                                <input type="hidden" id="user_id" name="user_id" value="1">
 
                                 <div class="form-group">
                                     <h4>Product Name</h4>
@@ -103,7 +103,7 @@ require_once("serverside/components/selling.php");
                                                 id="locationSelection" name="locationSelection">
                                             <option selected="" value="Default"></option>
                                             <?php foreach ($mrt_stations as $row) { ?>
-                                                <option value="<?php $row['stn_code'] ?>"><?php safe_echo($row['stn_code'] . ' / ' . $row['stn_name'] . ' / ' . $row['stn_line']) ?></option>
+                                                <option value="<?php safe_echo($row['stn_code']) ?>"><?php safe_echo($row['stn_code'] . ' / ' . $row['stn_name'] . ' / ' . $row['stn_line']) ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

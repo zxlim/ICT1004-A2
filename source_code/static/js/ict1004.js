@@ -165,44 +165,44 @@ $(document).ready(function () {
         }
     });
 
-    // $("#form_selling").on("submit", function (e) {
-    //     const form_data = $(this).serializeArray();
-    //     var link_array = $("input[name='imgur_link[]']").map(function () {
-    //         return $(this).val();
-    //     }).get();
-    //
-    //     if (validate_form_notempty(form_data) === false) {
-    //         notify("Please fill in all required fields.", "warning");
-    //         e.preventDefault();
-    //         return false;
-    //     }
-    //     else if (link_array.length === 0) {
-    //         notify("No image uploaded. Please upload some images to the product", "warning");
-    //         e.preventDefault();
-    //         return false;
-    //     }
-    //     else if (allnumeric($("#price").val()) === false) {
-    //         notify("Product Price is not in the correct format.", "warning");
-    //         e.preventDefault();
-    //         return false;
-    //     } else if (allnumeric($("#condition").val()) === false) {
-    //         notify("Product Condition is not in the correct format.", "warning");
-    //         e.preventDefault();
-    //         return false;
-    //     } else if (allnumeric($("#age").val()) === false) {
-    //         notify("Product Age is not in the correct format.", "warning");
-    //         e.preventDefault();
-    //         return false;
-    //     } else if (select($("#categorySelection").val()) === false) {
-    //         notify("Product Category is required.", "warning");
-    //         e.preventDefault();
-    //         return false;
-    //     } else if (select($("#locationSelection").val()) === false) {
-    //         notify("Meetup Location is required.", "warning");
-    //         e.preventDefault();
-    //         return false;
-    //     } else {
-    //         return true;
-    //     }
-    // });
+    $("#form_selling").on("submit", function (e) {
+        const form_data = $(this).serializeArray();
+        var link_array = $("input[name='imgur_link[]']").map(function () {
+            return $(this).val();
+        }).get();
+
+        if (validate_form_notempty(form_data) === false) {
+            notify("Please fill in all required fields.", "warning");
+            e.preventDefault();
+            return false;
+        }
+        else if (link_array.length === 0) {
+            notify("No image uploaded. Please upload some images to the product", "warning");
+            e.preventDefault();
+            return false;
+        }
+        else if (allnumeric($("#price").val()) === false) {
+            notify("Product Price is not in the correct format.", "warning");
+            e.preventDefault();
+            return false;
+        } else if (allnumeric($("#condition").val()) === false) {
+            notify("Product Condition is not in the correct format.", "warning");
+            e.preventDefault();
+            return false;
+        } else if (allnumeric($("#age").val()) === false) {
+            notify("Product Age is not in the correct format.", "warning");
+            e.preventDefault();
+            return false;
+        } else if (select($("#categorySelection").val()) === false) {
+            notify("Product Category is required.", "warning");
+            e.preventDefault();
+            return false;
+        } else if (select($("#locationSelection").val()) === false) {
+            notify("Meetup Location is required.", "warning");
+            e.preventDefault();
+            return false;
+        } else {
+            return true;
+        }
+    });
 });

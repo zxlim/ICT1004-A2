@@ -109,7 +109,7 @@ require_once("serverside/components/selling.php");
                                     </div>
 
                                     <div class="card_area d-flex align-items-center">
-                                        <button type="submit" class="btn primary-btn">Add item
+                                        <button type="submit" name="selling_submit" class="btn primary-btn">Add item
                                             to listing
                                         </button>
                                     </div>

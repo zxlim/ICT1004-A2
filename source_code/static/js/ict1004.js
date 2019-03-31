@@ -176,11 +176,11 @@ $(document).ready(function () {
             e.preventDefault();
             return false;
         }
-        else if (link_array.length === 0) {
-            notify("No image uploaded. Please upload some images to the product", "warning");
-            e.preventDefault();
-            return false;
-        }
+        // else if (link_array.length === 0) {
+        //     notify("No image uploaded. Please upload some images to the product", "warning");
+        //     e.preventDefault();
+        //     return false;
+        // }
         else if (allnumeric($("#price").val()) === false) {
             notify("Product Price is not in the correct format.", "warning");
             e.preventDefault();

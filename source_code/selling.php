@@ -45,24 +45,29 @@ require_once("serverside/components/selling.php");
                             <div class="s_product_text">
                                 <div class="form-group" id="hidden_fields"></div>
 
+                                <input type="hidden" id="user_id" name="user_id" value="">
+
                                 <div class="form-group">
                                     <h4>Product Name</h4>
                                     <input type="text" id="product_name" name="product_name" class="form-control"
                                            placeholder="iPhone">
-
                                 </div>
 
                                 <div class="form-group">
                                     <h4>Product Description</h4>
                                     <textarea class="form-control" id="productDesc" name="product_desc"
                                               rows="5"></textarea>
+                                </div>
 
+                                <div class="form-group">
+                                    <h4>Tags</h4>
+                                    <input type="text" class="form-control" id="tags" name="tags"
+                                           placeholder="phone, camera, samsung, andriod">
                                 </div>
 
                                 <div class="form-group">
                                     <h4>Price</h4>
                                     <input type="text" class="form-control" id="price" name="price" placeholder="100">
-
                                 </div>
 
                                 <div class="row">
@@ -72,7 +77,6 @@ require_once("serverside/components/selling.php");
                                                placeholder="1"
                                                min="1"
                                                max="10">
-
                                     </div>
 
                                     <div class="col-lg-4 form-group">
@@ -86,13 +90,10 @@ require_once("serverside/components/selling.php");
                                         <h4>Category</h4>
                                         <select class="nice-select" id="categorySelection" name="categorySelection">
                                             <option selected="" value="Default"></option>
-                                            <option>Home Appliances</option>
-                                            <option>Computers and IT</option>
-                                            <option>Furniture</option>
-                                            <option>Kids</option>
-                                            <option>Home Repairs and Services</option>
+                                            <?php foreach ($cat_list as $row) { ?>
+                                                <option value="<?php safe_echo($row['id']) ?>"><?php safe_echo($row['name']) ?></option>
+                                            <?php } ?>
                                         </select>
-
                                     </div>
                                 </div>
                                 <div class="row">
@@ -102,7 +103,7 @@ require_once("serverside/components/selling.php");
                                                 id="locationSelection" name="locationSelection">
                                             <option selected="" value="Default"></option>
                                             <?php foreach ($mrt_stations as $row) { ?>
-                                                <option><?php safe_echo($row['stn_code'] . ' / ' . $row['stn_name'] . ' / ' . $row['stn_line']) ?></option>
+                                                <option value="<?php $row['stn_code'] ?>"><?php safe_echo($row['stn_code'] . ' / ' . $row['stn_name'] . ' / ' . $row['stn_line']) ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

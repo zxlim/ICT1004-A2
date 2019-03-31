@@ -10,8 +10,8 @@ if (defined("CLIENT") === FALSE) {
 
 require_once("serverside/functions/database.php");
 
-$urlsErr = $product_nameErr = $product_descErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
-$urls = $product_name = $product_desc = $price = $condition = $age = $category = $location = "";
+$urlsErr = $product_nameErr = $product_descErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
+$urls = $product_name = $product_desc = $tags = $price = $condition = $age = $category = $location = "";
 $links_array = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,6 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $product_descErr = "Product Description is required";
     } else {
         $product_desc = test_input($_POST["product_desc"]);
+    }
+
+    if (empty($_POST["tags"])) {
+        $tagsErr = "Product Tags is required";
+    } else {
+        $tags = test_input($_POST["tags"]);
     }
 
     if (empty($_POST["price"])) {
@@ -87,20 +93,26 @@ if ($query = $conn->prepare($mrt_result)) {
     $query->close();
 }
 
+$cat_list = array();
+$cat_result = "SELECT * FROM category";
+if ($query = $conn->prepare($cat_result)) {
+    $query->execute();
+    $query->bind_result($id, $name);
+
+    while ($query->fetch()) {
+        $data = array(
+            "id" => (int)$id,
+            "name" => $name
+        );
+        array_push($cat_list, $data);
+    }
+    $query->close();
+}
+
 
 if (isset($_POST['form_selling'])) {
-    $category_id = "";
-    $category_result = "SELECT id FROM category WHERE name = ?";
-
+    $insert_listing = "INSERT INTO listing('title', 'description', 'tags', 'price', 'condition', 'item_age', 'meetup_location', 'seller_id', 'category_id') VALUES(?,?,?,?,?,?,?,?,?)";
     $current_dt = get_datetime(TRUE);
-
-    if ($query = $conn->prepare($category_result)) {
-        $query->bind_param("ss", $current_dt, $category);
-        $query->execute();
-        $query->bind_result($id);
-
-        $category_id = $id;
-    }
 }
 
 function test_input($data)

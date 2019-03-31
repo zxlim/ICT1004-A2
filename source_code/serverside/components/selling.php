@@ -126,7 +126,9 @@ if (isset($_POST['form_selling'])) {
                 $query2->bind_param("is", $inserted_listing_id, $link);
                 $query2->execute();
             }
+            $query2->close();
         }
+        $query->close();
     }
 }
 

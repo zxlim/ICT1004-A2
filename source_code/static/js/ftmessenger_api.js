@@ -170,6 +170,7 @@ class FastTradeMessenger {
 		const FTMsg = this;
 
 		$.ajax({
+			async: true,
 			method: "POST",
 			url: this.api_url,
 			data: form_data,
@@ -191,7 +192,98 @@ class FastTradeMessenger {
 	}
 }
 
-$(document).ready(function() {
+class FastTradeMessengerNotification {
+	constructor() {
+		this.api_url = "messageAPI.php";
+		this.state = "null";
+	}
+
+	update_state(value) {
+		if (String(value) !== this.state) {
+			this.state = String(value);
+		}
+	}
+
+	reset_state(value) {
+		this.state = "null";
+	}
+
+	fetch() {
+		const FTNotification = this;
+		const current_state = this.state
+		const form_data = "action=ping&state=" + this.state;
+
+		$.ajax({
+			async: true,
+			data: form_data,
+			dataType: "json",
+			method: "GET",
+			url: this.api_url,
+			success: function(response) {
+				// Success event.
+				if (response.message === current_state) {
+					// Not modified; no new updates.
+					log_debug("No update.");
+				} else {
+					FTNotification.update_state(response.message);
+					log_debug("Updated state: " + response.message);
+				
+					if (response.data.length !== 0) {
+						$("#ftnotification-list").text("");
+
+						for (var i = 0; i < response.data.length; i++) {
+							let m = response.data[i];
+							let convo_id = Number(m.convo_id);
+							let m_dt = String(m.datetime);
+							let m_r = Boolean(m.read);
+							let l_name = String(m.listing_title);
+							let u_name = String(m.user_name);
+
+							let noti_msg = u_name + " sent a new message regarding <span class='item'>" + l_name + "</span>.";
+							var start_tag = "<li class='noti'>";
+
+							if (m_r === false) {
+								notify(noti_msg);
+								$("#nav_notification").addClass("unread");
+								start_tag = "<li class='noti unread'>";
+							}
+
+							$("#ftnotification-list").append(
+								start_tag +
+								"<a href='message.php?id=" + convo_id + "'>" +
+								noti_msg +
+								"</a></li>"
+							);
+						}
+
+						$("#ftnotification-list").append(
+							"<li>" +
+							"<a href='message_list.php'>" +
+							"See all messages</a></li>"
+						);
+					}
+				}
+			},
+			error: function(response) {
+				// Error event.
+				log_debug("HTTP Status Code: " + response.status);
+				log_debug("Message: " + response.responseJSON.message);
+			},
+			complete: function(response) {
+				if (response.status !== 401 && response.status !== 403) {
+					setTimeout(function() {
+						log_debug("Auto-reloading notifications...");
+						FTNotification.fetch();
+					}, 1000 * 3);
+				} else {
+					log_debug("Not authenticated, could not retrieve notifications.");
+				}
+			}
+		});
+	}
+}
+
+function start_chat() {
 	if ($("#item_id").val() !== null && $("#sender_id").val() !== null) {
 		const FTMsg = new FastTradeMessenger($("#convo_id").val(), $("#sender_id").val());
 		FTMsg.fetch(true);
@@ -217,4 +309,14 @@ $(document).ready(function() {
 	} else {
 		log_debug("Unable to retrieve required parameters.");
 	}
+}
+
+$(document).ready(function() {
+	$("#nav_notification").on("click", function() {
+		$("#nav_notification").removeClass("unread");
+		$("#ftnotification").slideToggle();
+	});
+
+	const FTNotification = new FastTradeMessengerNotification();
+	FTNotification.fetch();
 });

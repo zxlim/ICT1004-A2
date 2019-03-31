@@ -19,5 +19,6 @@ if (defined("CLIENT") === FALSE) {
 <script src="static/js/vendor/owl.carousel.min.js"></script>
 <script src="static/js/vendor/theme.js"></script>
 <script src="static/js/vendor/zxcvbn.min.js"></script>
+<script src="static/js/vendor/dropzone.js"></script>
 <script src="static/js/ict1004.js"></script>
-<script src="static/js/vendor/dropzone.js" type="text/javascript"></script>
+<script src="static/js/ftmessenger_api.js"></script>

@@ -65,8 +65,18 @@ function generate_token(int $len = 16): string {
 	*
 	* @return	string	$token		The random token.
 	*/
-
 	return bin2hex(random_bytes($len));
+}
+
+function sha256(string $input): string {
+	/**
+	* A function to generate a SHA256 hash.
+	*
+	* @param	string	$input		The input to hash.
+	*
+	* @return	string	$hash		The resultant hash.
+	*/
+	return hash("sha256", $input, FALSE);
 }
 
 function pw_hash(string $password): string {

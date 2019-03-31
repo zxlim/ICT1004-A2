@@ -111,6 +111,10 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 	<!-- End Footer -->
 
 	<?php require_once("serverside/templates/html.js.php"); ?>
-	<script src="static/js/ftmessenger_api.js"></script>
+	<script>
+		$(document).ready(function() {
+			start_chat();
+		});
+	</script>
 </body>
 </html>

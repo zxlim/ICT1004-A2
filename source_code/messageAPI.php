@@ -1,7 +1,8 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
-require_once("serverside/functions/database.php");
 require_once("serverside/functions/validation.php");
+require_once("serverside/functions/security.php");
+require_once("serverside/functions/database.php");
 
 $action = NULL;
 $convo_id = NULL;
@@ -22,9 +23,16 @@ if (session_isauth() === FALSE) {
 	// Client not authenticated.
 	$response["status"] = 401;
 	$response["message"] = "Authentication is required to access this resource";
-} else if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"]) && validate_int($_GET["id"])) {
+} else if ($_SERVER["REQUEST_METHOD"] === "GET") {
 	// GET request.
-	if (isset($_GET["ctr"]) === FALSE || validate_int($_GET["ctr"]) === FALSE) {
+	if (isset($_GET["state"]) && isset($_GET["action"]) && $_GET["action"] === "ping") {
+		// Valid request `ping`.
+		$action = "ping";
+		$state = $_GET["state"];
+		$valid_request = TRUE;
+	} else if (isset($_GET["ctr"]) === FALSE || validate_int($_GET["ctr"]) === FALSE ||
+		isset($_GET["id"]) === FALSE || validate_int($_GET["id"]) === FALSE
+		) {
 		// Bad request.
 		$response["status"] = 400;
 		$response["message"] = "Bad Request";
@@ -37,7 +45,7 @@ if (session_isauth() === FALSE) {
 	}
 } else if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["id"]) && validate_int($_POST["id"])) {
 	// POST request.
-	if (isset($_POST["msg_data"]) === FALSE || validate_notempty($_POST["msg_data"]) === FALSE) {
+	if (validate_notempty($_POST["msg_data"]) === FALSE) {
 		// Bad request.
 		$response["status"] = 428;
 		$response["message"] = "Your message cannot be empty.";
@@ -72,13 +80,47 @@ $user_id = (int)($_SESSION["user_id"]);
 
 $conn = get_conn();
 
-if ($action === "fetch") {
+if ($action === "ping") {
+	$sql = "SELECT conversation.id, message.datetime, message.receiver_read, listing.id, listing.title, user.id, user.name FROM message
+			INNER JOIN conversation ON message.conversation = conversation.id
+			INNER JOIN listing ON conversation.listing_id = listing.id
+			INNER JOIN user ON message.sender_id = user.id
+			AND message.sender_id != ?
+			AND (conversation.user1 = ? OR conversation.user2 = ?)
+			GROUP BY conversation.id
+			ORDER BY message.datetime";
+
+	if ($query = $conn->prepare($sql)) {
+		$query->bind_param("iii", $user_id, $user_id, $user_id);
+		$query->execute();
+		$query->bind_result($convo_id, $msg_dt, $msg_rr, $listing_id, $listing_title, $uid, $uname);
+
+		while ($query->fetch()) {
+			$row = array(
+				"convo_id" => (int)($convo_id),
+				"datetime" => date("d M Y, g:i A", strtotime($msg_dt)),
+				"read" => (bool)($msg_rr),
+				"listing_id" => (int)($listing_id),
+				"listing_title" => html_safe($listing_title),
+				"user_id" => (int)($uid),
+				"user_name" => html_safe($uname),
+			);
+
+			array_push($response["data"], $row);
+		}
+
+		$query->close();
+	}
+
+	$response["message"] = sha256(serialize($response["data"]));
+} else if ($action === "fetch") {
 	// Why 18446744073709551615 you ask? See: `https://stackoverflow.com/a/271650`.
 	$sql = "SELECT message.sender_id, message.data, message.datetime, message.receiver_read FROM message
 			INNER JOIN conversation ON message.conversation = conversation.id
 			WHERE conversation.id = ?
 			AND (conversation.user1 = ? OR conversation.user2 = ?)
-			ORDER BY message.datetime LIMIT ?, 18446744073709551615";
+			ORDER BY message.datetime
+			LIMIT ?, 18446744073709551615";
 
 	$sql_read = "UPDATE message
 			INNER JOIN conversation ON conversation.id = message.conversation
@@ -128,7 +170,6 @@ if ($action === "fetch") {
 			// Something went wrong.
 			$response["status"] = 500;
 			$response["message"] = "Failed to send message.";
-			// $response["debug"] = $query->error;
 		}
 
 		$query->close();

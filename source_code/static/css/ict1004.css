@@ -60,11 +60,45 @@ hr .dotted {
 	color: #666666 !important;
 }
 
-.header_area .navbar .nav.navbar-nav.navbar-right .notification {
+.header_area .navbar .nav.navbar-nav.navbar-right .notification,
+.header_area .navbar .nav.navbar-nav.navbar-right .store {
 	background: transparent;
 	border: 0;
 	cursor: pointer;
 	padding: 0;
+}
+
+.header_area .navbar .nav.navbar-nav.navbar-right .notification.unread button,
+.header_area .navbar .nav.navbar-nav.navbar-right .notification.unread span {
+	color: #38a4ff !important;
+}
+
+@media (max-width: 991px) {
+	.header_area .navbar .nav.navbar-nav.navbar-right li {
+		margin-top: -3em;
+	}
+
+	.header_area .navbar .nav.navbar-nav.navbar-right li:first-child {
+		display: block;
+		margin-top: -2em !important;
+		margin-left: 0;
+	}
+
+	.header_area .navbar .nav.navbar-nav.navbar-right li:first-child button::after {
+		content: " Notifications";
+	}
+
+	.header_area .navbar .nav.navbar-nav.navbar-right li:nth-child(2) button::after {
+		content: " Sell";
+	}
+
+	.header_area .navbar .nav.navbar-nav.navbar-right li:last-child button::after {
+		content: " Search" !important;
+	}
+
+	.header_area .navbar .nav.navbar-nav.navbar-right li:first-child button.unread::after {
+		color: #38a4ff !important;
+	}
 }
 
 .filter-bar {
@@ -271,9 +305,70 @@ hr .dotted {
 .wrapper .selection{
 	width:100%;
 }
+
 /**
 * FastTrade Messenger styling.
 */
+.ftnotification {
+	display: none;
+	position: relative;
+	z-index: 999;
+}
+
+.ftnotification,
+.ftnotification a {
+	line-height: 1.5em;
+	color: #777;
+}
+
+.ftnotification li {
+	display: inline-block;
+	width: 100% !important;
+}
+
+.ftnotification li > a {
+	display: block;
+	width: 100% !important;
+	padding: 1em;
+	background-color: rgba(240, 240, 240, 0.85);
+	-webkit-transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-o-transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0s;
+}
+
+.ftnotification li.unread > a:after {
+	font-family: "Font Awesome 5 Free";
+	font-style: normal;
+	font-variant: normal;
+	-webkit-font-smoothing: antialiased;
+	font-size: 1.2em;
+	text-rendering: auto;
+	content: "\f4ad";
+	position: absolute;
+	top: 20%;
+	right: 2em;
+	color: #38a4ff;
+}
+
+.ftnotification li > a > span.item {
+	text-decoration: underline;
+	font-weight: 700;
+}
+
+.ftnotification a:hover {
+	background-color: rgba(250, 250, 250, 1);
+}
+
+.ftnotification li.unread > a:hover {
+	background-color: rgba(56, 164, 255, 1);
+	color: #fff;
+}
+
+.ftnotification li.unread > a:hover:after {
+	color: #fff;
+}
+
 .message-box {
 	height: 40em;
 }

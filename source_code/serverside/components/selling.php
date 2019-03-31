@@ -113,28 +113,24 @@ if ($query = $conn->prepare($cat_result)) {
 
 
 if (isset($_POST['selling_submit'])) {
-    $insert_listing = "INSERT INTO listing (title, description, tags, price, condition, item_age, meetup_location, show_until, seller_id, category_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
-//    $insert_imgur = "INSERT INTO picture (listing_id, imgur_link) VALUES(?,?)";
+    $insert_listing = "INSERT INTO listing (title, description, tags, price, item_condition, item_age, meetup_location, show_until, seller_id, category_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    $insert_imgur = "INSERT INTO picture (listing_id, imgur_link) VALUES(?,?)";
     $current_dt = get_datetime(TRUE);
     if ($query = $conn->prepare($insert_listing)) {
-        $query->bind_param("sssfiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $current_dt, $user_id, $category);
-        if ($query->execute()) {
-            echo "It worked";
-            $inserted_listing_id = $conn->lastInsertId();
-        } else{
-            echo $query->error;
-        }
+        $query->bind_param("sssdiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $current_dt, $user_id, $category);
+        $query->execute();
+        $inserted_listing_id = mysqli_insert_id($conn);
 
-//        if ($query2 = $conn->prepare($insert_imgur)) {
-//            foreach ($links_array as $link) {
-//                $query2->bind_param("is", $inserted_listing_id, $link);
-//                $query2->execute();
-//            }
-//            $query2->close();
-//        }
+        if ($query2 = $conn->prepare($insert_imgur)) {
+            foreach ($links_array as $link) {
+                $query2->bind_param("is", $inserted_listing_id, $link);
+                $query2->execute();
+            }
+            $query2->close();
+        } else {
+            $conn -> error;
+        }
         $query->close();
-    } else {
-        echo $conn->error;
     }
 }
 

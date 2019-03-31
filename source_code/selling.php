@@ -45,7 +45,7 @@ require_once("serverside/components/selling.php");
                             <div class="s_product_text">
                                 <div class="form-group" id="hidden_fields"></div>
 
-                                <input type="hidden" id="user_id" name="user_id" value="1">
+                                <input type="hidden" id="user_id" name="user_id" value="<?php if (isset($_POST['selling_submit'])) { safe_echo($_SESSION['user_id']); } ?>">
 
                                 <div class="form-group">
                                     <h4>Product Name</h4>

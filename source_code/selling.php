@@ -6,7 +6,6 @@ require_once("serverside/components/selling.php");
 <html lang="en" class="no-js">
 <head>
     <?php require_once("serverside/templates/html.head.php"); ?>
-    <script src="static/js/formValidation.js"></script>
 </head>
 <body>
 <!-- Header -->
@@ -42,69 +41,70 @@ require_once("serverside/components/selling.php");
                     </div>
 
                     <div class="col-lg-5 offset-lg-1">
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                        <form id="form_selling" name="form_selling" action="selling.php" method="post">
                             <div class="s_product_text">
                                 <div class="form-group" id="hidden_fields"></div>
 
                                 <div class="form-group">
                                     <h4>Product Name</h4>
-                                    <input type="text" name="product_name" class="form-control" placeholder="iPhone">
-                                    <span class="error"><?php echo $product_nameErr; ?></span>
+                                    <input type="text" id="product_name" name="product_name" class="form-control"
+                                           placeholder="iPhone">
+
                                 </div>
 
                                 <div class="form-group">
                                     <h4>Product Description</h4>
                                     <textarea class="form-control" id="productDesc" name="product_desc"
                                               rows="5"></textarea>
-                                    <span class="error"><?php echo $product_descErr; ?></span>
+
                                 </div>
 
                                 <div class="form-group">
                                     <h4>Price</h4>
-                                    <input type="text" class="form-control" name="price" placeholder="100">
-                                    <span class="error"><?php echo $priceErr; ?></span>
+                                    <input type="text" class="form-control" id="price" name="price" placeholder="100">
+
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 form-group">
                                         <h4>Condition</h4>
-                                        <input type="number" name="condition" class="form-control" placeholder="1"
+                                        <input type="number" id="condition" name="condition" class="form-control"
+                                               placeholder="1"
                                                min="1"
                                                max="10">
-                                        <span class="error"><?php echo $conditionErr; ?></span>
+
                                     </div>
 
                                     <div class="col-lg-4 form-group">
                                         <h4>Product Age</h4>
-                                        <input type="number" name="age" class="form-control" placeholder="1" min="1">
-                                        <span class="error"><?php echo $ageErr; ?></span>
+                                        <input type="number" id="age" name="age" class="form-control" placeholder="1"
+                                               min="1">
+
                                     </div>
 
                                     <div class="col-lg-5 form-group">
                                         <h4>Category</h4>
-                                        <select class="nice-select" id="categorySelection" name="category">
-                                            <option></option>
+                                        <select class="nice-select" id="categorySelection" name="categorySelection">
+                                            <option selected="" value="Default"></option>
                                             <option>Home Appliances</option>
-                                            <option>Computers & IT</option>
+                                            <option>Computers and IT</option>
                                             <option>Furniture</option>
                                             <option>Kids</option>
                                             <option>Home Repairs and Services</option>
                                         </select>
-                                        <span class="error"><?php echo $categoryErr; ?></span>
+
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 form-group">
+                                    <div class="wrapper col-lg-12 form-group">
                                         <h4>Meetup Location</h4>
-                                        <select class="nice-select" id="categorySelection" name="location">
-                                            <option></option>
-                                            <option>Central</option>
-                                            <option>North</option>
-                                            <option>South</option>
-                                            <option>East</option>
-                                            <option>West</option>
+                                        <select class="nice-select custom-select selection" size="10"
+                                                id="locationSelection" name="locationSelection">
+                                            <option selected="" value="Default"></option>
+                                            <?php foreach ($mrt_stations as $row) { ?>
+                                                <option><?php safe_echo($row['stn_code'] . ' / ' . $row['stn_name'] . ' / ' . $row['stn_line']) ?></option>
+                                            <?php } ?>
                                         </select>
-                                        <span class="error"><?php echo $locationErr; ?></span>
                                     </div>
 
                                     <div class="card_area d-flex align-items-center">
@@ -149,19 +149,16 @@ require_once("serverside/components/selling.php");
                 'X-Requested-With': null, //required for cors
                 'Authorization': "Client-ID b0fe35e83401711"
             },
-
             // Strings
             dictRemoveFileConfirmation: "Are you Sure?",
             dictRemoveFile: "x",
             dictCancelUpload: "x",
-
             init: function () {
                 var submitButton = document.querySelector('#upload-all');
                 myDropzone = this;
                 submitButton.addEventListener("click", function () {
                     myDropzone.processQueue();
                 });
-
                 this.on("addedfile", function (file) {
                     if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
                         alert("The file uploaded is not in the correct format");
@@ -173,10 +170,9 @@ require_once("serverside/components/selling.php");
                         this.removeFile(file);
                     }
                 });
-
                 this.on("complete", function (file) {
                     if (fileCount <= 5) {
-                        upload(file);
+                        upload2imgur(file);
                     } else {
                         alert("5 files have already been uploaded");
                     }
@@ -185,7 +181,6 @@ require_once("serverside/components/selling.php");
                         _this.removeAllFiles();
                     }
                 });
-
                 this.on("maxfilesexceeded", function (file) {
                     alert("You can only upload 5 files!");
                     this.removeFile(file);
@@ -194,10 +189,9 @@ require_once("serverside/components/selling.php");
         });
     });
 
-    function upload(file) {
+    function upload2imgur(file) {
         var form = new FormData();
         form.append("image", file);
-
         var settings = {
             "url": "https://api.imgur.com/3/image",
             "method": "POST",
@@ -210,7 +204,6 @@ require_once("serverside/components/selling.php");
             "contentType": false,
             "data": form
         };
-
         $.ajax(settings).done(function (response) {
             var obj = JSON.parse(response);
             var link = obj.data.link;

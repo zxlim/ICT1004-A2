@@ -36,9 +36,6 @@ if (isset($_POST['search_query'])) {
                 $picture = sprintf("image.php?id=%d", $picture_id);
             }
 
-//            $tags_handler = explode(",", $tags);
-//            array_push($tags_data, $tags_handler);
-
             $data = array(
                 "id" => (int)$id,
                 "title" => $title,

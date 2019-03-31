@@ -1,13 +1,27 @@
 <?php
 
+if (defined("CLIENT") === FALSE) {
+    /**
+     * Ghetto way to prevent direct access to "include" files.
+     */
+    http_response_code(404);
+    die();
+}
+
+require_once("serverside/functions/database.php");
+
 $urlsErr = $product_nameErr = $product_descErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
 $urls = $product_name = $product_desc = $price = $condition = $age = $category = $location = "";
+$links_array = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(empty($_POST["imgur_link[]"])) {
-        echo "URL list is empty";
+    if (isset($_POST["imgur_link"])) {
+        $links = $_POST["imgur_link"];
+        foreach ($links as $key => $link) {
+            array_push($links_array, $link);
+        }
     } else {
-        echo "URL list is not empty";
+        $urlsErr = "URL list is empty";
     }
 
     if (empty($_POST["product_name"])) {
@@ -40,18 +54,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $age = test_input($_POST["age"]);
     }
 
-    if (empty($_POST["category"])) {
+    if (empty($_POST["categorySelection"])) {
         $categoryErr = "Product Category is required";
     } else {
-        $category = test_input($_POST["category"]);
+        $category = test_input($_POST["categorySelection"]);
     }
 
-    if (empty($_POST["location"])) {
+    if (empty($_POST["locationSelection"])) {
         $locationErr = "Meetup Location is required";
     } else {
-        $location = test_input($_POST["location"]);
+        $location = test_input($_POST["locationSelection"]);
     }
+}
 
+// DB Conn Part
+$conn = get_conn();
+
+$mrt_stations = array();
+$mrt_result = "SELECT * FROM locations";
+if ($query = $conn->prepare($mrt_result)) {
+    $query->execute();
+    $query->bind_result($stn_code, $stn_name, $stn_line);
+
+    while ($query->fetch()) {
+        $data = array(
+            "stn_code" => $stn_code,
+            "stn_name" => $stn_name,
+            "stn_line" => $stn_line,
+        );
+        array_push($mrt_stations, $data);
+    }
+    $query->close();
+}
+
+
+if (isset($_POST['form_selling'])) {
+    $category_id = "";
+    $category_result = "SELECT id FROM category WHERE name = ?";
+
+    $current_dt = get_datetime(TRUE);
+
+    if ($query = $conn->prepare($category_result)) {
+        $query->bind_param("ss", $current_dt, $category);
+        $query->execute();
+        $query->bind_result($id);
+
+        $category_id = $id;
+    }
 }
 
 function test_input($data)

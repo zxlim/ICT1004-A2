@@ -27,21 +27,14 @@ require_once("serverside/components/admin/admin.php");
 					<nav class="d-flex align-items-center">
 						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="admin_page.php">Admin Dashboard Page<span class="lnr lnr-arrow-right"></span></a>
-            <?php
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            echo "<a href='#'>Update Category</a>";
-          } else {
-              foreach ($results_selectedupdatecatdetails as $row) {
-            ?>
-            <a href="update_cat.php?updatecat=<?php safe_echo($row['id']); ?>">Update Category</a>
-					</nav>
+            <a href="#">Update Category</a>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- End Banner Section -->
 
-<!-- Admin Dashboard Page -->
+
 <div id="page-wrapper">
 
 			<div class="container-fluid">
@@ -59,31 +52,33 @@ require_once("serverside/components/admin/admin.php");
 							</h3>
 						</div>
             <?php
-          }
-          /* Note: this should be removed but everytime i try i break something. SEND HALP */
+
+
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //echo $_POST['name'];
               if(isset($results_updatecatdetails)) {
-                if ($success) {
+                if ($successupdate) {
           ?>
           <h3 style="text-align:center">Category has been successfully updated.</h3>
 
-          <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
           <?php
 }
 else {
 ?>
 <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-<button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
 <?php
-}
+} ?>
+<button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+<p></p>
+<?php
 }
 } else {
 
        foreach ($results_selectedupdatecatdetails as $row) {
     ?>
-            <form class="row contact_form" name="form-contact" id="form-contact" action="update_cat2.php" METHOD="POST">
+     <!-- Update Category Form -->
+            <form class="row contact_form" name="form-contact" id="form-contact" action="update_cat.php" METHOD="POST">
   						<div class="col-md-6">
   							<div class="form-group">
 
@@ -99,6 +94,8 @@ else {
 
 
   					</form>
+             <!-- End Update Category Form -->
+
             <p></p>
 					</div>
 				</div>
@@ -107,9 +104,9 @@ else {
     </div>
     <?php
   }
-}
+
   ?>
-<!--End Admin Dashboard Page -->
+
 
   <!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

@@ -31,7 +31,7 @@ require_once("serverside/components/admin/admin.php");
 	<!-- End Banner Section -->
 
 <?php $catlist = end($results_catdetails);?>
-<!-- Admin Dashboard Page -->
+
 <div id="page-wrapper">
 
 			<div class="container-fluid">
@@ -46,25 +46,27 @@ require_once("serverside/components/admin/admin.php");
 
                   //echo $_POST['name'];
                     if(isset($results_addnewcat)) {
-                      if ($success) {
+                      if ($successaddcat) {
                 ?>
                 <h3 style="text-align:center">Category has been successfully updated.</h3>
 
-                <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
                 <?php
 }
-else {
   ?>
   <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-  <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
   <?php
+} ?>
+<button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+<p></p>
+<?php
 }
-}
-}else {
+else {
+
                 ?>
 							</h3>
 						</div>
-            <form class="row contact_form" name="form-contact" id="form-contact" method="POST" action="add_cat2.php" >
+            <!-- Add Category Form -->
+            <form class="row contact_form" name="form-contact" id="form-contact" method="POST" action="add_cat.php" >
   						<div class="col-md-6">
   							<div class="form-group">
 
@@ -77,14 +79,12 @@ else {
   							<button type="submit" name="newcat" class="primary-btn">Add New Category</button>
   						</div>
   					</form>
+            <!-- End Add Category Form -->
 <p></p>
-
+<?php } ?>
 			</div>
     </div>
-    <?php
-}
-    ?>
-<!--End Admin Dashboard Page -->
+
 
   <!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

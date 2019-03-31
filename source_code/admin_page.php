@@ -38,7 +38,7 @@ require_once("serverside/components/admin/user.php");
 			<div class="container-fluid">
 
 
-
+        <!-- Category Report Table -->
         <div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -80,7 +80,9 @@ require_once("serverside/components/admin/user.php");
 						</div>
 					</div>
 				</div>
+        <!-- End Category Report Table -->
 
+        <!-- User Report Table -->
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -142,6 +144,8 @@ require_once("serverside/components/admin/user.php");
 						</div>
 					</div>
 				</div>
+        <!-- End User Report Table -->
+
 			</div>
     </div>
 <!--End Admin Dashboard Page -->

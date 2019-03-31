@@ -17,7 +17,7 @@ $selected_cat_name = NULL;
 $selected_update_cat_id = 99999;
 $selected_update_cat_name = NULL;
 $delete_cat = 99999;
-$new_id = 9999;
+$new_id = NULL;
 $new_cat_name = NULL;
 
 
@@ -165,10 +165,10 @@ if ($query = $conn->prepare($sql_add_new_cat)) {
 	$query->execute();
 
 	if ($query->execute()) {
-		$successadd = 1;
+		$successaddcat = 1;
 	}
 	else {
-		$successadd = 0;
+		$successaddcat = 0;
 	}
 	array_push($results_addnewcat, $data);
 	$query->close();

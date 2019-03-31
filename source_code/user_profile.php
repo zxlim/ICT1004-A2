@@ -48,15 +48,42 @@ require_once("serverside/components/user/profile.php");
 		</div>
 	</section>
 	<!-- End Banner Section -->
+  <?php
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  //echo $_POST['name'];
+    if(isset($results_updateuserdetails)) {
+      if ($successupdate) {
+  //echo "success ";
+?>
+<h3 style="text-align:center">User Details has been successfully updated.</h3>
+
+
+<?php
+}
+else {
+  ?>
+  <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
+  <?php
+}
+} ?>
+<button class="primary-btn" onclick="location.href='index.php'">Back to Main Page</button>
+<?php
+}
+else {
+  ?>
 <!-- Admin Dashboard Page -->
 <div id="page-wrapper">
 
 			<div class="container-fluid">
 
-        <form class="row login_form" name="form-login" id="form-login" action="user_profile2.php" method="post">
+        <form class="row login_form" name="form-login" id="form-login" action="user_profile.php" method="post">
           <?php
           foreach ($results_selectuser as $row) { ?>
+
+            <input type="hidden" id="id" name="id" value="<?php safe_echo($row['id']);?>">
+
             <div class="col-md-12 form-group">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php echo $row['name']; ?>" required>
                 <span class="errorcolor"><?php echo $nameErr;?></span>
@@ -93,20 +120,13 @@ require_once("serverside/components/user/profile.php");
                 <span class="errorcolor"><?php echo $bioErr;?></span>
             </div>
 
-            <div class="col-md-12 form-group">
-                <!--<input type="text" class="form-control" id="gender" name="gender" placeholder="Gender">-->
-                <select name="gender" id="gender" required>
-                    <option disabled selected>Gender</option>
-                    <option value="Male" <?php if($gender == "Male"){?> selected="selected" <?php }?>>Male</option>
-                    <option value="Female" <?php if($gender == "Female"){?> selected="selected" <?php }?>>Female</option>
-                </select>
-            </div>
+
             <div class="col-md-12 form-group" align="left">
                 <span class="errorcolor"><?php echo $genderError;?></span>
             </div>
 
             <div class="col-md-12 form-group">
-                <button type="submit" value="submit" class="primary-btn">Update</button>
+                <button type="submit" value="submit" class="primary-btn" name="updateuser">Update</button>
             </div>
         </form>
 
@@ -115,7 +135,7 @@ require_once("serverside/components/user/profile.php");
 			</div>
     </div>
 <!--End Admin Dashboard Page -->
-
+<?php } ?>
 
   <!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

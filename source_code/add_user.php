@@ -31,7 +31,7 @@ require_once("serverside/components/admin/user.php");
 	<!-- End Banner Section -->
 
 <?php $userlist = end($results_userdetails);?>
-<!-- Admin Dashboard Page -->
+
 <div id="page-wrapper">
 
 			<div class="container-fluid">
@@ -40,10 +40,29 @@ require_once("serverside/components/admin/user.php");
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								<i class="fa fa-money fa-fw"></i>
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+                  //echo $_POST['name'];
+                    if(isset($results_addnewuser)) {
+                      if ($success) {
+                  //echo "success ";
+                ?>
+                <h3 style="text-align:center">New User has been successfully added.</h3>
+                <?php
+                }
+                else {
+                  ?>
+                  <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
+                  <?php
+                } ?>
+                <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+                <?php
+              }
+              else { ?>
 							</h3>
 						</div>
-            <form class="row contact_form" name="form-contact" id="form-contact" method="POST" action="add_user2.php" >
+            <form class="row contact_form" name="form-contact" id="form-contact" method="POST" action="add_user.php" >
   						<div class="col-md-6">
   							<div class="form-group">
 
@@ -61,11 +80,11 @@ require_once("serverside/components/admin/user.php");
   						</div>
   					</form>
 <p></p>
-
+<?php } ?>
 			</div>
     </div>
 
-<!--End Admin Dashboard Page -->
+
 
   <!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

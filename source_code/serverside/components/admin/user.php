@@ -117,10 +117,10 @@ if ($query = $conn->prepare($sql_updateuserdetails)) {
 	$query->execute();
 
 	if ($query->execute()) {
-		$success = 1;
+		$successupdate = 1;
 	}
 	else {
-		$success = 0;
+		$successupdate = 0;
 	}
 		array_push($results_updateuserdetails, $data);
 	$query->close();

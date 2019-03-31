@@ -36,7 +36,7 @@ require_once("serverside/components/admin/user.php");
 	</section>
 	<!-- End Banner Section -->
 
-<!-- Admin Dashboard Page -->
+
 <div id="page-wrapper">
 
 			<div class="container-fluid">
@@ -48,6 +48,32 @@ require_once("serverside/components/admin/user.php");
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								<i class="fa fa-money fa-fw"></i>
+                <?php
+
+              if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                //echo $_POST['name'];
+                  if(isset($results_updateuserdetails)) {
+                    if ($successupdate) {
+                //echo "success ";
+    ?>
+        <h3 style="text-align:center">Account has been <?php if ($suspended_state) {?> Disabled <?php } else { ?> Enabled <?php } ?>.</h3>
+
+    <?php
+              }
+              else {
+                ?>
+                <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
+
+                <?php
+              }
+            } ?>
+            <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+            <p></p>
+            <?php
+        }
+        else {
+      ?>
 							</h3>
 						</div>
 
@@ -56,7 +82,8 @@ require_once("serverside/components/admin/user.php");
   foreach ($results_selectedupdateuserdetails as $row) {
 
  ?>
-            <form class="row contact_form" name="form-contact" id="form-contact" action="edit_account2.php" METHOD="POST">
+             <!-- Edit Account Form -->
+            <form class="row contact_form" name="form-contact" id="form-contact" action="edit_account.php" METHOD="POST">
   						<div class="col-md-6">
   							<div class="form-group">
 
@@ -93,14 +120,15 @@ require_once("serverside/components/admin/user.php");
 
 
   					</form>
+             <!-- End Edit Account Form -->
             <p></p>
 					</div>
 				</div>
-
+<?php } ?>
 			</div>
     </div>
 
-<!--End Admin Dashboard Page -->
+
 
   <!-- Footer -->
 	<?php require_once("serverside/templates/footer.php"); ?>

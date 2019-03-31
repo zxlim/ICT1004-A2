@@ -48,6 +48,32 @@ require_once("serverside/components/admin/user.php");
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								<i class="fa fa-money fa-fw"></i>
+                <?php
+
+              if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                //echo $_POST['name'];
+                  if(isset($results_deleteuser)) {
+                    if ($successuserdel) {
+                //echo "success ";
+    ?>
+        <h3 style="text-align:center">User has been successfully deleted.</h3>
+
+    <?php
+              }
+              else {
+                ?>
+                <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
+
+                <?php
+              } ?>
+              <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
+              <p></p>
+              <?php
+            }
+          }
+          else {
+            ?>
 							</h3>
 						</div>
 
@@ -56,7 +82,8 @@ require_once("serverside/components/admin/user.php");
   foreach ($results_selectdeleteuser as $row) {
 
  ?>
-            <form class="row contact_form" name="form-contact" id="form-contact" action="del_user2.php" METHOD="POST">
+             <!-- Delete User Form -->
+            <form class="row contact_form" name="form-contact" id="form-contact" action="del_user.php" METHOD="POST">
   						<div class="col-md-6">
   							<div class="form-group">
 
@@ -80,10 +107,11 @@ require_once("serverside/components/admin/user.php");
 
 
   					</form>
+             <!-- End Delete Category Form -->
             <p></p>
 					</div>
 				</div>
-
+<?php } ?>
 			</div>
     </div>
 

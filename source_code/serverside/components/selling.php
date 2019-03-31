@@ -127,8 +127,6 @@ if (isset($_POST['selling_submit'])) {
                 $query2->execute();
             }
             $query2->close();
-        } else {
-            $conn -> error;
         }
         $query->close();
     }

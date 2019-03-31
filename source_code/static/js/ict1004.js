@@ -92,6 +92,15 @@ function allnumeric(num) {
     }
 }
 
+function decimals(num) {
+    var numbers = /^[-+]?[0-9]+\.[0-9]+$/;
+    if (num.match(numbers)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function select(val) {
     if (val === "Default") {
         return false;
@@ -180,7 +189,7 @@ $(document).ready(function () {
             e.preventDefault();
             return false;
         }
-        else if (allnumeric($("#price").val()) === false) {
+        else if (allnumeric($("#price").val()) === false || decimals($("#price").val() === false)) {
             notify("Product Price is not in the correct format.", "warning");
             e.preventDefault();
             return false;

@@ -1,6 +1,4 @@
 <?php
-//session_start();
-//$login = false;
 
 if (defined("CLIENT") === FALSE) {
 	/**
@@ -82,12 +80,17 @@ if (defined("CLIENT") === FALSE) {
 								<span class="lnr lnr-store"></span>
 							</button>
 						</li>
+                         <?php if($admin === true){?>
+                        <li class="nav-item">
+                            <button class="store" id="nav_store">
+                                <a href="admin_page.php"><span class="lnr lnr-user"></span></a>
+                            </button>
+                        </li>
+                         <?php } ?>
+
+
 						<?php } ?>
-						<li class="nav-item">
-							<button class="search" id="search">
-								<span class="lnr lnr-magnifier"></span>
-							</button>
-						</li>
+
 					</ul>
 				</div>
 			</div>

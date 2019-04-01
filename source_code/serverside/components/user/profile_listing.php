@@ -8,7 +8,7 @@ if (defined("CLIENT") === FALSE) {
 }
 
     $id = $_GET['id'];
-    echo "Boooom : ".$id;
+    #echo "Boooom : ".$id;
 
 
 if (!$session_is_authenticated === True) {

@@ -112,7 +112,7 @@ if ($query = $conn->prepare($mrt_result)) {
 }
 
 $cat_list = array();
-$cat_result = "SELECT * FROM category";
+$cat_result = "SELECT id, name FROM category ORDER BY id";
 if ($query = $conn->prepare($cat_result)) {
     $query->execute();
     $query->bind_result($id, $name);

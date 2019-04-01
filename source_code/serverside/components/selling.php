@@ -13,15 +13,17 @@ if (!$session_is_authenticated === True) {
     exit;
 }
 
+if ($session_is_authenticated === TRUE) {
+    $current_user_id = (int)($_SESSION["user_id"]);
+}
+
 require_once("serverside/functions/database.php");
 
 $urlsErr = $product_nameErr = $product_descErr = $listing_tillErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
-$user_id = $urls = $product_name = $product_desc = $listing_till = $tags = $price = $condition = $age = $category = $location = "";
+$urls = $product_name = $product_desc = $listing_till = $tags = $price = $condition = $age = $category = $location = "";
 $links_array = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_POST["user_id"];
-
     if (isset($_POST["imgur_link"])) {
         $links = $_POST["imgur_link"];
         foreach ($links as $key => $link) {
@@ -133,7 +135,7 @@ if (isset($_POST['selling_submit'])) {
     $insert_imgur = "INSERT INTO picture (listing_id, url) VALUES(?,?)";
 
     if ($query = $conn->prepare($insert_listing)) {
-        $query->bind_param("sssdiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $listing_till, $user_id, $category);
+        $query->bind_param("sssdiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $listing_till, $current_user_id, $category);
         $query->execute();
         $inserted_listing_id = mysqli_insert_id($conn);
 

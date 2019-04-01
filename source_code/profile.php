@@ -89,6 +89,7 @@ define("WEBPAGE_TITLE", "Profile");
                 </div>
             </div>
         </div>
+    </div>
 </section>
 
 

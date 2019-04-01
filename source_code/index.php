@@ -62,7 +62,7 @@ require_once("serverside/components/home.php");
             <hr>
 			<div class="row features-inner">
 				<div class="col-lg-3 col-md-6 col-sm-6">
-					<a href="listing.php?cat=1">
+					<a href="listing.php?id=1">
 						<div class="single-features">
 							<div class="f-icon">
 	                            <img src="https://img.icons8.com/ios/50/000000/home-automation.png">
@@ -73,7 +73,7 @@ require_once("serverside/components/home.php");
 				</div>
 				
 				<div class="col-lg-3 col-md-6 col-sm-6">
-					<a href="listing.php?cat=2">
+					<a href="listing.php?id=2">
 						<div class="single-features">
 							<div class="f-icon">
 	                            <img src="https://img.icons8.com/ios/50/000000/sofa.png">
@@ -84,7 +84,7 @@ require_once("serverside/components/home.php");
 				</div>
 				
 				<div class="col-lg-3 col-md-6 col-sm-6">
-					<a href="listing.php?cat=3">
+					<a href="listing.php?id=3">
 						<div class="single-features">
 							<div class="f-icon">
 	                            <img src="https://img.icons8.com/ios/50/000000/processor.png">
@@ -94,7 +94,7 @@ require_once("serverside/components/home.php");
 					</a>
 				</div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                	<a href="listing.php?cat=5">
+                	<a href="listing.php?id=5">
 	                    <div class="single-features">
 	                        <div class="f-icon">
 	                            <img src="https://img.icons8.com/ios/50/000000/nailer.png">

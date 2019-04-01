@@ -104,6 +104,10 @@ hr .dotted {
 	.header_area .navbar .nav.navbar-nav.navbar-right li:first-child button.unread::after {
 		color: #38a4ff !important;
 	}
+
+	.section_gap {
+		padding: 60px 15px;
+	}
 }
 
 .filter-bar {
@@ -187,6 +191,11 @@ hr .dotted {
 */
 .add-bag .add-btn span {
 	transform: none !important;
+}
+
+.tags-btn {
+	margin-top: 0.7em;
+	margin-right: 1em;
 }
 
 .generic-btn .success {

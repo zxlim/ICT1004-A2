@@ -18,20 +18,22 @@ require_once("serverside/components/search.php");
         <h2>Your search results for "<?php safe_echo($search_query) ?>"</h2>
         <hr>
         <form method="post" action="search.php">
-            <?php foreach ($results_listings as $row) {
+            <?php
+            foreach ($results_listings as $row) {
                 foreach (explode(",", $row["tags"]) as $tag) {
-                    if ($tag != $search_query) {
-                        ?>
-                        <button type="submit" class="genric-btn info-border" name="search_query"
-                                value="<?php safe_echo($tag); ?>"><?php safe_echo($tag); ?></button>
-                    <?php }
+                    if (trim($tag) !== $search_query) {
+            ?>
+                <button type="submit" class="genric-btn info-border tags-btn" name="search_query" value="<?php safe_echo(trim($tag)); ?>">
+                    <?php safe_echo(trim($tag)); ?>
+                </button>
+            <?php }
                 }
             } ?>
         </form>
 
         <div class="col-xl-12 col-lg-8 col-md-7 section_gap">
             <div class="row">
-                <?php if (sizeof($results_listings) === 0) { ?>
+                <?php if (count($results_listings) === 0) { ?>
                     <div class="col-12">
                         <?php if (isset($selected_cat_name) === False) { ?>
                             <h3>Sorry, there are no items found.</h3>

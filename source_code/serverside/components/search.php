@@ -12,48 +12,60 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
+require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
 $results_listings = array();
+$search_query = "";
 
-$sql_search_result = "SELECT listing.id, listing.title, listing.price, listing.tags, user.name, picture.url
-FROM listing
-INNER JOIN user ON listing.seller_id = user.id
-LEFT JOIN picture ON listing.id = picture.listing_id
-WHERE listing.sold = 0
-AND DATE(listing.show_until) > ?
-AND (title LIKE ? OR tags LIKE ?)
-GROUP BY listing.id
-ORDER BY listing.id";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+	if (validate_notempty($_POST["search_query"]) === FALSE) {
+		header("Location: index.php");
+	} else {
+		$current_dt = get_datetime(TRUE);
+		$search_query = trim($_POST["search_query"]);
+		$wild_search = "%" . $search_query . "%";
 
-$conn = get_conn();
+		$sql = "SELECT l.id, l.title, l.price, l.tags, u.name, p.url
+		FROM listing AS l
+		INNER JOIN user AS u ON l.seller_id = u.id
+		LEFT JOIN picture AS p ON l.id = p.listing_id
+		WHERE l.sold = 0
+		AND DATE(l.show_until) > ?
+		AND (title LIKE ? OR tags LIKE ?)
+		GROUP BY l.id
+		ORDER BY l.view_counts DESC";
 
-if (isset($_POST['search_query'])) {
-	$current_dt = get_datetime(TRUE);
-	$search_query = $_POST['search_query'];
-	$wild_search = "%" . $search_query . "%";
+		$conn = get_conn();
 
-	if ($query = $conn->prepare($sql_search_result)) {
-		$query->bind_param("sss", $current_dt,$wild_search, $wild_search);
-		$query->execute();
-		$query->bind_result($id, $title, $price, $tags, $user_name, $picture_url);
+		if ($query = $conn->prepare($sql)) {
+			$query->bind_param("sss", $current_dt, $wild_search, $wild_search);
+			$query->execute();
+			$query->bind_result($id, $title, $price, $tags, $user_name, $picture_url);
 
-		while ($query->fetch()) {
+			while ($query->fetch()) {
+				if ($picture_url === NULL) {
+					$picture_url = "static/img/default/listing.jpg";
+				}
 
-			if ($picture_url === NULL) {
-				$picture_url = "static/img/default/listing.jpg";
+				$row = array(
+					"id" => (int)($id),
+					"title" => $title,
+					"tags" => $tags,
+					"price" => (float)($price),
+					"user_name" => $user_name,
+					"picture" => $picture_url
+				);
+
+				array_push($results_listings, $row);
 			}
 
-			$data = array(
-				"id" => (int)$id,
-				"title" => $title,
-				"tags" => $tags,
-				"price" => (float)($price),
-				"user_name" => $user_name,
-				"picture" => $picture_url
-			);
-			array_push($results_listings, $data);
+			$query->close();
 		}
-		$query->close();
+
+		$conn->close();
 	}
+} else {
+	header("HTTP/1.1 405 Method Not Allowed");
+	header("Location: index.php");
 }

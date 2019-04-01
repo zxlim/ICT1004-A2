@@ -150,8 +150,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			"code_expiry" => (int)(strtotime(get_datetime(FALSE, 900))),
 		);
 
-		$data = $_SESSION["registration_data"];
-
 		$mailer = new PHPMailer();
 		$mailer->isSMTP();
 		$mailer->SMTPDebug = 0;
@@ -163,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$mailer->Password = SMTP_PASS;
 		$mailer->setFrom(SMTP_FROM, SMTP_FROM_NAME);
 		$mailer->addReplyTo(SMTP_REPLY, SMTP_REPLY_NAME);
-		$mailer->addAddress($data["email"], $data["name"]);
+		$mailer->addAddress($_SESSION["registration_data"]["email"], $_SESSION["registration_data"]["name"]);
 		$mailer->isHTML(true);
 		$mailer->Subject = sprintf("[%s] Verify your email address", APP_TITLE);
 
@@ -178,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			"If you did not perform this action, you may safely ignore this email." .
 			"<br /><br /><br />" .
 			"Yours sincerely,<br />%s Support<br />"),
-			$data["name"], $data["code"], APP_TITLE);
+			$_SESSION["registration_data"]["name"], $_SESSION["registration_data"]["code"], APP_TITLE);
 
 		$mailer->AltBody = sprintf(
 			("Hello %s,\n\n" .
@@ -187,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			"\n\n%s\n\nThe verification code will expire in 15 minutes.\n" .
 			"If you did not perform this action, you may safely ignore this email.\n\n\n" .
 			"Yours sincerely,\n%s Support"),
-			$data["name"], $data["code"], APP_TITLE);
+			$_SESSION["registration_data"]["name"], $_SESSION["registration_data"]["code"], APP_TITLE);
 
 		if (!$mailer->send()) {
 			session_end();

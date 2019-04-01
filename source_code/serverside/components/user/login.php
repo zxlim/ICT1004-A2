@@ -19,20 +19,21 @@ if ($session_is_authenticated === TRUE) {
 }
 
 require_once("serverside/functions/validation.php");
-require_once("serverside/functions/database.php");
 require_once("serverside/functions/security.php");
+require_once("serverside/functions/database.php");
 
 $delay = FALSE;
+$is_admin = FALSE;
 $error_login = FALSE;
 $error_message = "Invalid credentials.";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	// POST request.
 
-	if (isset($_POST["loginid"]) === FALSE || validate_notempty($_POST["loginid"]) === FALSE) {
+	if (validate_notempty($_POST["loginid"]) === FALSE) {
 		$error_login = TRUE;
 		$error_message = "Please enter your Login ID.";
-	} else if (isset($_POST["password"]) === FALSE || validate_notempty($_POST["password"]) === FALSE) {
+	} else if (validate_notempty($_POST["password"]) === FALSE) {
 		$error_login = TRUE;
 		$error_message = "Please enter your password.";
 	} else {
@@ -50,8 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 				if (pw_verify($_POST["password"], $password) === TRUE) {
 					// Authentication successful.
 					session_start();
+
+					$_SESSION["csrf_token"] = generate_token(16);
 					$_SESSION["is_authenticated"] = TRUE;
-					$_SESSION["is_admin"] = (bool)$is_admin;
+					$_SESSION["is_admin"] = (bool)($is_admin);
 					$_SESSION["user_id"] = (int)($id);
 					$_SESSION["user_loginid"] = $loginid;
 					$_SESSION["user_name"] = $name;
@@ -81,21 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		if ($delay === TRUE) {
 			// Deter brute force attempts.
 			sleep(2);
-		} else if ($error_login === FALSE) {
-
-            $conn = get_conn();
-            $sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                if($row["admin"] == 0 || $row["admin"] == NULL){
-                    header("Location: index.php");
-                }
-            }
-            $conn->close();
-
+		} else if ($error_login === FALSE && (bool)($is_admin) === TRUE) {
+			// Administrator session.
 			header("Location: admin_page.php");
+		} else if ($error_login === FALSE) {
+			header("Location: index.php");
 		}
 	}
 }

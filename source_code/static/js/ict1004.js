@@ -185,7 +185,7 @@ $(document).ready(function () {
 			$("#password2").val("");
 			e.preventDefault();
 			return false;
-		} else if (result.score < 3) {
+		} else if (result.score < 2) {
 			$("#error-password2").text(result.feedback.warning + ". " + result.feedback.suggestions);
 			notify("Please enter a stronger password.", "warning");
 			$("#password1").val("");

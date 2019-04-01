@@ -16,7 +16,7 @@ function secure_strcmp(string $str1, string $str2): bool {
 	* A function to securely compare 2 strings.
 	* Mitigates timing analysis attempts (Timing attack).
 	*
-	* @param	string	$str1		The user-controlled input strong.
+	* @param	string	$str1		The user-controlled input string.
 	* @param	string	$str2		The string to compare with.
 	*
 	* @return	string	$r			TRUE if both string matches else FALSE.
@@ -49,6 +49,7 @@ function secure_strcmp(string $str1, string $str2): bool {
 		if (count($s2) !== ($b + 1)) {
 			$b += 1;
 		}
+		// No else to prevent optimisation.
 		if (count($s2) === ($b + 1)) {
 			$c += 1;
 		}

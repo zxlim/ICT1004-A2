@@ -24,28 +24,26 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 
 $item = NULL;
 $chat_with = NULL;
-$sender_id = $_SESSION["user_id"];
+$sender_id = (int)($_SESSION["user_id"]);
 
-$sql_item = "SELECT listing.id, listing.title, listing.price,
-category.id, category.name, user.id, user.name
-FROM listing
-INNER JOIN category ON listing.category_id = category.id
-INNER JOIN user ON listing.seller_id = user.id
-INNER JOIN conversation ON listing.id = conversation.listing_id
-WHERE conversation.id = ?
-AND (conversation.user1 = ? OR conversation.user2 = ?)
-GROUP BY listing.id";
+$sql_item = "SELECT l.id, l.title, l.price, c.id, c.name, u.id, u.name
+FROM listing AS l
+INNER JOIN category AS c ON l.category_id = c.id
+INNER JOIN user AS u ON l.seller_id = u.id
+INNER JOIN conversation AS cv ON l.id = cv.listing_id
+WHERE cv.id = ?
+AND (cv.user1 = ? OR cv.user2 = ?)
+GROUP BY l.id";
 
-$sql_receiver = "SELECT user.name
-FROM user
-INNER JOIN message ON user.id = message.sender_id
-INNER JOIN conversation ON message.conversation = conversation.id
-WHERE conversation.id = ?
-AND message.sender_id != ?
-GROUP BY conversation.id";
+$sql_receiver = "SELECT u.name
+FROM user AS u
+INNER JOIN message AS m ON u.id = m.sender_id
+INNER JOIN conversation AS cv ON m.conversation = cv.id
+WHERE cv.id = ?
+AND m.sender_id != ?
+GROUP BY cv.id";
 
 $conn = get_conn();
-$current_dt = get_datetime(TRUE);
 
 if ($query = $conn->prepare($sql_item)) {
 	$query->bind_param("iii", $convo_id, $sender_id, $sender_id);

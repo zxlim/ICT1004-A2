@@ -12,8 +12,8 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-require_once("serverside/functions/database.php");
 require_once("serverside/functions/validation.php");
+require_once("serverside/functions/database.php");
 
 $error_image = $error_name = $error_desc = $error_date = $error_tags = "";
 $error_price = $error_condition = $error_age = $error_cat = $error_loc = "";

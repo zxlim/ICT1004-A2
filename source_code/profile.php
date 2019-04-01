@@ -61,14 +61,14 @@ define("WEBPAGE_TITLE", "Profile");
                                         <p><?php safe_echo($profile["email"]); ?></p>
                                     </div>
                                     <div class="col-4">
-                                        <h4>Join Date</h4>
-                                        <p><?php safe_echo($profile["join_date"]); ?></p>
+                                        <h4>Gender</h4>
+                                        <p><?php safe_echo($profile["gender"]); ?></p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-4">
-                                        <h4>Gender</h4>
-                                        <p><?php safe_echo($profile["gender"]); ?></p>
+                                        <h4>Join Date</h4>
+                                        <p><?php safe_echo($profile["join_date"]); ?></p>
                                     </div>
                                     <div class="col-8">
                                         <h4>Bio</h4>

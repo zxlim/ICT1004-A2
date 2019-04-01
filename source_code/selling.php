@@ -164,11 +164,11 @@ require_once("serverside/components/selling.php");
                     if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
                         alert("The file uploaded is not in the correct format");
                         this.removeFile(file);
-                    }
-                    fileCount += 1;
-                    if (fileCount > 5) {
+                    } else if (fileCount > 5) {
                         alert("5 files have already been uploaded");
                         this.removeFile(file);
+                    } else {
+                        fileCount += 1;
                     }
                 });
                 this.on("complete", function (file) {

@@ -147,7 +147,7 @@ class FastTradeMessenger {
 					setTimeout(function() {
 						log_debug("Auto-reloading messages...");
 						FTMsg.fetch();
-					}, 1000 * FTNotification.fetch_interval);
+					}, 1000 * FTMsg.fetch_interval);
 				} else {
 					log_debug("Not authenticated, could not complete request.");
 				}

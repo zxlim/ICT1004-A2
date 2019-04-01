@@ -36,6 +36,7 @@ require_once("serverside/components/selling.php");
                         </div>
 
                         <br>
+                        <h4>Image Preview</h4>
                         <div id="preview" class="dotted_border"></div>
                     </div>
 

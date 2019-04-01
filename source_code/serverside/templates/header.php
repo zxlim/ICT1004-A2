@@ -88,6 +88,11 @@ if (defined("CLIENT") === FALSE) {
                         </li>
                          <?php } ?>
 
+                            <li class="nav-item">
+                                <button class="search" id="search">
+                                    <span class="lnr lnr-magnifier"></span>
+                                </button>
+                            </li>
 
 						<?php } ?>
 

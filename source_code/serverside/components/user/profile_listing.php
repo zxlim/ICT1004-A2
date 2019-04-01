@@ -6,8 +6,9 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
-
-    $id = $_GET['id'];
+    #$id = 0;
+    #$id = $_GET['id'];
+    #$id = $item["user_id"];
     #echo "Boooom : ".$id;
 
 

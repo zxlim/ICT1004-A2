@@ -207,7 +207,7 @@ require_once("serverside/components/selling.php");
             var link = obj.data.link;
             var deleteHash = obj.data.deletehash; //TODO
 
-            $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'><br><button onsubmit='return deleteImgurImage("+ deleteHash +")' class='btn btn-link'>Remove</button><br>");
+            $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'><br><button onclick='return deleteImgurImage("+ deleteHash +")' class='btn btn-link'>Remove</button><br>");
             $("#hidden_fields").append("<input type='hidden' name='imgur_link[]' value='" + link + "'>");
         });
     }

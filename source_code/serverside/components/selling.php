@@ -147,6 +147,7 @@ if (isset($_POST['selling_submit'])) {
             $query2->close();
         }
         $query->close();
+        header("Location: item.php?id=".$inserted_listing_id);
     }
 }
 

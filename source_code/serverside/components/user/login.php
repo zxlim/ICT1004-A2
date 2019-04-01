@@ -37,20 +37,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$error_message = "Please enter your password.";
 	} else {
 		// Input fields validated.
-		$sql = "SELECT id, loginid, name, password FROM user WHERE loginid = ?";
+		$sql = "SELECT id, loginid, name, password, admin FROM user WHERE loginid = ?";
 
 		$conn = get_conn();
 
 		if ($query = $conn->prepare($sql)) {
 			$query->bind_param("s", $_POST["loginid"]);
 			$query->execute();
-			$query->bind_result($id, $loginid, $name, $password);
+			$query->bind_result($id, $loginid, $name, $password, $is_admin);
 
 			if ($query->fetch()) {
 				if (pw_verify($_POST["password"], $password) === TRUE) {
 					// Authentication successful.
 					session_start();
 					$_SESSION["is_authenticated"] = TRUE;
+					$_SESSION["is_admin"] = (bool)$is_admin;
 					$_SESSION["user_id"] = (int)($id);
 					$_SESSION["user_loginid"] = $loginid;
 					$_SESSION["user_name"] = $name;

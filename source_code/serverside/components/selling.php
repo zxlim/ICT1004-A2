@@ -1,162 +1,202 @@
 <?php
+##############################
+# selling.php
+# Logic for processing listing creation.
+##############################
 
 if (defined("CLIENT") === FALSE) {
-    /**
-     * Ghetto way to prevent direct access to "include" files.
-     */
-    http_response_code(404);
-    die();
-}
-
-if (!$session_is_authenticated === True) {
-    header("Location: login.php");
-    exit;
-}
-
-if ($session_is_authenticated === TRUE) {
-    $current_user_id = (int)($_SESSION["user_id"]);
+	/**
+	 * Ghetto way to prevent direct access to "include" files.
+	 */
+	http_response_code(404);
+	die();
 }
 
 require_once("serverside/functions/database.php");
+require_once("serverside/functions/validation.php");
 
-$urlsErr = $product_nameErr = $product_descErr = $listing_tillErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
-$urls = $product_name = $product_desc = $listing_till = $tags = $price = $condition = $age = $category = $location = "";
-$links_array = array();
+$error_image = $error_name = $error_desc = $error_date = $error_tags = "";
+$error_price = $error_condition = $error_age = $error_cat = $error_loc = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["imgur_link"])) {
-        $links = $_POST["imgur_link"];
-        foreach ($links as $key => $link) {
-            array_push($links_array, $link);
-        }
-    } else {
-        $urlsErr = "URL list is empty";
-    }
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+	// POST request method.
+	$error_create = FALSE;
 
-    if (empty($_POST["product_name"])) {
-        $product_nameErr = "Product Name is required";
-    } else {
-        $product_name = test_input($_POST["product_name"]);
-    }
+	if (validate_notempty($_POST["images"], "array") === FALSE) {
+		$error_create = TRUE;
+		$error_image = "No image uploaded. Please upload at least one image.";
+	} else {
+		foreach ($_POST["images"] as $key => $url) {
+			if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+				// Expected to receive URL but didn't.
+				$error_create = TRUE;
+				$error_image = "Invalid image data received. Please try again.";
+			}
+		}
+	}
 
-    if (empty($_POST["product_desc"])) {
-        $product_descErr = "Product Description is required";
-    } else {
-        $product_desc = test_input($_POST["product_desc"]);
-    }
+	if (validate_notempty($_POST["product_name"]) === FALSE) {
+		$error_create = TRUE;
+		$error_name = "Listing Name is required.";
+	}
 
-    if (empty($_POST["listing_till"])) {
-        $listing_tillErr = "Product Listing is required";
-    } else {
-        $listing_till = test_input($_POST["listing_till"]);
-    }
+	if (validate_notempty($_POST["product_desc"]) === FALSE) {
+		$error_create = TRUE;
+		$error_desc = "Listing Description is required.";
+	}
 
-    if (empty($_POST["tags"])) {
-        $tagsErr = "Product Tags is required";
-    } else {
-        $tags = test_input($_POST["tags"]);
-    }
+	if (validate_notempty($_POST["listing_expiry"]) === FALSE) {
+		$error_create = TRUE;
+		$error_date = "Listing Expiry is required.";
+	} else if (date("Y/m/d", strtotime($_POST["listing_expiry"])) !== $_POST["listing_expiry"]) {
+		$error_create = TRUE;
+		$error_date = "Listing Expiry is not in the correct format.";
+	}
 
-    if (empty($_POST["price"])) {
-        $priceErr = "Product Price is required";
-    } else {
-        $price = test_input($_POST["price"]);
-    }
+	if (validate_notempty($_POST["tags"]) === FALSE) {
+		$error_create = TRUE;
+		$error_tags = "Tag is required.";
+	}
 
-    if (empty($_POST["condition"])) {
-        $conditionErr = "Product Condition is required";
-    } else {
-        $condition = test_input($_POST["condition"]);
-    }
+	if (validate_notempty($_POST["price"], "int") === FALSE) {
+		$error_create = TRUE;
+		$error_price = "Price is required.";
+	} else if (validate_numeric($_POST["price"]) === FALSE) {
+		$error_create = TRUE;
+		$error_price = "Price is not in the correct format.";
+	} else if (validate_float((float)($_POST["price"])) === FALSE) {
+		$error_create = TRUE;
+		$error_price = "Price is not in the correct format.";
+	}
 
-    if (empty($_POST["age"])) {
-        $ageErr = "Product Age is required";
-    } else {
-        $age = test_input($_POST["age"]);
-    }
+	if (validate_notempty($_POST["condition"], "int") === FALSE) {
+		$error_create = TRUE;
+		$error_condition = "Product Condition is required.";
+	} else if (validate_numeric($_POST["condition"]) === FALSE || validate_int($_POST["condition"]) === FALSE) {
+		$error_create = TRUE;
+		$error_price = "Product Condition is not in the correct format.";
+	}
 
-    if (empty($_POST["categorySelection"])) {
-        $categoryErr = "Product Category is required";
-    } else {
-        $category = test_input($_POST["categorySelection"]);
-    }
+	if (validate_notempty($_POST["age"], "int") === FALSE) {
+		$error_create = TRUE;
+		$error_age = "Product Age is required.";
+	} else if (validate_numeric($_POST["age"]) === FALSE || validate_int($_POST["age"]) === FALSE) {
+		$error_create = TRUE;
+		$error_price = "Product Age is not in the correct format.";
+	}
 
-    if (empty($_POST["locationSelection"])) {
-        $locationErr = "Meetup Location is required";
-    } else {
-        $location = test_input($_POST["locationSelection"]);
-    }
+	if (validate_notempty($_POST["category"], "int") === FALSE) {
+		$error_create = TRUE;
+		$error_cat = "Please choose a category.";
+	} else if (validate_numeric($_POST["category"]) === FALSE || validate_int($_POST["category"]) === FALSE) {
+		$error_create = TRUE;
+		$error_price = "Category is not in the correct format.";
+	}
+
+	if (validate_notempty($_POST["location"], "int") === FALSE) {
+		$error_create = TRUE;
+		$error_loc = "Please choose a location.";
+	} else if (validate_numeric($_POST["location"]) === FALSE || validate_int($_POST["location"]) === FALSE) {
+		$error_create = TRUE;
+		$error_price = "Location is not in the correct format.";
+	}
+
+	if ($error_create === FALSE) {
+		// All fields successfully validated.
+		$listing_id = NULL;
+		$image_urls = array();
+		$current_user_id = (int)($_SESSION["user_id"]);
+
+		foreach ($_POST["images"] as $key => $url) {
+			array_push($image_urls, $url);
+		}
+
+		$sql = "INSERT INTO listing
+				(title, description, tags, price, item_condition, item_age, meetup_location, show_until, category_id, seller_id)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		$sql_imgur = "INSERT INTO picture (listing_id, url) VALUES(?, ?)";
+
+		$conn = get_conn();
+
+		// Create the listing.
+		if ($query = $conn->prepare($sql)) {
+			$query->bind_param("sssdiissii",
+				$_POST["product_name"], $_POST["product_desc"], $_POST["tags"], $_POST["price"], $_POST["condition"],
+				$_POST["age"], $_POST["location"], $_POST["listing_expiry"], $_POST["category"], $current_user_id
+			);
+
+			$query->execute();
+			$listing_id = $query->insert_id;
+			$query->close();
+		}
+
+		if ($listing_id !== NULL) {
+			// Insert the listing images into the database.
+			if ($query = $conn->prepare($sql_imgur)) {
+				foreach ($image_urls as $url) {
+					$query->bind_param("is", $listing_id, $url);
+					$query->execute();
+				}
+
+				$query->close();
+			}
+		}
+
+		$conn->close();
+
+		if ($listing_id !== NULL) {
+			// Successfully created listing. Redirect to item page.
+			header(sprintf("Location: item.php?id=%d", $listing_id));
+			// Prevent further execution of PHP code in case redirect fails.
+			die();
+		}
+	}
 }
 
-// DB Conn Part
+$categories = $locations = array();
+
+$sql_category = "SELECT id, name FROM category ORDER BY id";
+$sql_location = "SELECT * FROM locations";
+
 $conn = get_conn();
 
-$mrt_stations = array();
-$mrt_result = "SELECT * FROM locations";
-if ($query = $conn->prepare($mrt_result)) {
-    $query->execute();
-    $query->bind_result($loc_id, $stn_code, $stn_name, $stn_line);
+if ($query = $conn->prepare($sql_category)) {
+	$query->execute();
+	$query->bind_result($id, $name);
 
-    while ($query->fetch()) {
-        if ($stn_code === NULL) {
-            $location = $stn_name;
-        } else {
-            $location = sprintf("%s, %s (%s)", $stn_line, $stn_name, $stn_code);
-        }
+	while ($query->fetch()) {
+		$row = array(
+			"id" => $id,
+			"name" => $name,
+		);
 
-        $data = array(
-            "id" => $loc_id,
-            "location" => $location,
-        );
-        array_push($mrt_stations, $data);
-    }
-    $query->close();
+		array_push($categories, $row);
+	}
+	
+	$query->close();
 }
 
-$cat_list = array();
-$cat_result = "SELECT id, name FROM category ORDER BY id";
-if ($query = $conn->prepare($cat_result)) {
-    $query->execute();
-    $query->bind_result($id, $name);
+if ($query = $conn->prepare($sql_location)) {
+	$query->execute();
+	$query->bind_result($id, $code, $name, $line);
 
-    while ($query->fetch()) {
-        $data = array(
-            "id" => (int)$id,
-            "name" => $name
-        );
-        array_push($cat_list, $data);
-    }
-    $query->close();
+	while ($query->fetch()) {
+		if ($code === NULL) {
+			$location = $name;
+		} else {
+			$location = sprintf("%s, %s (%s)", $line, $name, $code);
+		}
+
+		$row = array(
+			"id" => $id,
+			"location" => $location,
+		);
+
+		array_push($locations, $row);
+	}
+
+	$query->close();
 }
 
-
-if (isset($_POST['selling_submit'])) {
-    $insert_listing = "INSERT INTO listing (title, description, tags, price, item_condition, item_age, meetup_location, show_until, seller_id, category_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
-    $insert_imgur = "INSERT INTO picture (listing_id, url) VALUES(?,?)";
-
-    if ($query = $conn->prepare($insert_listing)) {
-        $query->bind_param("sssdiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $listing_till, $current_user_id, $category);
-        $query->execute();
-        $inserted_listing_id = mysqli_insert_id($conn);
-
-        if ($query2 = $conn->prepare($insert_imgur)) {
-            foreach ($links_array as $link) {
-                $query2->bind_param("is", $inserted_listing_id, $link);
-                $query2->execute();
-            }
-            $query2->close();
-        }
-        $query->close();
-        header("Location: item.php?id=".$inserted_listing_id);
-    }
-}
-
-function test_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-?>
+$conn->close();

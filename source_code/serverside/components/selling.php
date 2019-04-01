@@ -8,14 +8,14 @@ if (defined("CLIENT") === FALSE) {
     die();
 }
 
-//if (!$session_is_authenticated === True) {
-//    header("Location: login.php");
-//    exit;
-//}
-//
-//if ($session_is_authenticated === TRUE) {
-//    $current_user_id = (int)($_SESSION["user_id"]);
-//}
+if (!$session_is_authenticated === True) {
+    header("Location: login.php");
+    exit;
+}
+
+if ($session_is_authenticated === TRUE) {
+    $current_user_id = (int)($_SESSION["user_id"]);
+}
 
 require_once("serverside/functions/database.php");
 

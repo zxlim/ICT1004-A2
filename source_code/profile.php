@@ -78,7 +78,7 @@ define("WEBPAGE_TITLE", "Profile");
                                 <div class="row">
                                     <br/>
                                     <div class="col-12 form-group card_area align-items-center text-center">
-                                        <button type="submit" name="selling_submit" class="btn primary-btn">
+                                        <button type="submit" name="selling_submit" class="btn info-btn">
                                             Edit Profile
                                         </button>
                                     </div>

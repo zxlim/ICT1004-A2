@@ -124,8 +124,8 @@ function dateValidate(date) {
         day =  res[3];
 
         if (year >= thisYear) {
-            if (month >= thisMonth) {
-                if (day >= thisDay) {
+            if (month >= thisMonth && month > 0 && month < 13) {
+                if (day >= thisDay && day > 0 && day < 31) {
                     return true;
                 }
             }
@@ -225,7 +225,7 @@ $(document).ready(function () {
             notify("Listing date is not in the correct format.", "warning");
             e.preventDefault();
             return false;
-        } else if (allnumeric($("#price").val()) === false || decimals($("#price").val() === false)) {
+        } else if (decimals($("#price").val() === false)) {
             notify("Product Price is not in the correct format.", "warning");
             e.preventDefault();
             return false;

@@ -120,7 +120,7 @@ if ($query = $conn->prepare($cat_result)) {
 
 if (isset($_POST['selling_submit'])) {
     $insert_listing = "INSERT INTO listing (title, description, tags, price, item_condition, item_age, meetup_location, show_until, seller_id, category_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
-    $insert_imgur = "INSERT INTO picture (listing_id, imgur_link) VALUES(?,?)";
+    $insert_imgur = "INSERT INTO picture (listing_id, url) VALUES(?,?)";
 
     if ($query = $conn->prepare($insert_listing)) {
         $query->bind_param("sssdiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $listing_till, $user_id, $category);
@@ -133,8 +133,6 @@ if (isset($_POST['selling_submit'])) {
                 $query2->execute();
             }
             $query2->close();
-        } else {
-            $conn->error;
         }
         $query->close();
     }

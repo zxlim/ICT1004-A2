@@ -1,7 +1,6 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/constants.php");
-require_once("serverside/components/user/register.php");
 require_once("serverside/components/user/profile.php");
 ?>
 <!DOCTYPE html>

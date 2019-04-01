@@ -8,7 +8,12 @@ if (defined("CLIENT") === FALSE) {
     die();
 }
 
-require_once("serverside/functions/database.php");
+if (!$session_is_authenticated === True) {
+    header("Location: login.php");
+    exit;
+}
+
+    require_once("serverside/functions/database.php");
 
 $urlsErr = $product_nameErr = $product_descErr = $listing_tillErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
 $user_id = $urls = $product_name = $product_desc = $listing_till = $tags = $price = $condition = $age = $category = $location = "";

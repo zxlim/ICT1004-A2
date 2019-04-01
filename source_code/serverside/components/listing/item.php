@@ -170,11 +170,11 @@ if (isset($item)) {
 			$convo_link = "message_list.php";
 		} else {
 			$convo_id = NULL;
-			$sql_convo = "SELECT id FROM conversation WHERE (user1 = ? OR user2 = ?)";
+			$sql_convo = "SELECT id FROM conversation WHERE listing_id = ? AND (user1 = ? OR user2 = ?)";
 			$sql_convo_create = "INSERT INTO conversation (listing_id, user1, user2) VALUES (?, ?, ?)";
 			
 			if ($query = $conn->prepare($sql_convo)) {
-				$query->bind_param("ii", $current_user_id, $current_user_id);
+				$query->bind_param("iii", $item["id"], $current_user_id, $current_user_id);
 				$query->execute();
 				$query->bind_result($id);
 

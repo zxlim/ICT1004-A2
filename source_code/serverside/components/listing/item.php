@@ -29,36 +29,35 @@ $item = NULL;
 $related_items = array();
 $related_seller_items = array();
 
-$sql_item = "SELECT listing.id, listing.title, listing.description, listing.tags,
-listing.price, listing.item_condition, listing.item_age, listing.show_until, listing.sold,
-locations.stn_code, locations.stn_name, locations.stn_line,
-category.id, category.name, user.id, user.name, user.join_date, user.bio, user_picture.id
-FROM listing
-INNER JOIN locations ON listing.meetup_location = locations.id
-INNER JOIN category ON listing.category_id = category.id
-INNER JOIN user ON listing.seller_id = user.id
-LEFT JOIN user_picture ON user.id = user_picture.user_id
-WHERE listing.id = ?";
+$sql_item = "SELECT l.id, l.title, l.description, l.tags,
+l.price, l.item_condition, l.item_age, l.show_until, l.sold,
+loc.stn_code, loc.stn_name, loc.stn_line,
+c.id, c.name, u.id, u.name, u.join_date, u.bio, u.profile_pic
+FROM listing AS l
+INNER JOIN locations AS loc ON l.meetup_location = loc.id
+INNER JOIN category AS c ON l.category_id = c.id
+INNER JOIN user AS u ON l.seller_id = u.id
+WHERE l.id = ?";
 
-$sql_related_listings = "SELECT listing.id, listing.title, listing.price, picture.url
-FROM listing
-LEFT JOIN picture ON listing.id = picture.listing_id
-WHERE listing.sold = 0
-AND listing.id != ?
-AND DATE(listing.show_until) > ?
-AND listing.category_id = ?
-GROUP BY listing.id
-ORDER BY listing.view_counts DESC LIMIT 9";
+$sql_related_listings = "SELECT l.id, l.title, l.price, p.url
+FROM listing AS l
+LEFT JOIN picture AS p ON l.id = p.listing_id
+WHERE l.sold = 0
+AND l.id != ?
+AND DATE(l.show_until) > ?
+AND l.category_id = ?
+GROUP BY l.id
+ORDER BY l.view_counts DESC LIMIT 9";
 
-$sql_seller_listings = "SELECT listing.id, listing.title, listing.price, picture.url
-FROM listing
-LEFT JOIN picture ON listing.id = picture.listing_id
-WHERE listing.sold = 0
-AND listing.seller_id = ?
-AND listing.id != ?
-AND DATE(listing.show_until) > ?
-GROUP BY listing.id
-ORDER BY listing.id DESC LIMIT 4";
+$sql_seller_listings = "SELECT l.id, l.title, l.price, p.url
+FROM listing AS l
+LEFT JOIN picture AS p ON l.id = p.listing_id
+WHERE l.sold = 0
+AND l.seller_id = ?
+AND l.id != ?
+AND DATE(l.show_until) > ?
+GROUP BY l.id
+ORDER BY l.id DESC LIMIT 4";
 
 $sql_pictures = "SELECT url FROM picture WHERE listing_id = ?";
 

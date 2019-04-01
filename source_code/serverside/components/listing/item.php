@@ -39,6 +39,10 @@ INNER JOIN category AS c ON l.category_id = c.id
 INNER JOIN user AS u ON l.seller_id = u.id
 WHERE l.id = ?";
 
+$sql_viewcount = "UPDATE listing
+SET view_counts = (view_counts + 1)
+WHERE id = ?";
+
 $sql_related_listings = "SELECT l.id, l.title, l.price, p.url
 FROM listing AS l
 LEFT JOIN picture AS p ON l.id = p.listing_id
@@ -109,7 +113,14 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->close();
 }
 
-if (isset($item)) {
+if (isset($item) === TRUE) {
+	if ($query = $conn->prepare($sql_viewcount)) {
+		// Increment view count.
+		$query->bind_param("i", $item["id"]);
+		$query->execute();
+		$query->close();
+	}
+
 	if ($query = $conn->prepare($sql_pictures)) {
 		$query->bind_param("i", $item["id"]);
 		$query->execute();

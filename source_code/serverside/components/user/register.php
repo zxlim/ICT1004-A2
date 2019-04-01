@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			"password" => pw_hash($_POST["password1"]),
 			"email" => trim($_POST["email"]),
 			"gender" => $gender,
-			"code" => trim(generate_token(12)),
+			"code" => trim(generate_token(8)),
 			"code_attempt" => 0,
 			"code_expiry" => (int)(strtotime(get_datetime(FALSE, 900))),
 		);
@@ -165,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$mailer->addReplyTo(SMTP_REPLY, SMTP_REPLY_NAME);
 		$mailer->addAddress($data["email"], $data["name"]);
 		$mailer->isHTML(true);
-		$mailer->Subject = "[FastTrade 08] Please verify your email address";
+		$mailer->Subject = sprintf("[%s] Verify your email address", APP_TITLE);
 
 		$mailer->Body = sprintf(
 			("Hello %s,<br /><br />" .
@@ -177,8 +177,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			"The verification code will expire in 15 minutes.<br />" .
 			"If you did not perform this action, you may safely ignore this email." .
 			"<br /><br /><br />" .
-			"Yours sincerely,<br />FastTrade 08 Support<br />"),
-			$data["name"], $data["code"]);
+			"Yours sincerely,<br />%s Support<br />"),
+			$data["name"], $data["code"], APP_TITLE);
 
 		$mailer->AltBody = sprintf(
 			("Hello %s,\n\n" .
@@ -186,8 +186,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			"In order to complete registration, you need to verify your email address using the following verification code:" .
 			"\n\n%s\n\nThe verification code will expire in 15 minutes.\n" .
 			"If you did not perform this action, you may safely ignore this email.\n\n\n" .
-			"Yours sincerely,\nFastTrade Support"),
-			$data["name"], $data["code"]);
+			"Yours sincerely,\n%s Support"),
+			$data["name"], $data["code"], APP_TITLE);
 
 		if (!$mailer->send()) {
 			session_end();

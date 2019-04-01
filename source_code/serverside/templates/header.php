@@ -15,10 +15,8 @@ if (defined("CLIENT") === FALSE) {
 			<div class="container">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<a class="navbar-brand logo_h" href="index.php">
-					<img class="nav-logo" src="static/img/fasttrade_logo.png" alt=""></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation">
+					<img class="nav-logo" src="static/img/fasttrade_logo.png" alt="FastTrade Brand Logo"></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -30,11 +28,9 @@ if (defined("CLIENT") === FALSE) {
 						<li class="<?php safe_echo(active_nav(['index.php'])); ?>">
 							<a class="nav-link" href="index.php">Home</a>
 						</li>
+
 						<li class="<?php safe_echo(active_nav(['listing.php', 'item.php'])); ?>">
 							<a class="nav-link" href="listing.php?cat=1">Shop</a>
-						</li>
-						<li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
-							<a class="nav-link" href="contact.php">Contact Us</a>
 						</li>
 
 						<li class="<?php safe_echo(active_nav(['login.php', 'register.php'])); ?> submenu dropdown">
@@ -47,8 +43,7 @@ if (defined("CLIENT") === FALSE) {
 									<a href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
 									<a class="nav-link" href="profile.php?id=<?php echo $_SESSION["user_id"]?>">Profile</a>
 								</li>
-
-								<li class="<?php safe_echo(active_nav(['login.php'])); ?>">
+								<li class="nav-item">
 									<a class="nav-link" href="logout.php">Logout</a>
 								</li>
 								<?php } else { ?>
@@ -61,6 +56,10 @@ if (defined("CLIENT") === FALSE) {
 								</li>
 								<?php } ?>
 							</ul>
+						</li>
+
+						<li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
+							<a class="nav-link" href="contact.php">Contact Us</a>
 						</li>
 					</ul>
 
@@ -106,6 +105,7 @@ if (defined("CLIENT") === FALSE) {
 		</div>
 	</div>
 
+	<!-- Notifications -->
 	<div class="ftnotification" id="ftnotification">
 		<div class="container">
 			<div class="row">

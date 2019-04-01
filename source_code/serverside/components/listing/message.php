@@ -23,6 +23,8 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 }
 
 $item = NULL;
+$chat_with = NULL;
+$sender_id = $_SESSION["user_id"];
 
 $sql_item = "SELECT listing.id, listing.title, listing.price,
 category.id, category.name, user.id, user.name
@@ -33,6 +35,14 @@ INNER JOIN conversation ON listing.id = conversation.listing_id
 WHERE conversation.id = ?
 GROUP BY listing.id";
 
+$sql_receiver = "SELECT user.name
+FROM user
+INNER JOIN message ON user.id = message.sender_id
+INNER JOIN conversation ON message.conversation = conversation.id
+WHERE conversation.id = ?
+AND message.sender_id != ?
+GROUP BY conversation.id";
+
 $conn = get_conn();
 $current_dt = get_datetime(TRUE);
 
@@ -42,7 +52,6 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->bind_result($id, $title, $price, $cat_id, $cat_name, $user_id, $user_name);
 
 	if ($query->fetch()) {
-
 		$item = array(
 			"id" => (int)($id),
 			"title" => $title,
@@ -57,6 +66,18 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->close();
 }
 
-$conn->close();
+if ($item !== NULL) {
+	if ($query = $conn->prepare($sql_receiver)) {
+		$query->bind_param("ii", $convo_id, $sender_id);
+		$query->execute();
+		$query->bind_result($receiver_name);
 
-$sender_id = $_SESSION["user_id"];
+		if ($query->fetch()) {
+			$chat_with = $receiver_name;
+		}
+
+		$query->close();
+	}
+}
+
+$conn->close();

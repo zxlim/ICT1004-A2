@@ -50,7 +50,7 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 	<section class="section_gap">
 		<div class="container">
 			<h3 class="text-center mb-3">
-				Chatting with <span class="text-info"><?php safe_echo($item["user_name"]); ?></span>
+				Chatting with <span class="text-info"><?php safe_echo($chat_with); ?></span>
 			</h3>
 			<div class="message-box bg-white shadow">
 				<div class="row message-details">

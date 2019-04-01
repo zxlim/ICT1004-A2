@@ -177,7 +177,7 @@ class FastTradeMessenger {
 			dataType: "json",
 			success: function(response) {
 				// Success event.
-				FTMsg.fetch(true, true);
+				//FTMsg.fetch(true, true);
 				log_debug("Message sent successfully.");
 			},
 			error: function(response) {

@@ -333,25 +333,38 @@ hr .dotted {
 	display: block;
 	width: 100% !important;
 	padding: 1em;
-	background-color: rgba(240, 240, 240, 0.85);
+	background-color: rgba(240, 240, 240, 0.75);
 	-webkit-transition: all 0.3s ease 0s;
 	-moz-transition: all 0.3s ease 0s;
 	-o-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
 }
 
-.ftnotification li.unread > a:after {
+.ftnotification li.unread > a {
+	background-color: rgba(240, 240, 240, 0.9);
+}
+
+.ftnotification li > a > span.datetime::after {
+	display: inline-block;
 	font-family: "Font Awesome 5 Free";
 	font-style: normal;
 	font-variant: normal;
+	font-weight: 900;
 	-webkit-font-smoothing: antialiased;
-	font-size: 1.2em;
 	text-rendering: auto;
-	content: "\f4ad";
-	position: absolute;
-	top: 23%;
-	right: 2em;
+	font-size: 1.2em;
+	padding-left: 1em;
+	content: "\f00c";
+}
+
+.ftnotification li.unread > a > span.datetime::after {
+	font-weight: 400;
+	content: "\f4ad" !important;
 	color: #38a4ff;
+	-webkit-transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-o-transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0s;
 }
 
 .ftnoti-banner > span.item,
@@ -373,13 +386,53 @@ hr .dotted {
 	color: #fff;
 }
 
-.ftnotification li.unread > a:hover:after {
+.ftnotification li.unread > a:hover > span.datetime::after {
 	color: #fff;
 }
 
 .ftnoti-banner > span.dt {
 	font-size: 0.8em;
 	text-decoration: underline;
+}
+
+#ftmsg-all-list tr {
+	border-bottom: 1px solid #ddd;
+	-webkit-transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-o-transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0s;
+}
+
+#ftmsg-all-list tr td .uname {
+	font-weight: 700;
+	font-size: 1.2em;
+}
+
+#ftmsg-all-list tr.unread td .uname {
+	color: #38a4ff;
+	-webkit-transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-o-transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0s;
+}
+
+#ftmsg-all-list tr td.date {
+	background-color: rgba(56, 164, 255, 0.7);
+	color: #fff;
+}
+
+#ftmsg-all-list tr:hover {
+	background-color: #eee !important;
+	cursor: pointer;
+}
+
+#ftmsg-all-list tr.unread:hover {
+	background-color: #38a4ff !important;
+	color: #fff !important;
+}
+
+#ftmsg-all-list tr.unread:hover td .uname {
+	color: #fff !important;
 }
 
 .message-box {

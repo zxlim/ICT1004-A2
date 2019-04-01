@@ -25,9 +25,9 @@ if (session_isauth() === FALSE) {
 	$response["message"] = "Authentication is required to access this resource";
 } else if ($_SERVER["REQUEST_METHOD"] === "GET") {
 	// GET request.
-	if (isset($_GET["state"]) && isset($_GET["action"]) && $_GET["action"] === "ping") {
+	if (isset($_GET["state"]) && isset($_GET["action"]) && ($_GET["action"] === "ping" || $_GET["action"] === "list")) {
 		// Valid request `ping`.
-		$action = "ping";
+		$action = $_GET["action"];
 		$state = $_GET["state"];
 		$valid_request = TRUE;
 	} else if (isset($_GET["ctr"]) === FALSE || validate_int($_GET["ctr"]) === FALSE ||
@@ -80,14 +80,21 @@ $user_id = (int)($_SESSION["user_id"]);
 
 $conn = get_conn();
 
+/**
+* Why "18446744073709551615" you ask? See:
+* 1. https://stackoverflow.com/a/271650
+* 2. https://mariadb.com/kb/en/library/why-is-order-by-in-a-from-subquery-ignored/
+*/
+
 if ($action === "ping") {
-	$sql = "SELECT conversation.id, MAX(message.datetime), message.receiver_read, listing.id, listing.title, user.id, user.name FROM message
-			INNER JOIN conversation ON message.conversation = conversation.id
-			INNER JOIN listing ON conversation.listing_id = listing.id
-			INNER JOIN user ON message.sender_id = user.id
-			AND message.sender_id != ?
-			AND (conversation.user1 = ? OR conversation.user2 = ?)
-			GROUP BY conversation.id";
+	$sql = "SELECT c.id, m.datetime, m.receiver_read, l.id, l.title, u.id, u.name
+			FROM (SELECT * FROM message ORDER BY datetime DESC LIMIT 18446744073709551615) AS m
+			INNER JOIN conversation AS c ON m.conversation = c.id
+			INNER JOIN listing AS l ON c.listing_id = l.id
+			INNER JOIN user AS u ON m.sender_id = u.id
+			WHERE m.sender_id != ?
+			AND (c.user1 = ? OR c.user2 = ?)
+			GROUP BY c.id";
 
 	if ($query = $conn->prepare($sql)) {
 		$query->bind_param("iii", $user_id, $user_id, $user_id);
@@ -113,21 +120,60 @@ if ($action === "ping") {
 	}
 
 	$response["message"] = sha256(serialize($response["data"]));
+} else if ($action === "list") {
+	$sql = "SELECT c.id, m.data, m.datetime, m.receiver_read, l.id, l.title, u.id, u.name
+			FROM (SELECT * FROM message ORDER BY datetime DESC LIMIT 18446744073709551615) AS m
+			INNER JOIN conversation AS c ON m.conversation = c.id
+			INNER JOIN listing AS l ON c.listing_id = l.id
+			INNER JOIN user AS u ON m.sender_id = u.id
+			WHERE c.user1 = ? OR c.user2 = ?
+			GROUP BY c.id";
+
+	if ($query = $conn->prepare($sql)) {
+		$query->bind_param("ii", $user_id, $user_id);
+		$query->execute();
+		$query->bind_result($convo_id, $msg_data, $msg_dt, $msg_rr, $listing_id, $listing_title, $uid, $uname);
+
+		while ($query->fetch()) {
+			if ($user_id === $uid) {
+				$read_state = TRUE;
+			} else {
+				$read_state = (bool)($msg_rr);
+			}
+
+			$row = array(
+				"convo_id" => (int)($convo_id),
+				"datetime" => date("d M Y, g:i A", strtotime($msg_dt)),
+				"datetime_epoch" => (int)(strtotime($msg_dt)),
+				"data" => truncate($msg_data, 64),
+				"read" => $read_state,
+				"listing_id" => (int)($listing_id),
+				"listing_title" => html_safe($listing_title),
+				"user_id" => (int)($uid),
+				"user_name" => html_safe($uname),
+			);
+
+			array_push($response["data"], $row);
+		}
+
+		$query->close();
+	}
+
+	$response["message"] = sha256(serialize($response["data"]));
 } else if ($action === "fetch") {
-	// Why 18446744073709551615 you ask? See: `https://stackoverflow.com/a/271650`.
-	$sql = "SELECT message.sender_id, message.data, message.datetime, message.receiver_read FROM message
-			INNER JOIN conversation ON message.conversation = conversation.id
-			WHERE conversation.id = ?
-			AND (conversation.user1 = ? OR conversation.user2 = ?)
-			ORDER BY message.datetime
+	$sql = "SELECT m.sender_id, m.data, m.datetime, m.receiver_read FROM message AS m
+			INNER JOIN conversation AS c ON m.conversation = c.id
+			WHERE c.id = ?
+			AND (c.user1 = ? OR c.user2 = ?)
+			ORDER BY m.datetime
 			LIMIT ?, 18446744073709551615";
 
-	$sql_read = "UPDATE message
-			INNER JOIN conversation ON conversation.id = message.conversation
-			SET message.receiver_read = 1
-			WHERE conversation.id = ?
-			AND message.sender_id != ?
-			AND message.receiver_read = 0";
+	$sql_read = "UPDATE message AS m
+				INNER JOIN conversation AS c ON c.id = m.conversation
+				SET m.receiver_read = 1
+				WHERE c.id = ?
+				AND m.sender_id != ?
+				AND m.receiver_read = 0";
 
 	if ($query = $conn->prepare($sql)) {
 		$query->bind_param("iiii", $convo_id, $user_id, $user_id, $offset);

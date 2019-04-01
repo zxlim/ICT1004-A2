@@ -8,11 +8,6 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-//    if (isset($_SESSION['loginid'])) {
-//        //echo "Login Successful!";
-//        $login = true;
-//    }
-
 ?>
 <header class="header_area sticky-header">
 	<div class="main_menu">
@@ -87,16 +82,12 @@ if (defined("CLIENT") === FALSE) {
                                 <a href="admin_page.php"><span class="lnr lnr-user"></span></a>
                             </button>
                         </li>
-                         <?php } ?>
-
+                         <?php }} ?>
                             <li class="nav-item">
                                 <button class="search" id="search">
                                     <span class="lnr lnr-magnifier"></span>
                                 </button>
                             </li>
-
-						<?php } ?>
-
 					</ul>
 				</div>
 			</div>
@@ -123,6 +114,9 @@ if (defined("CLIENT") === FALSE) {
 					<ul class="shadow" id="ftnotification-list">
 						<li>
 							<a class="no-click-event" href="#">No new notifications.</a>
+						</li>
+						<li>
+							<a href="message_list.php">See all messages</a>
 						</li>
 					</ul>
 				</div>

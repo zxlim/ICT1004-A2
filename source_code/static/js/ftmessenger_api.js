@@ -278,7 +278,9 @@ class FastTradeMessengerNotification {
 						$("#ftnotification-list").html(
 							"<li>" +
 							"<a class='no-click-event' href='#'>No new notifications.</a>" +
-							"</li>"
+							"</li><li>" +
+							"<a href='message_list.php'>" +
+							"See all messages</a></li>"
 						);
 					}
 				}
@@ -294,6 +296,101 @@ class FastTradeMessengerNotification {
 						log_debug("Auto-reloading notifications...");
 						FTNotification.fetch();
 					}, 1000 * FTNotification.fetch_interval);
+				} else {
+					log_debug("Not authenticated, could not complete request.");
+				}
+			}
+		});
+	}
+}
+
+class FastTradeMessengerList {
+	constructor() {
+		this.api_url = "messageAPI.php";
+		this.fetch_interval = 3;
+		this.state = "null";
+	}
+
+	update_state(value) {
+		if (String(value) !== this.state) {
+			this.state = String(value);
+		}
+	}
+
+	reset_state(value) {
+		this.state = "null";
+	}
+
+	fetch() {
+		const FTList = this;
+		const current_state = this.state
+		const form_data = "action=list&state=" + this.state;
+
+		$.ajax({
+			async: true,
+			data: form_data,
+			dataType: "json",
+			method: "GET",
+			url: this.api_url,
+			success: function(response) {
+				// Success event.
+				if (response.message === current_state) {
+					// Not modified; no new updates.
+					log_debug("No update.");
+				} else {
+					FTList.update_state(response.message);
+					log_debug("Updated state: " + response.message);
+				
+					if (response.data.length !== 0) {
+						$("#ftmsg-all-list").text("");
+
+						for (var i = 0; i < response.data.length; i++) {
+							let m = response.data[i];
+							let convo_id = Number(m.convo_id);
+							let m_data = String(m.data);
+							let m_dt = String(m.datetime);
+							let m_r = Boolean(m.read);
+							let l_name = String(m.listing_title);
+							let u_name = String(m.user_name);
+
+							let noti_msg = u_name + " sent a new message regarding <span class='item'>" + l_name + "</span>.";
+							var start_tag = "<tr onclick='window.location.href=\"message.php?id=" + convo_id + "\"'>";
+
+							if (m_r === false) {
+								start_tag = "<tr class='unread' onclick='window.location.href=\"message.php?id=" + convo_id + "\"'>";
+								u_name += "&nbsp;&nbsp;<i class='far fa-comment-dots'></i>";
+							}
+
+							$("#ftmsg-all-list").append(
+								start_tag + "<td>" + l_name +
+								"</td><td><div class='row col-12 uname'>" +
+								u_name + "</div><div class='row col-12 msg'>" + m_data + "</div>"
+								+ "</td><td class='dt'>" + m_dt +
+								"</td></tr>"
+							);
+						}
+					} else {
+						// Messages got erased.
+						$("#ftmsg-all-list").html(
+							"<tr class='no-pointer-event'>" +
+							"<td class='media'></td><td class='media-body'>" +
+							"<h3 class='text-center'>No messages yet.</h3>" +
+							"</td><td></td></tr>"
+						);
+					}
+				}
+			},
+			error: function(response) {
+				// Error event.
+				log_debug("HTTP Status Code: " + response.status);
+				log_debug("Message: " + response.responseJSON.message);
+			},
+			complete: function(response) {
+				if (response.status !== 401 && response.status !== 403) {
+					setTimeout(function() {
+						log_debug("Auto-reloading chats...");
+						FTList.fetch();
+					}, 1000 * FTList.fetch_interval);
 				} else {
 					log_debug("Not authenticated, could not complete request.");
 				}

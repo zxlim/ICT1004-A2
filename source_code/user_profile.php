@@ -51,38 +51,44 @@ require_once("serverside/components/user/profile.php");
   <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-  //echo $_POST['name'];
-    if(isset($results_updateuserdetails)) {
+    if (isset($results_updateuserdetails)) {
       if ($successupdate) {
-  //echo "success ";
-?>
-<h3 style="text-align:center">User Details has been successfully updated.</h3>
-
-
+        ?>
+        <h3 style="text-align:center">User Details has been successfully updated.</h3>
+ <?php
+      }
+      else {
+        ?>
+        <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
 <?php
-}
-else {
-  ?>
-  <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-  <?php
-}
-} ?>
+      }
+    }
+
+     ?>
 <button class="primary-btn" onclick="location.href='index.php'">Back to Main Page</button>
 <?php
 }
 else {
   ?>
 <!-- Admin Dashboard Page -->
+<br  />
 <div id="page-wrapper">
 
 			<div class="container-fluid">
 
-        <form class="row login_form" name="form-login" id="form-login" action="user_profile.php" method="post">
+        <form class="row login_form" name="form-login" id="form-login" action="user_profile.php" method="post" enctype="multipart/form-data">
           <?php
           foreach ($results_selectuser as $row) { ?>
 
             <input type="hidden" id="id" name="id" value="<?php safe_echo($row['id']);?>">
+
+            <div class="col-md-12 form-group">
+              <?php if (isset($row['test_pic'])) { ?>
+                <img id="photos" class="rounded-circle" src="<?php echo $row['test_pic']?>">
+              <?php } ?>
+                <div class="avatar" /><input type="file" name="avatar" accept="image/*" />
+
+            </div>
 
             <div class="col-md-12 form-group">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<?php echo $row['name']; ?>" required>
@@ -121,9 +127,8 @@ else {
             </div>
 
 
-            <div class="col-md-12 form-group" align="left">
-                <span class="errorcolor"><?php echo $genderError;?></span>
-            </div>
+
+            <br  />
 
             <div class="col-md-12 form-group">
                 <button type="submit" value="submit" class="primary-btn" name="updateuser">Update</button>

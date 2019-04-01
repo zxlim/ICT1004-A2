@@ -1,3 +1,5 @@
+
+
 .vertical-align-middle {
 	position: relative;
 	top: 50%;
@@ -509,3 +511,7 @@ hr .dotted {
 /**
 * End of FastTrade Messenger styling.
 */
+#photos {
+	width: 50vh;
+	height: 50vh;
+}

@@ -81,14 +81,13 @@ $user_id = (int)($_SESSION["user_id"]);
 $conn = get_conn();
 
 if ($action === "ping") {
-	$sql = "SELECT conversation.id, message.datetime, message.receiver_read, listing.id, listing.title, user.id, user.name FROM message
+	$sql = "SELECT conversation.id, MAX(message.datetime), message.receiver_read, listing.id, listing.title, user.id, user.name FROM message
 			INNER JOIN conversation ON message.conversation = conversation.id
 			INNER JOIN listing ON conversation.listing_id = listing.id
 			INNER JOIN user ON message.sender_id = user.id
 			AND message.sender_id != ?
 			AND (conversation.user1 = ? OR conversation.user2 = ?)
-			GROUP BY conversation.id
-			ORDER BY message.datetime";
+			GROUP BY conversation.id";
 
 	if ($query = $conn->prepare($sql)) {
 		$query->bind_param("iii", $user_id, $user_id, $user_id);
@@ -99,6 +98,7 @@ if ($action === "ping") {
 			$row = array(
 				"convo_id" => (int)($convo_id),
 				"datetime" => date("d M Y, g:i A", strtotime($msg_dt)),
+				"datetime_epoch" => (int)(strtotime($msg_dt)),
 				"read" => (bool)($msg_rr),
 				"listing_id" => (int)($listing_id),
 				"listing_title" => html_safe($listing_title),

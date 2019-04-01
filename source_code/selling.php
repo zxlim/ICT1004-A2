@@ -80,23 +80,18 @@ require_once("serverside/components/selling.php");
                                 <div class="row">
                                     <div class="col-lg-3 form-group">
                                         <h4>Condition</h4>
-                                        <input type="number" id="condition" name="condition" class="form-control"
-                                               placeholder="1"
-                                               min="1"
-                                               max="10">
+                                        <input type="number" id="condition" name="condition" class="form-control" placeholder="1" min="1" max="10">
                                     </div>
 
                                     <div class="col-lg-4 form-group">
                                         <h4>Product Age</h4>
-                                        <input type="number" id="age" name="age" class="form-control" placeholder="1"
-                                               min="1">
+                                        <input type="number" id="age" name="age" class="form-control" placeholder="1" min="0">
 
                                     </div>
 
                                     <div class="col-lg-5 form-group">
                                         <h4>Category</h4>
-                                        <select class="nice-select" id="categorySelection" name="categorySelection">
-                                            <option selected="" value="Default"></option>
+                                        <select class="default-select wide" id="categorySelection" name="categorySelection">
                                             <?php foreach ($cat_list as $row) { ?>
                                                 <option value="<?php safe_echo($row['id']) ?>"><?php safe_echo($row['name']) ?></option>
                                             <?php } ?>
@@ -104,18 +99,17 @@ require_once("serverside/components/selling.php");
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 form-group wrapper">
+                                    <div class="col-12 form-group">
                                         <h4>Meetup Location</h4>
-                                        <select class="default-select wide selection" id="locationSelection" name="locationSelection">
+                                        <select class="default-select wide" id="locationSelection" name="locationSelection">
                                             <?php foreach ($mrt_stations as $row) { ?>
                                                 <option value="<?php safe_echo($row['id']) ?>"><?php safe_echo($row['location']); ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <br />
-                                    <div class="col-12 form-group card_area align-items-center text-center">
+                                <div class="row pt-4">
+                                    <div class="col-12 card_area align-items-center text-center">
                                         <button type="submit" name="selling_submit" class="btn primary-btn">
                                             Add item to listing
                                         </button>
@@ -127,7 +121,6 @@ require_once("serverside/components/selling.php");
                 </div>
             </div>
         </div>
-
         <!--================End Single Product Area =================-->
 </section>
 
@@ -171,11 +164,11 @@ require_once("serverside/components/selling.php");
                     if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
                         alert("The file uploaded is not in the correct format");
                         this.removeFile(file);
-                    }
-                    fileCount += 1;
-                    if (fileCount > 5) {
+                    } else if (fileCount > 5) {
                         alert("5 files have already been uploaded");
                         this.removeFile(file);
+                    } else {
+                        fileCount += 1;
                     }
                 });
                 this.on("complete", function (file) {

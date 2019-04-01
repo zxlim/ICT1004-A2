@@ -38,15 +38,10 @@ if (isset($_POST["updateuser"])) {
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$bio = $_POST['bio'];
-	$avatar_path = $conn->real_escape_string('images/'.$_FILES['avatar']['name']);
-	if (preg_match("!image!", $_FILES['avatar']['type'])) {
-	  if (copy($_FILES['avatar']['tmp_name'], $avatar_path)) {
-
-		}
-}
+	
 }
 
-$sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, test_pic FROM user where (id=$user_id)";
+$sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, profile_pic FROM user where (id=$user_id)";
 $sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio', test_pic='$avatar_path' WHERE (id='$user_id')";
 //echo $sql_updateuserdetails;
 

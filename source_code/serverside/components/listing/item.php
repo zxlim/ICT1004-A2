@@ -30,7 +30,7 @@ $related_items = array();
 $related_seller_items = array();
 
 $sql_item = "SELECT listing.id, listing.title, listing.description, listing.tags,
-listing.price, listing.item_condition, listing.item_age, listing.show_until,
+listing.price, listing.item_condition, listing.item_age, listing.show_until, listing.sold,
 locations.stn_code, locations.stn_name, locations.stn_line,
 category.id, category.name, user.id, user.name, user.join_date, user.bio, user_picture.id
 FROM listing
@@ -43,7 +43,7 @@ WHERE listing.id = ?";
 $sql_related_listings = "SELECT listing.id, listing.title, listing.price, picture.url
 FROM listing
 LEFT JOIN picture ON listing.id = picture.listing_id
-WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
+WHERE listing.sold = 0
 AND listing.id != ?
 AND DATE(listing.show_until) > ?
 AND listing.category_id = ?
@@ -53,7 +53,7 @@ ORDER BY listing.view_counts DESC LIMIT 9";
 $sql_seller_listings = "SELECT listing.id, listing.title, listing.price, picture.url
 FROM listing
 LEFT JOIN picture ON listing.id = picture.listing_id
-WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
+WHERE listing.sold = 0
 AND listing.seller_id = ?
 AND listing.id != ?
 AND DATE(listing.show_until) > ?
@@ -69,13 +69,13 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->bind_param("i", $item_id);
 	$query->execute();
 	$query->bind_result(
-		$id, $title, $description, $tags, $price, $condition, $item_age, $show_until,
+		$id, $title, $description, $tags, $price, $condition, $item_age, $show_until, $sold,
 		$meetup_code, $meetup_name, $meetup_line,
 		$cat_id, $cat_name, $user_id, $user_name, $user_join_date, $user_bio, $user_picture
 	);
 
 	if ($query->fetch()) {
-		if (strtotime($show_until) > strtotime($current_dt) || ($current_user_id === (int)($user_id))) {
+		if (strtotime($show_until) > strtotime($current_dt) || (bool)($sold) === FALSE || ($current_user_id === (int)($user_id))) {
 			if ($user_picture === NULL) {
 				$user_picture = "static/img/default/user.jpg";
 			}

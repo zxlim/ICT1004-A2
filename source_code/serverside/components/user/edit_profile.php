@@ -14,6 +14,8 @@ if (defined("CLIENT") === FALSE) {
 
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
+require_once("serverside/functions/security.php");
+
 
 
 $user_id = 99999;
@@ -38,11 +40,11 @@ if (isset($_POST["updateuser"])) {
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$bio = $_POST['bio'];
-	
+
 }
 
 $sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, profile_pic FROM user where (id=$user_id)";
-$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio', test_pic='$avatar_path' WHERE (id='$user_id')";
+$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio', profile_pic='$avatar_path' WHERE (id='$user_id')";
 //echo $sql_updateuserdetails;
 
 

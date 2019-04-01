@@ -34,23 +34,29 @@ define("WEBPAGE_TITLE", "Profile");
         <div class="product_image_area">
             <div class="container">
                 <div class="row s_product_inner">
-                    <div class="col-lg-6">
-                        <h2>Profiles</h2>
-                        <hr>
-                        <figure>
-                            <img class="rounded-circle" src="static/img/default/user.jpg" alt="User Profile Image"
-                                 height="200"
-                                 width="200">
-                        </figure>
-                    </div>
+                    <?php foreach ($own_profile_results as $profile) { ?>
+                        <div class="col-lg-6">
+                            <h2>Profiles</h2>
+                            <hr>
+                            <figure>
+                                <?php if (safe_echo($profile['profile_pic']) == "static/img/default/user.jpg") {?>
+                                <img class="rounded-circle" src="static/img/default/user.jpg" alt="User Profile Image"
+                                     height="200"
+                                     width="200">
+                                <?php } else { ?>
+                                    <img class="rounded-circle" src="<?php safe_echo($profile['profile_pic']) ?>" alt="User Profile Image"
+                                         height="200"
+                                         width="200">
+                                <?php } ?>
+                            </figure>
+                        </div>
 
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="s_product_text">
-                            <input type="hidden" id="user_id" name="user_id"
-                                   value="<?php safe_echo((int)$_SESSION["user_id"]); ?>">
+                        <div class="col-lg-5 offset-lg-1">
+                            <div class="s_product_text">
+                                <input type="hidden" id="user_id" name="user_id"
+                                       value="<?php safe_echo((int)$_SESSION["user_id"]); ?>">
 
-                            <?php foreach ($own_profile_results as $profile) { ?>
-                                <div class="dotted_border">
+                                <div class="form-group">
                                     <h4>Name</h4>
                                     <p><?php safe_echo($profile["name"]); ?></p>
                                 </div>
@@ -67,24 +73,24 @@ define("WEBPAGE_TITLE", "Profile");
 
                                 <div class="form-group">
                                     <h4>Gender</h4>
-                                    <p><?php safe_echo($profile["bio"]); ?></p>
+                                    <p><?php safe_echo($profile["gender"]); ?></p>
                                 </div>
 
                                 <div class="form-group">
                                     <h4>Bio</h4>
-                                    <p><?php safe_echo($profile["profile_pic"]); ?></p>
+                                    <p><?php safe_echo($profile["bio"]); ?></p>
                                 </div>
-                            <?php } ?>
-                            <div class="row">
-                                <br/>
-                                <div class="col-12 form-group card_area align-items-center text-center">
-                                    <button type="submit" name="selling_submit" class="btn primary-btn">
-                                        Edit Profile
-                                    </button>
+                                <div class="row">
+                                    <br/>
+                                    <div class="col-12 form-group card_area align-items-center text-center">
+                                        <button type="submit" name="selling_submit" class="btn primary-btn">
+                                            Edit Profile
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

@@ -33,7 +33,8 @@ if ($query = $conn->prepare($own_profiles_sql)) {
             "id" => (int)$id,
             "name" => $name,
             "email" => $email,
-            "join_date" => $gender,
+            "join_date" => $join_date,
+            "gender" => $gender,
             "bio" => $bio,
             "profile_pic" => $profile_pic
         );

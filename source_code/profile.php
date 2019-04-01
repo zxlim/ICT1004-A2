@@ -56,11 +56,11 @@ define("WEBPAGE_TITLE", "Profile");
                                         <h4>Name</h4>
                                         <p><?php safe_echo($profile["name"]); ?></p>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-5">
                                         <h4>Email</h4>
                                         <p><?php safe_echo($profile["email"]); ?></p>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <h4>Gender</h4>
                                         <p><?php safe_echo($profile["gender"]); ?></p>
                                     </div>

@@ -21,6 +21,7 @@ require_once("serverside/functions/database.php");
 // DB Conn Part
 $conn = get_conn();
 
+// This part is when the user click his own profile
 $own_profile_results = array();
 $own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE user.id = ?";
 if ($query = $conn->prepare($own_profiles_sql)) {

@@ -122,8 +122,17 @@ define("WEBPAGE_TITLE", "Item Details");
 							<?php safe_echo($item["description"]); ?>
 						</p>
 						<div class="card_area d-flex align-items-center">
-							<a class="success-btn" href="#">Make an Offer</a>
+							<?php if (isset($current_user_id) && $current_user_id === $item["user_id"]) { ?>
+							<a class="info-btn" href="#">
+								Edit Listing
+							</a>
+							<a class="danger-btn" href="#">Mark as Sold</a>
+							<?php } else { ?>
+							<a class="success-btn" href="<?php safe_echo($convo_link); ?>" data-toggle="tooltip" data-placement="top" title="Chat with the Seller to make an offer!">
+								Make an Offer
+							</a>
 							<a class="info-btn" href="<?php safe_echo($convo_link); ?>">Chat with Seller</a>
+							<?php } ?>
 						</div>
 					</div>
 				</div>

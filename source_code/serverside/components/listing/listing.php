@@ -28,7 +28,7 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 
 $sql_categories = "SELECT id, name FROM category ORDER BY id";
 
-$sql_listings = "SELECT listing.id, listing.title, listing.price, user.name, picture.id, user_picture.id
+$sql_listings = "SELECT listing.id, listing.title, listing.price, user.name, picture.url, user_picture.url
 FROM listing INNER JOIN user ON listing.seller_id = user.id
 LEFT JOIN picture ON listing.id = picture.listing_id
 LEFT JOIN user_picture ON user.id = user_picture.user_id
@@ -65,18 +65,15 @@ if (isset($selected_cat_name)) {
 	if ($query = $conn->prepare($sql_listings)) {
 		$query->bind_param("is", $selected_cat_id, $current_dt);
 		$query->execute();
-		$query->bind_result($id, $title, $price, $user_name, $picture_id, $user_pic_id);
+		$query->bind_result($id, $title, $price, $user_name, $picture_url, $user_picture);
 
 		while ($query->fetch()) {
-			$picture = "static/img/default/listing.jpg";
-			$user_picture = "static/img/default/user.jpg";
-
-			if ($user_pic_id !== NULL) {
-				$user_picture = sprintf("image.php?id=%d&type=u", $user_pic_id);
+			if ($user_picture === NULL) {
+				$user_picture = "static/img/default/user.jpg";
 			}
 
-			if ($picture_id !== NULL) {
-				$picture = sprintf("image.php?id=%d", $picture_id);
+			if ($picture_url === NULL) {
+				$picture_url = "static/img/default/listing.jpg";
 			}
 
 			$data = array(
@@ -85,7 +82,7 @@ if (isset($selected_cat_name)) {
 				"price" => (float)($price),
 				"user_name" => $user_name,
 				"user_pic" => $user_picture,
-				"picture" => $picture,
+				"picture" => $picture_url,
 			);
 			array_push($results_listings, $data);
 		}

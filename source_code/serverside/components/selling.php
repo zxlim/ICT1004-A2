@@ -88,13 +88,18 @@ $mrt_stations = array();
 $mrt_result = "SELECT * FROM locations";
 if ($query = $conn->prepare($mrt_result)) {
     $query->execute();
-    $query->bind_result($stn_code, $stn_name, $stn_line);
+    $query->bind_result($loc_id, $stn_code, $stn_name, $stn_line);
 
     while ($query->fetch()) {
+        if ($stn_code === NULL) {
+            $location = $stn_name;
+        } else {
+            $location = sprintf("%s, %s (%s)", $stn_line, $stn_name, $stn_code);
+        }
+        
         $data = array(
-            "stn_code" => $stn_code,
-            "stn_name" => $stn_name,
-            "stn_line" => $stn_line,
+            "id" => $loc_id,
+            "location" => $location,
         );
         array_push($mrt_stations, $data);
     }

@@ -353,14 +353,19 @@ hr .dotted {
 	text-rendering: auto;
 	content: "\f4ad";
 	position: absolute;
-	top: 20%;
+	top: 23%;
 	right: 2em;
 	color: #38a4ff;
 }
 
+.ftnoti-banner > span.item,
 .ftnotification li > a > span.item {
 	text-decoration: underline;
 	font-weight: 700;
+}
+
+.ftnotification li > a > span.datetime {
+	font-size: 0.7em;
 }
 
 .ftnotification a:hover {
@@ -374,6 +379,11 @@ hr .dotted {
 
 .ftnotification li.unread > a:hover:after {
 	color: #fff;
+}
+
+.ftnoti-banner > span.dt {
+	font-size: 0.8em;
+	text-decoration: underline;
 }
 
 .message-box {

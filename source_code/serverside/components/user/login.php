@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 		$conn->close();
 
-		if ($delay) {
+		if ($delay === TRUE) {
 			// Deter brute force attempts.
 			sleep(2);
 		} else if ($error_login === FALSE) {

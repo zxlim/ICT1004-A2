@@ -43,7 +43,6 @@ require_once("serverside/components/selling.php");
                         <form id="form_selling" name="form_selling" action="selling.php" method="post">
                             <div class="s_product_text">
                                 <div class="form-group" id="hidden_fields"></div>
-                                <!--                                <input type="hidden" id="user_id" name="user_id" value="2">-->
                                 <input type="hidden" id="user_id" name="user_id" value="
                                 <?php if (isset($_POST['selling_submit'])) {
                                     safe_echo($_SESSION['user_id']);
@@ -105,20 +104,20 @@ require_once("serverside/components/selling.php");
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="wrapper col-lg-12 form-group">
+                                    <div class="col-12 form-group wrapper">
                                         <h4>Meetup Location</h4>
-                                        <select class="nice-select custom-select selection" size="10"
-                                                id="locationSelection" name="locationSelection">
-                                            <option selected="" value="Default"></option>
+                                        <select class="default-select wide selection" id="locationSelection" name="locationSelection">
                                             <?php foreach ($mrt_stations as $row) { ?>
-                                                <option value="<?php safe_echo($row['stn_code']) ?>"><?php safe_echo($row['stn_code'] . ' / ' . $row['stn_name'] . ' / ' . $row['stn_line']) ?></option>
+                                                <option value="<?php safe_echo($row['id']) ?>"><?php safe_echo($row['location']); ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
-
-                                    <div class="card_area d-flex align-items-center">
-                                        <button type="submit" name="selling_submit" class="btn primary-btn">Add item
-                                            to listing
+                                </div>
+                                <div class="row">
+                                    <br />
+                                    <div class="col-12 form-group card_area align-items-center text-center">
+                                        <button type="submit" name="selling_submit" class="btn primary-btn">
+                                            Add item to listing
                                         </button>
                                     </div>
                                 </div>

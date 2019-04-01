@@ -12,6 +12,10 @@ $(document).ready(function(){
 	$(".fullscreen").css("height", window_height)
 	$(".fitscreen").css("height", fitscreen);
 
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+
   //------- Active Nice Select --------//
 
 	$('select').niceSelect();

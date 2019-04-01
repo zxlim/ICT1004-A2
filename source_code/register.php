@@ -93,7 +93,7 @@ define("WEBPAGE_TITLE", "Register");
 									</option>
 								</select>
 							</div>
-							<div class="col-12 form-group" align="left">
+							<div class="col-12 form-group">
 								<?php if (isset($error_gender)) { ?>
 									<span class="text-danger"><?php safe_echo($error_gender); ?></span>
 								<?php } ?>

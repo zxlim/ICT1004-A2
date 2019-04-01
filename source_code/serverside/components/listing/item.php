@@ -30,9 +30,11 @@ $related_items = array();
 $related_seller_items = array();
 
 $sql_item = "SELECT listing.id, listing.title, listing.description, listing.tags,
-listing.price, listing.item_condition, listing.item_age, listing.meetup_location, listing.show_until,
+listing.price, listing.item_condition, listing.item_age, listing.show_until,
+locations.stn_code, locations.stn_name, locations.stn_line,
 category.id, category.name, user.id, user.name, user.join_date, user.bio, user_picture.id
 FROM listing
+INNER JOIN locations ON listing.meetup_location = locations.id
 INNER JOIN category ON listing.category_id = category.id
 INNER JOIN user ON listing.seller_id = user.id
 LEFT JOIN user_picture ON user.id = user_picture.user_id
@@ -67,7 +69,8 @@ if ($query = $conn->prepare($sql_item)) {
 	$query->bind_param("i", $item_id);
 	$query->execute();
 	$query->bind_result(
-		$id, $title, $description, $tags, $price, $condition, $item_age, $meetup_location, $show_until,
+		$id, $title, $description, $tags, $price, $condition, $item_age, $show_until,
+		$meetup_code, $meetup_name, $meetup_line,
 		$cat_id, $cat_name, $user_id, $user_name, $user_join_date, $user_bio, $user_picture
 	);
 
@@ -75,6 +78,12 @@ if ($query = $conn->prepare($sql_item)) {
 		if (strtotime($show_until) > strtotime($current_dt) || ($current_user_id === (int)($user_id))) {
 			if ($user_picture === NULL) {
 				$user_picture = "static/img/default/user.jpg";
+			}
+
+			if ($meetup_code === NULL) {
+				$meetup_location = $meetup_name;
+			} else {
+				$meetup_location = sprintf("%s, %s (%s)", $meetup_line, $meetup_name, $meetup_code);
 			}
 
 			$item = array(
@@ -197,6 +206,7 @@ if (isset($item)) {
 			$convo_link = sprintf("message.php?id=%d", $convo_id);
 		}
 	} else {
+		$current_user_id = NULL;
 		$convo_link = "login.php";
 	}
 }

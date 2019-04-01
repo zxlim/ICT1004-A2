@@ -19,9 +19,11 @@ function log_debug(msg) {
 class FastTradeMessenger {
 	constructor(convo_id, sender_id) {
 		this.api_url = "messageAPI.php";
+		this.fetch_interval = 2;
 		this.convo_id = Number(convo_id);
 		this.sender_id = Number(sender_id);
 		this.count = 0;
+		this.sent = false;
 	}
 
 	set_sent_status(value) {
@@ -36,18 +38,25 @@ class FastTradeMessenger {
 		this.count = 0;
 	}
 
-	fetch(scroll, once) {
+	fetch(scroll) {
 		/**
-		* @param	scroll	Boolean		Whether to scroll after fetching new messages.
-		* @param	once	Boolean		True if function call is not a routine.
+		* @param	scroll	Boolean		Whether to force auto scrolling after fetching new messages.
 		*/
 		scroll = Boolean(scroll) || false;
-		once = Boolean(once) || false;
 
 		var response_len = 0;
 		const FTMsg = this;
 		const ctr = this.count;
 		const form_data = "id=" + this.convo_id + "&ctr=" + ctr;
+
+		const scroll_pos = ($(".message-list").prop("scrollHeight") - $(".message-list").scrollTop()) + 1;
+		const elem_height = $(".message-list").outerHeight();
+
+		if (scroll === true || this.sent === true || scroll_pos === elem_height) {
+			log_debug("Auto-scrolling enabled.");
+			this.set_sent_status(false);
+			scroll = true;
+		}
 
 		$.ajax({
 			async: true,
@@ -134,13 +143,13 @@ class FastTradeMessenger {
 				log_debug("Message: " + response.responseJSON.message);
 			},
 			complete: function(response) {
-				if (once === false) {
+				if (response.status !== 401 && response.status !== 403) {
 					setTimeout(function() {
 						log_debug("Auto-reloading messages...");
 						FTMsg.fetch();
-					}, 1000 * 2);
+					}, 1000 * FTNotification.fetch_interval);
 				} else {
-					log_debug("Not a routine call.");
+					log_debug("Not authenticated, could not complete request.");
 				}
 			}
 		});
@@ -177,7 +186,7 @@ class FastTradeMessenger {
 			dataType: "json",
 			success: function(response) {
 				// Success event.
-				//FTMsg.fetch(true, true);
+				FTMsg.set_sent_status(true);
 				log_debug("Message sent successfully.");
 			},
 			error: function(response) {
@@ -195,6 +204,8 @@ class FastTradeMessenger {
 class FastTradeMessengerNotification {
 	constructor() {
 		this.api_url = "messageAPI.php";
+		this.fetch_interval = 3;
+		this.convo_id = $("#convo_id").val() || 0;
 		this.state = "null";
 	}
 
@@ -242,8 +253,8 @@ class FastTradeMessengerNotification {
 							let noti_msg = u_name + " sent a new message regarding <span class='item'>" + l_name + "</span>.";
 							var start_tag = "<li class='noti'>";
 
-							if (m_r === false) {
-								notify(noti_msg);
+							if (m_r === false && convo_id !== Number(FTNotification.convo_id)) {
+								notify("<div class='ftnoti-banner'><span class='dt'>" + m_dt + "</span><br />" + noti_msg + "</div>");
 								$("#nav_notification").addClass("unread");
 								start_tag = "<li class='noti unread'>";
 							}
@@ -251,7 +262,8 @@ class FastTradeMessengerNotification {
 							$("#ftnotification-list").append(
 								start_tag +
 								"<a href='message.php?id=" + convo_id + "'>" +
-								noti_msg +
+								noti_msg + "<br /><span class='datetime'>" +
+								m_dt + "</span>" +
 								"</a></li>"
 							);
 						}
@@ -274,9 +286,9 @@ class FastTradeMessengerNotification {
 					setTimeout(function() {
 						log_debug("Auto-reloading notifications...");
 						FTNotification.fetch();
-					}, 1000 * 3);
+					}, 1000 * FTNotification.fetch_interval);
 				} else {
-					log_debug("Not authenticated, could not retrieve notifications.");
+					log_debug("Not authenticated, could not complete request.");
 				}
 			}
 		});
@@ -305,7 +317,7 @@ function start_chat() {
 		$(".message-scroller").on("click", function(event) {
 			FTMsg.scroll();
 			$(".message-scroller").fadeOut(500);
-		})
+		});
 	} else {
 		log_debug("Unable to retrieve required parameters.");
 	}

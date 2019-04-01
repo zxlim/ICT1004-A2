@@ -17,7 +17,7 @@ require_once("serverside/functions/database.php");
 
 $user_id = 99999;
 $user_name = NULL;
-$user_name = $loginid = $password = $email = $mobile = $bio = "";
+$user_name = $loginid = $password = $email = $mobile = $bio = $avatar_path = $Test_pic = "";
 $nameErr = $loginidErr = $pwdErr = $pwdcfmErr = $emailErr = $genderError = $mobileErr = $bioErr =  "";
 
 $results_selectuser = array();
@@ -27,25 +27,32 @@ $results_updateuserdetails = array();
 if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 	$user_id = (int)($_GET["id"]);
 }
+$conn = get_conn();
 
 if (isset($_POST["updateuser"])) {
 	$user_id = (int)($_POST["id"]);
 	$user_name = $_POST['name'];
 	$loginid= $_POST['loginid'];
-	$password = $_POST['pwd'];
+	$password = pw_hash($_POST['pwd']);
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$bio = $_POST['bio'];
+	$avatar_path = $conn->real_escape_string('images/'.$_FILES['avatar']['name']);
+	if (preg_match("!image!", $_FILES['avatar']['type'])) {
+	  if (copy($_FILES['avatar']['tmp_name'], $avatar_path)) {
+
+		}
+}
 }
 
-$sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio FROM user where (id=$user_id)";
-$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio' WHERE (id='$user_id')";
+$sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, test_pic FROM user where (id=$user_id)";
+$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio', test_pic='$avatar_path' WHERE (id='$user_id')";
 //echo $sql_updateuserdetails;
-$conn = get_conn();
+
 
 if ($query = $conn->prepare($sql_selectuser)) {
 	$query->execute();
-	$query->bind_result($id, $name, $loginid, $email, $gender, $mobile, $bio);
+	$query->bind_result($id, $name, $loginid, $email, $gender, $mobile, $bio, $test_pic);
 
 	while ($query->fetch()) {
 		$data = array(
@@ -56,6 +63,7 @@ if ($query = $conn->prepare($sql_selectuser)) {
 			"gender" => $gender,
 			"mobile" => $mobile,
 			"bio" => $bio,
+			"test_pic" => $test_pic,
 		);
 
 		if ($user_id === (int)($id)) {
@@ -65,6 +73,7 @@ if ($query = $conn->prepare($sql_selectuser)) {
 			$Gender = $gender;
 			$Mobile = $mobile;
 			$Bio = $bio;
+			$Test_pic = $test_pic;
 		}
 
 		array_push($results_selectuser, $data);

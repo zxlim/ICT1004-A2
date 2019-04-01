@@ -18,7 +18,7 @@ define("WEBPAGE_TITLE", "Profile");
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
             <div class="col-first">
-                <h1>Profile (TO-DO)</h1>
+                <h1>Profile</h1>
                 <nav class="d-flex align-items-center">
                     <a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
                     <a href="">Profile</a>
@@ -77,11 +77,14 @@ define("WEBPAGE_TITLE", "Profile");
                                 </div>
                                 <div class="row">
                                     <br/>
-                                    <div class="col-12 form-group card_area align-items-center text-center">
-                                        <button type="submit" name="selling_submit" class="btn info-btn">
-                                            Edit Profile
-                                        </button>
-                                    </div>
+                                    <?php if($_GET['id'] == $_SESSION["user_id"]){ ?>
+                                        <div class="col-12 form-group card_area align-items-center text-center">
+                                            <button type="submit" name="selling_submit" class="btn info-btn">
+                                                Edit Profile
+                                            </button>
+                                        </div>
+                                   <?php } ?>
+
                                 </div>
                             </div>
                         </div>

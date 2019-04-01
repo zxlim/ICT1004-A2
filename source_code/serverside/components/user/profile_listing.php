@@ -6,10 +6,9 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
-    #$id = 0;
-    #$id = $_GET['id'];
+    $user_id = $_GET['id'];
     #$id = $item["user_id"];
-    #echo "Boooom : ".$id;
+    #echo "Boooom : ".$user_id;
 
 
 if (!$session_is_authenticated === True) {
@@ -28,9 +27,10 @@ $conn = get_conn();
 
 // This part is when the user click his own profile
 $own_profile_results = array();
-$own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE user.id = ?";
+$own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE id = ?";
+                                                                                #$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
 if ($query = $conn->prepare($own_profiles_sql)) {
-    $query->bind_param("i", $current_user_id);
+    $query->bind_param("i", $user_id);
     $query->execute();
     $query->bind_result($id, $name, $email, $join_date, $gender, $bio, $profile_pic);
 

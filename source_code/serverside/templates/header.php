@@ -49,7 +49,8 @@ if (defined("CLIENT") === FALSE) {
 							<ul class="dropdown-menu">
 								<?php if (session_isauth() === true) { ?>
 								<li class="<?php safe_echo(active_nav(['profile.php'])); ?>">
-									<a class="nav-link" href="profile.php">Profile</a>
+                                    <a href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
+									<a class="nav-link" href="profile.php?id=<?php echo $_SESSION["user_id"]?>">Profile</a>
 								</li>
 
 								<li class="<?php safe_echo(active_nav(['login.php'])); ?>">

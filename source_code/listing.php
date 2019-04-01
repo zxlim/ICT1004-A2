@@ -105,9 +105,9 @@ define("WEBPAGE_TITLE", "Listings");
 											<span class="lnr lnr-move"></span>
 											<p class="hover-text">view</p>
 										</a>
-										<a href="#" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">make offer</p>
+										<a href="profile.php?id=<?php safe_echo($row["user_id"]); ?>" class="social-info">
+											<span class="lnr lnr-user"></span>
+											<p class="hover-text">seller info</p>
 										</a>
 									</div>
 								</div>

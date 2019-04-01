@@ -28,7 +28,7 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 
 $sql_categories = "SELECT id, name FROM category ORDER BY id";
 
-$sql_listings = "SELECT l.id, l.title, l.price, u.name, p.url
+$sql_listings = "SELECT l.id, l.title, l.price, u.id, u.name, p.url
 FROM listing AS l
 INNER JOIN user AS u ON l.seller_id = u.id
 LEFT JOIN picture AS p ON l.id = p.listing_id
@@ -65,7 +65,7 @@ if (isset($selected_cat_name)) {
 	if ($query = $conn->prepare($sql_listings)) {
 		$query->bind_param("is", $selected_cat_id, $current_dt);
 		$query->execute();
-		$query->bind_result($id, $title, $price, $user_name, $picture_url);
+		$query->bind_result($id, $title, $price, $user_id, $user_name, $picture_url);
 
 		while ($query->fetch()) {
 			if ($picture_url === NULL) {
@@ -76,6 +76,7 @@ if (isset($selected_cat_name)) {
 				"id" => (int)($id),
 				"title" => $title,
 				"price" => (float)($price),
+				"user_id" => (int)($user_id),
 				"user_name" => $user_name,
 				"picture" => $picture_url,
 			);

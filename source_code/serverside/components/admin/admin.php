@@ -1,4 +1,6 @@
 <?php
+require_once("serverside/functions/database.php");
+
 
 if (defined("CLIENT") === FALSE) {
 	/**
@@ -13,6 +15,30 @@ if (!$session_is_authenticated === True) {
 	exit;
 }
 
+if ($session_is_authenticated === True) {
+	$loginid = $isadmin = '';
+	$loginid = $_SESSION["user_loginid"];
+
+	$conn = get_conn();
+	#echo "Welcome ".$name."!";
+	$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
+	$result = $conn->query($sql);
+
+	if (!$result) {
+		trigger_error('Invalid query: ' . $conn->error);
+	}
+
+	if ($result->num_rows > 0) {
+		$row = $result->fetch_assoc();
+		if($row["admin"] == 0 || $row["admin"] == NULL){
+			header("Location: login.php");
+		}
+	}
+	$conn->close();
+}
+
+
+
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
@@ -24,7 +50,6 @@ $selected_update_cat_name = NULL;
 $delete_cat = 99999;
 $new_id = NULL;
 $new_cat_name = NULL;
-
 
 
 $results_catdetails = array();
@@ -43,8 +68,6 @@ if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 if (isset($_GET["updatecat"]) && validate_int($_GET["updatecat"])) {
 	$selected_update_cat_id = (int)($_GET["updatecat"]);
 }
-
-
 
 if (isset($_GET['delcat']) && validate_int($_GET["delcat"])) {
 	$selected_update_cat_id = $_GET['delcat'];

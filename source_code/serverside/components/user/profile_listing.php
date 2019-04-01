@@ -1,4 +1,4 @@
-<?php
+    <?php
 if (defined("CLIENT") === FALSE) {
     /**
      * Ghetto way to prevent direct access to "include" files.
@@ -6,6 +6,10 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
+
+    $id = $_GET['id'];
+    echo "Boooom : ".$id;
+
 
 if (!$session_is_authenticated === True) {
     header("Location: login.php");

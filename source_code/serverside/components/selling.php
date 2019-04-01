@@ -13,7 +13,7 @@ if (!$session_is_authenticated === True) {
     exit;
 }
 
-    require_once("serverside/functions/database.php");
+require_once("serverside/functions/database.php");
 
 $urlsErr = $product_nameErr = $product_descErr = $listing_tillErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
 $user_id = $urls = $product_name = $product_desc = $listing_till = $tags = $price = $condition = $age = $category = $location = "";
@@ -101,7 +101,7 @@ if ($query = $conn->prepare($mrt_result)) {
         } else {
             $location = sprintf("%s, %s (%s)", $stn_line, $stn_name, $stn_code);
         }
-        
+
         $data = array(
             "id" => $loc_id,
             "location" => $location,

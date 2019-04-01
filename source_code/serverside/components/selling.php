@@ -10,8 +10,8 @@ if (defined("CLIENT") === FALSE) {
 
 require_once("serverside/functions/database.php");
 
-$urlsErr = $product_nameErr = $product_descErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
-$user_id = $urls = $product_name = $product_desc = $tags = $price = $condition = $age = $category = $location = "";
+$urlsErr = $product_nameErr = $product_descErr = $listing_tillErr = $tagsErr = $priceErr = $conditionErr = $ageErr = $categoryErr = $locationErr = "";
+$user_id = $urls = $product_name = $product_desc = $listing_till = $tags = $price = $condition = $age = $category = $location = "";
 $links_array = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -36,6 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $product_descErr = "Product Description is required";
     } else {
         $product_desc = test_input($_POST["product_desc"]);
+    }
+
+    if (empty($_POST["listing_till"])) {
+        $listing_tillErr = "Product Listing is required";
+    } else {
+        $listing_till = test_input($_POST["listing_till"]);
     }
 
     if (empty($_POST["tags"])) {
@@ -115,9 +121,9 @@ if ($query = $conn->prepare($cat_result)) {
 if (isset($_POST['selling_submit'])) {
     $insert_listing = "INSERT INTO listing (title, description, tags, price, item_condition, item_age, meetup_location, show_until, seller_id, category_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
     $insert_imgur = "INSERT INTO picture (listing_id, imgur_link) VALUES(?,?)";
-    $current_dt = get_datetime(TRUE);
+
     if ($query = $conn->prepare($insert_listing)) {
-        $query->bind_param("sssdiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $current_dt, $user_id, $category);
+        $query->bind_param("sssdiissii", $product_name, $product_desc, $tags, $price, $condition, $age, $location, $listing_till, $user_id, $category);
         $query->execute();
         $inserted_listing_id = mysqli_insert_id($conn);
 
@@ -127,6 +133,8 @@ if (isset($_POST['selling_submit'])) {
                 $query2->execute();
             }
             $query2->close();
+        } else {
+            $conn->error;
         }
         $query->close();
     }

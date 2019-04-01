@@ -292,7 +292,12 @@ hr .dotted {
 	text-align: center;
 	cursor: pointer;
 }
-
+.dotted_border {
+	border: 2px dashed #ebedf2;
+	border-radius: 4px;
+	padding: 20px;
+	text-align: center;
+}
 .sell_btn {
 	margin-left: 20px;
 }

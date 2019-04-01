@@ -32,21 +32,22 @@ require_once("serverside/components/selling.php");
                         </div>
                         <br>
                         <div align="center">
-                            <button type="submit" class="btn info-btn" id="upload-all" name="upload">Upload</button>
+                            <button type="submit" class="btn info-btn" id="upload-all">Upload</button>
                         </div>
 
-
                         <br>
-                        <div id="preview" class="dropzone"></div>
+                        <div id="preview" class="dotted_border"></div>
                     </div>
 
                     <div class="col-lg-5 offset-lg-1">
                         <form id="form_selling" name="form_selling" action="selling.php" method="post">
                             <div class="s_product_text">
                                 <div class="form-group" id="hidden_fields"></div>
-                                <input type="hidden" id="user_id" name="user_id" value="2">
-                                <!--                                <input type="hidden" id="user_id" name="user_id" value="-->
-                                <?php //if(isset($_POST['selling_submit'])) { safe_echo($_SESSION['user_id']); } ?><!--">-->
+                                <!--                                <input type="hidden" id="user_id" name="user_id" value="2">-->
+                                <input type="hidden" id="user_id" name="user_id" value="
+                                <?php if (isset($_POST['selling_submit'])) {
+                                    safe_echo($_SESSION['user_id']);
+                                } ?>">
 
                                 <div class="form-group">
                                     <h4>Product Name</h4>
@@ -58,6 +59,12 @@ require_once("serverside/components/selling.php");
                                     <h4>Product Description</h4>
                                     <textarea class="form-control" id="productDesc" name="product_desc"
                                               rows="5"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <h4>Listing Till</h4>
+                                    <input type="text" id="listing_till" name="listing_till" class="form-control"
+                                           placeholder="yyyy/mm/dd">
                                 </div>
 
                                 <div class="form-group">
@@ -209,8 +216,25 @@ require_once("serverside/components/selling.php");
         $.ajax(settings).done(function (response) {
             var obj = JSON.parse(response);
             var link = obj.data.link;
+            var deleteHash = obj.data.deletehash; //TODO
+
             $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'>");
             $("#hidden_fields").append("<input type='hidden' name='imgur_link[]' value='" + link + "'>");
+        });
+    }
+
+    //TODO
+    function deleteImgurImage(deleteHash) {
+        var settings = {
+            "url": "https://api.imgur.com/3/image/" + deleteHash,
+            "method": "DELETE",
+            "timeout": 0,
+            "headers": {
+                "Authorization": "Client-ID b0fe35e83401711"
+            },
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
         });
     }
 </script>

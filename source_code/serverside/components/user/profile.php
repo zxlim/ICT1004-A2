@@ -15,6 +15,7 @@ if (defined("CLIENT") === FALSE) {
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
+
 $user_id = 99999;
 $user_name = NULL;
 $user_name = $loginid = $password = $email = $mobile = $bio = $avatar_path = $Test_pic = "";
@@ -33,7 +34,7 @@ if (isset($_POST["updateuser"])) {
 	$user_id = (int)($_POST["id"]);
 	$user_name = $_POST['name'];
 	$loginid= $_POST['loginid'];
-	$password = pw_hash($_POST['pwd']);
+	$password = pw_hash($_POST['password1']);
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$bio = $_POST['bio'];

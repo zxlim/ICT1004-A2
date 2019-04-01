@@ -20,6 +20,7 @@ $conn = get_conn();
 if ($session_is_authenticated === TRUE) {
     $current_user_id = (int)($_SESSION["user_id"]);
 }
+echo $current_user_id;
 
 $profiles_results = array();
 $profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE user.id = ?";

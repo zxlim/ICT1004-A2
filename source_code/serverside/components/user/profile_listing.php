@@ -7,20 +7,21 @@ if (defined("CLIENT") === FALSE) {
     die();
 }
 
-if (!$session_is_authenticated === True) {
-    header("Location: login.php");
-    exit;
-}
-
-if ($session_is_authenticated === TRUE) {
-    $current_user_id = (int)($_SESSION["user_id"]);
-}
+//if (!$session_is_authenticated === True) {
+//    header("Location: login.php");
+//    exit;
+//}
+//
+//if ($session_is_authenticated === TRUE) {
+//    $current_user_id = (int)($_SESSION["user_id"]);
+//}
 
 require_once("serverside/functions/database.php");
 
 // DB Conn Part
 $conn = get_conn();
 
+$current_user_id = 4;
 $own_profile_results = array();
 $own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE user.id = ?";
 if ($query = $conn->prepare($own_profiles_sql)) {

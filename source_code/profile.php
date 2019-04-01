@@ -39,15 +39,10 @@ define("WEBPAGE_TITLE", "Profile");
                             <h2>Profiles</h2>
                             <hr>
                             <figure>
-                                <?php if (safe_echo($profile['profile_pic']) == "static/img/default/user.jpg") {?>
-                                <img class="rounded-circle" src="static/img/default/user.jpg" alt="User Profile Image"
+                                <img class="rounded-circle" src="<?php safe_echo($profile['profile_pic']); ?>"
+                                     alt="User Profile Image"
                                      height="200"
                                      width="200">
-                                <?php } else { ?>
-                                    <img class="rounded-circle" src="<?php safe_echo($profile['profile_pic']) ?>" alt="User Profile Image"
-                                         height="200"
-                                         width="200">
-                                <?php } ?>
                             </figure>
                         </div>
 
@@ -56,29 +51,29 @@ define("WEBPAGE_TITLE", "Profile");
                                 <input type="hidden" id="user_id" name="user_id"
                                        value="<?php safe_echo((int)$_SESSION["user_id"]); ?>">
 
-                                <div class="form-group">
-                                    <h4>Name</h4>
-                                    <p><?php safe_echo($profile["name"]); ?></p>
+                                <div class="row form-group">
+                                    <div class="col-4">
+                                        <h4>Name</h4>
+                                        <p><?php safe_echo($profile["name"]); ?></p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4>Email</h4>
+                                        <p><?php safe_echo($profile["email"]); ?></p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4>Join Date</h4>
+                                        <p><?php safe_echo($profile["join_date"]); ?></p>
+                                    </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <h4>Email</h4>
-                                    <p><?php safe_echo($profile["email"]); ?></p>
-                                </div>
-
-                                <div class="form-group">
-                                    <h4>Join Date</h4>
-                                    <p><?php safe_echo($profile["join_date"]); ?></p>
-                                </div>
-
-                                <div class="form-group">
-                                    <h4>Gender</h4>
-                                    <p><?php safe_echo($profile["gender"]); ?></p>
-                                </div>
-
-                                <div class="form-group">
-                                    <h4>Bio</h4>
-                                    <p><?php safe_echo($profile["bio"]); ?></p>
+                                <div class="row form-group">
+                                    <div class="col-4">
+                                        <h4>Gender</h4>
+                                        <p><?php safe_echo($profile["gender"]); ?></p>
+                                    </div>
+                                    <div class="col-8">
+                                        <h4>Bio</h4>
+                                        <p><?php safe_echo($profile["bio"]); ?></p>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <br/>

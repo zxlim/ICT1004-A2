@@ -44,7 +44,7 @@ require_once("serverside/components/selling.php");
                         <form id="form_selling" name="form_selling" action="selling.php" method="post">
                             <div class="s_product_text">
                                 <div class="form-group" id="hidden_fields"></div>
-                                
+
                                 <div class="form-group">
                                     <h4>Product Name</h4>
                                     <input type="text" id="product_name" name="product_name" class="form-control"
@@ -77,18 +77,21 @@ require_once("serverside/components/selling.php");
                                 <div class="row">
                                     <div class="col-lg-3 form-group">
                                         <h4>Condition</h4>
-                                        <input type="number" id="condition" name="condition" class="form-control" placeholder="1" min="1" max="10">
+                                        <input type="number" id="condition" name="condition" class="form-control"
+                                               placeholder="1" min="1" max="10">
                                     </div>
 
                                     <div class="col-lg-4 form-group">
                                         <h4>Product Age</h4>
-                                        <input type="number" id="age" name="age" class="form-control" placeholder="1" min="0">
+                                        <input type="number" id="age" name="age" class="form-control" placeholder="1"
+                                               min="0">
 
                                     </div>
 
                                     <div class="col-lg-5 form-group">
                                         <h4>Category</h4>
-                                        <select class="default-select wide" id="categorySelection" name="categorySelection">
+                                        <select class="default-select wide" id="categorySelection"
+                                                name="categorySelection">
                                             <?php foreach ($cat_list as $row) { ?>
                                                 <option value="<?php safe_echo($row['id']) ?>"><?php safe_echo($row['name']) ?></option>
                                             <?php } ?>
@@ -98,7 +101,8 @@ require_once("serverside/components/selling.php");
                                 <div class="row">
                                     <div class="col-12 form-group">
                                         <h4>Meetup Location</h4>
-                                        <select class="default-select wide" id="locationSelection" name="locationSelection">
+                                        <select class="default-select wide" id="locationSelection"
+                                                name="locationSelection">
                                             <?php foreach ($mrt_stations as $row) { ?>
                                                 <option value="<?php safe_echo($row['id']) ?>"><?php safe_echo($row['location']); ?></option>
                                             <?php } ?>
@@ -207,7 +211,8 @@ require_once("serverside/components/selling.php");
             var link = obj.data.link;
             var deleteHash = obj.data.deletehash; //TODO
 
-            $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'><br><button onclick='deleteImgurImage('"+ deleteHash +"')' class='btn btn-link'>Remove</button><br>");
+            $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'>");
+            // $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'><br><button onclick='deleteImgurImage(" + deleteHash + ")' class='btn btn-link'>Remove</button><br>");
             $("#hidden_fields").append("<input type='hidden' name='imgur_link[]' value='" + link + "'>");
         });
     }

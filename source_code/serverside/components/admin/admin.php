@@ -10,32 +10,32 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-if (!$session_is_authenticated === True) {
-	header("Location: login.php");
-	exit;
-}
-
-if ($session_is_authenticated === True) {
-	$loginid = $isadmin = '';
-	$loginid = $_SESSION["user_loginid"];
-
-	$conn = get_conn();
-	#echo "Welcome ".$name."!";
-	$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
-	$result = $conn->query($sql);
-
-	if (!$result) {
-		trigger_error('Invalid query: ' . $conn->error);
-	}
-
-	if ($result->num_rows > 0) {
-		$row = $result->fetch_assoc();
-		if($row["admin"] == 0 || $row["admin"] == NULL){
-			header("Location: login.php");
-		}
-	}
-	$conn->close();
-}
+//if (!$session_is_authenticated === True) {
+//	header("Location: login.php");
+//	exit;
+//}
+//
+//if ($session_is_authenticated === True) {
+//	$loginid = $isadmin = '';
+//	$loginid = $_SESSION["user_loginid"];
+//
+//	$conn = get_conn();
+//	#echo "Welcome ".$name."!";
+//	$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
+//	$result = $conn->query($sql);
+//
+//	if (!$result) {
+//		trigger_error('Invalid query: ' . $conn->error);
+//	}
+//
+//	if ($result->num_rows > 0) {
+//		$row = $result->fetch_assoc();
+//		if($row["admin"] == 0 || $row["admin"] == NULL){
+//			header("Location: login.php");
+//		}
+//	}
+//	$conn->close();
+//}
 
 
 

@@ -8,10 +8,10 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-if (!$session_is_authenticated === True) {
-	header("Location: login.php");
-	exit;
-}
+//if (!$session_is_authenticated === True) {
+//	header("Location: login.php");
+//	exit;
+//}
 
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");

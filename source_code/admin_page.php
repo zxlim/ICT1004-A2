@@ -12,6 +12,11 @@ require_once("serverside/components/admin/user.php");
 
 <head>
 <?php require_once("serverside/templates/html.head.php"); ?>
+
+    <style>
+        a { color: inherit; }
+    </style>
+
 </head>
 
 <body>
@@ -42,11 +47,9 @@ require_once("serverside/components/admin/user.php");
         <div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">
-								<i class="fa fa-money fa-fw"></i> Category Report
-							</h3>
+							<h3 class="panel-title">Category Report</h3>
 						</div>
-            <button type="button" onClick="location.href='add_cat.php'">Add Category</button>
+            <button type="button" class="genric-btn info circle" onClick="location.href='add_cat.php'">Add Category</button>
             <p></p>
 						<div class="panel-body">
 							<div class="table-responsive">
@@ -55,6 +58,7 @@ require_once("serverside/components/admin/user.php");
 										<tr>
                       <th>ID</th>
                       <th>Name</th>
+                      <th>Details</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -69,8 +73,10 @@ require_once("serverside/components/admin/user.php");
                       echo "<td>";
                       safe_echo($row["name"]);
                       echo "</td>";
-                      echo "<td><button type='button'> <a href='update_cat.php?updatecat=".$row['id']."'>Update Category</a></button><p></p>";
-                      echo "<button type='button'><a href='del_cat.php?delcat=".$row['id']."'>Delete Category</a></button></td>";
+                      echo "<td><button type='button' class=\"genric-btn warning circle\"> <a href='update_cat.php?updatecat=".$row['id']."'>Update Category</a></button><p></p>";
+                      #echo "<td><button type='button' class=\"genric-btn warning circle\"><a href='update_cat.php?updatecat=".$row['id']."'>Update Category</a></button>";
+                      echo "<button type='button' class=\"genric-btn primary circle arrow\"><a href='del_cat.php?delcat=".$row['id']."'>Delete Category</a></button>";
+                      #echo "<button type='button'><a href='del_cat.php?delcat=".$row['id']."'>Delete Category</a></button></td>";
                       echo "</tr>";
                     }
                     ?>
@@ -86,11 +92,9 @@ require_once("serverside/components/admin/user.php");
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">
-								<i class="fa fa-money fa-fw"></i> User Report
-							</h3>
+							<h3 class="panel-title">User Report</h3>
 						</div>
-            <button type="button" onClick="location.href='add_user.php'">Add User</button>
+            <button type="button" class="genric-btn info circle" onClick="location.href='add_user.php'">Add User</button>
             <p></p>
 						<div class="panel-body">
 							<div class="table-responsive">
@@ -133,8 +137,8 @@ require_once("serverside/components/admin/user.php");
 
                       safe_echo($row["suspended"]);
                       echo "</td>";
-                      echo "<td><button type='button'><a href='edit_account.php?edituser=".$row['id']."'>Enable/Disable Account</button><p></p>";
-                      echo "<button type='button'><a href='del_user.php?deluser=".$row['id']."'>Delete User</a></button></td>";
+                      echo "<td><button type='button' class=\"genric-btn primary circle arrow\"><a href='edit_account.php?edituser=".$row['id']."'>Enable/Disable Account</button><p></p>";
+                      echo "<button type='button' class=\"genric-btn danger circle arrow\"><a href='del_user.php?deluser=".$row['id']."'>Delete User</a></button></td>";
                       echo "</tr>";
                     }
                     ?>

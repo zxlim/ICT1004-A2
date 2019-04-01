@@ -32,8 +32,8 @@ $sql_listings = "SELECT listing.id, listing.title, listing.price, user.name, pic
 FROM listing INNER JOIN user ON listing.seller_id = user.id
 LEFT JOIN picture ON listing.id = picture.listing_id
 LEFT JOIN user_picture ON user.id = user_picture.user_id
-WHERE NOT EXISTS (SELECT offer.id FROM offer WHERE offer.listing_id = listing.id AND offer.accepted != 1)
-AND listing.category_id = ?
+WHERE listing.category_id = ?
+AND listing.sold = 0
 AND DATE(listing.show_until) > ?
 GROUP BY listing.id
 ORDER BY listing.id";

@@ -273,6 +273,13 @@ class FastTradeMessengerNotification {
 							"<a href='message_list.php'>" +
 							"See all messages</a></li>"
 						);
+					} else {
+						// Messages got erased.
+						$("#ftnotification-list").html(
+							"<li>" +
+							"<a class='no-click-event' href='#'>No new notifications.</a>" +
+							"</li>"
+						);
 					}
 				}
 			},

@@ -63,9 +63,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php
       }
     }
+    //echo "success ";
 
+
+
+
+  //echo $_POST['name'];
      ?>
 <button class="primary-btn" onclick="location.href='index.php'">Back to Main Page</button>
+<br  />
+<br  />
 <?php
 }
 else {
@@ -101,12 +108,12 @@ else {
             </div>
 
             <div class="col-md-12 form-group">
-                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password" required>
+                <input type="password" class="form-control" id="password1" name="password1" placeholder="Password" required>
                 <span class="errorcolor"><?php echo $pwdErr;?></span>
             </div>
 
             <div class="col-md-12 form-group">
-                <input type="password" class="form-control" id="pwdcfm" name="pwdcfm" placeholder="Confirm Password" required>
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required>
                 <span class="errorcolor"><?php echo $pwdcfmErr;?></span>
 
             </div>
@@ -122,20 +129,38 @@ else {
             </div>
 
             <div class="col-md-12 form-group">
-                <textarea class="form-control" id="bio" name="bio" placeholder="Bio"><?php echo $row['bio']; }?></textarea>
+                <textarea class="form-control" id="bio" name="bio" placeholder="Bio"><?php echo $row['bio']; ?></textarea>
                 <span class="errorcolor"><?php echo $bioErr;?></span>
             </div>
 
-
+            <div class="col-12 form-group auto-margin">
+              <label>Gender</label>
+              <select class="default-select wide" id="gender" name="gender" required>
+                <option disabled>Gender</option>
+                <option value="N"<?php if ($gender === "N") { ?> selected="selected"<?php }?>>
+                  Prefer not to say
+                </option>
+                <option value="M"<?php if ($gender === "M") { ?> selected="selected"<?php }?>>
+                  Male
+                </option>
+                <option value="F"<?php if ($gender === "F") { ?> selected="selected"<?php }?>>
+                  Female
+                </option>
+                <option value="O"<?php if ($gender === "O") { ?> selected="selected"<?php }?>>
+                  Others
+                </option>
+              </select>
+            </div>
 
             <br  />
-
+            <br  />
             <div class="col-md-12 form-group">
                 <button type="submit" value="submit" class="primary-btn" name="updateuser">Update</button>
             </div>
         </form>
 
-        <?php  require_once("serverside/components/user/profile.php");
+      <?php  } ?>
+      <?php require_once("serverside/components/user/profile.php");
         ?>
 			</div>
     </div>

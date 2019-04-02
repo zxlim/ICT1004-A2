@@ -20,7 +20,7 @@ if ($session_is_authenticated === True) {
 	$loginid = $_SESSION["user_loginid"];
 
 	$conn = get_conn();
-	#echo "Welcome ".$name."!";
+	
 	$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
 	$result = $conn->query($sql);
 

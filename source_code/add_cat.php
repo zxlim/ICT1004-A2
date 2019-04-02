@@ -44,13 +44,9 @@ require_once("serverside/components/admin/admin.php");
 
                             //echo $_POST['name'];
                             if (isset($results_addnewcat)) {
-                                if ($successaddcat) {
-                                    ?>
+                                if ($successaddcat) { ?>
                                     <h3 style="text-align:center">Category has been successfully updated.</h3>
-
-                                    <?php
-                                }
-                                ?>
+                                <?php } ?>
                                 <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
                             <?php } ?>
                             <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard
@@ -83,7 +79,6 @@ require_once("serverside/components/admin/admin.php");
                     </div>
                 </form>
                 <!-- End Add Category Form -->
-
                 <?php } ?>
             </div>
         </div>

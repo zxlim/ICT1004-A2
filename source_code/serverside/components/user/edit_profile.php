@@ -39,7 +39,7 @@ $user_id = (int)$_SESSION["user_id"];
 //
 //}
 $conn = get_conn();
-
+var_dump($_POST["updateuser"]);
 if (isset($_POST["updateuser"])) {
 	$user_id = (int)($_POST["id"]);
 	$user_name = $_POST['name'];

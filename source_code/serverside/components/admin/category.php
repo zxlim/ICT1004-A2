@@ -43,13 +43,10 @@ require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
 
-$selected_cat_id = 1;
-$selected_cat_name = NULL;
-$selected_update_cat_id = 99999;
-$selected_update_cat_name = NULL;
-$delete_cat = 99999;
-$new_id = NULL;
-$new_cat_name = NULL;
+
+$selected_cat_name = $selected_update_cat_name = $new_cat_name = NULL;
+$new_id = $selected_cat_id = $delete_cat = $selected_update_cat_id = NULL;
+
 
 
 $results_catdetails = array();
@@ -73,21 +70,12 @@ if (isset($_GET['delcat']) && validate_int($_GET["delcat"])) {
 	$selected_update_cat_id = $_GET['delcat'];
 }
 
-if (isset($_POST["deletecat"])) {
-	$delete_cat = (int)($_POST["id"]);
 
-}
-
-if (isset($_POST["newcat"])) {
-	$new_id = (int)($_POST["id"]);
-	$new_cat_name = $_POST["name"];
-
-}
 
 
 $sql_catdetails = "SELECT * from category ORDER BY id";
 $sql_selectedupdatecatdetails = "SELECT * from category where id='$selected_update_cat_id'";
-$sql_deletecat = "DELETE FROM category WHERE id='$delete_cat'";
+
 
 $conn = get_conn();
 
@@ -138,7 +126,7 @@ if (isset($_POST["updatecat"])) {
 	$selected_update_cat_id = $_POST['id'];
 	$selected_update_cat_name = $_POST['name'];
 	//print_r(explode(",",$str,2));
-}
+
 
 
 
@@ -158,8 +146,12 @@ if ($query = $conn->prepare($sql_updatecatdetails)) {
 	array_push($results_updatecatdetails, $data);
 	$query->close();
 }
+}
 
+if (isset($_POST["deletecat"])) {
+	$delete_cat = (int)($_POST["id"]);
 
+	$sql_deletecat = "DELETE FROM category WHERE id='$delete_cat'";
 
 /*deleting cat from db */
 
@@ -176,15 +168,15 @@ if ($query = $conn->prepare($sql_deletecat)) {
 	array_push($results_deletecat, $data);
 	$query->close();
 }
-
+}
 //header('location: admin_page.php');
 
 
+
 if (isset($_POST["newcat"])) {
-	$new_id = $_POST['id'];
-	$new_cat_name = $_POST['name'];
-	//print_r(explode(",",$str,2));
-}
+	$new_id = (int)($_POST["id"]);
+	$new_cat_name = $_POST["name"];
+
 
 $sql_add_new_cat = "INSERT INTO category(id, name) VALUES($new_id, '$new_cat_name')";
 
@@ -200,6 +192,7 @@ if ($query = $conn->prepare($sql_add_new_cat)) {
 	}
 	array_push($results_addnewcat, $data);
 	$query->close();
+}
 }
 
 $conn->close();

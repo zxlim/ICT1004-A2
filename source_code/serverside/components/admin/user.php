@@ -16,17 +16,13 @@ if (!$session_is_authenticated === True) {
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
-$selected_id = 1;
-$selected_name = NULL;
-$selected_update_user_id = 99999;
-$selected_update_user_name = NULL;
-$selected_update_loginid = NULL;
-$selected_update_email = NULL;
-$selected_new_user_id = 99999;
-$selected_new_user_name = NULL;
-$suspended_state = 255;
-$delete_user = 99999;
-$select_delete_user = 99999;
+$selected_id = $selected_update_user_id = $selected_new_user_id = $selected_update_loginid = $delete_user = $select_delete_user = $selected_name = NULL;
+
+
+$selected_update_user_name = $selected_update_email = $selected_new_user_name = NULL;
+
+$suspended_state = NULL;
+
 
 
 $results_userdetails = array();

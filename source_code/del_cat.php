@@ -1,8 +1,7 @@
 <?php define("CLIENT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/constants.php");
-require_once("serverside/components/admin/admin.php");
-require_once("serverside/components/admin/user.php");
+require_once("serverside/components/admin/category.php");
 
 
 ?>

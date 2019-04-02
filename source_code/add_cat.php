@@ -38,28 +38,18 @@ require_once("serverside/components/admin/admin.php");
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <i class="fa fa-money fa-fw"></i>
-
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
                             //echo $_POST['name'];
                             if (isset($results_addnewcat)) {
-                                if ($successaddcat) {
-                                    ?>
+                                if ($successaddcat) { ?>
                                     <h3 style="text-align:center">Category has been successfully updated.</h3>
-
-                                    <?php
-                                }
-                                ?>
+                                <?php } ?>
                                 <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
                             <?php } ?>
                             <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard
                             </button>
-                            <p></p>
-                            <?php
-                        }
-                        else {
-
+                        <?php } else {
                         ?>
                     </h3>
                 </div>
@@ -83,7 +73,6 @@ require_once("serverside/components/admin/admin.php");
                     </div>
                 </form>
                 <!-- End Add Category Form -->
-
                 <?php } ?>
             </div>
         </div>

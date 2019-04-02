@@ -41,7 +41,7 @@ if (defined("CLIENT") === FALSE) {
 								<?php if (session_isauth() === true) { ?>
 								<li class="<?php safe_echo(active_nav(['profile.php'])); ?>">
 									<a href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
-									<a class="nav-link" href="profile.php?id=<?php echo $_SESSION["user_id"]?>">Profile</a>
+									<a class="nav-link" href="profile.php">Profile</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="logout.php">Logout</a>

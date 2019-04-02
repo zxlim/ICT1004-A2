@@ -6,7 +6,16 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
-$user_id = $_GET['id'];
+
+require_once("serverside/functions/validation.php");
+
+if (isset($_GET['id']) === TRUE) {
+    $user_id = $_GET['id'];
+} else if (session_isauth() === TRUE) {
+    $user_id = $_SESSION["user_id"];
+} else {
+    $user_id = 1;
+}
 
 if (!$session_is_authenticated === True) {
     header("Location: login.php");

@@ -27,9 +27,17 @@ $results_selectuser = array();
 $results_updateuserdetails = array();
 
 
-if (isset($_GET["id"]) && validate_int($_GET["id"])) {
-	$user_id = (int)($_GET["id"]);
-}
+//if($_GET["id"] !== $_SESSION["user_id"]){
+//
+//}
+$user_id = (int)$_SESSION["user_id"];
+
+
+
+//if (isset($_GET["id"]) && validate_int($_GET["id"])) {
+//	$user_id = (int)($_GET["id"]);
+//
+//}
 $conn = get_conn();
 
 if (isset($_POST["updateuser"])) {
@@ -40,8 +48,6 @@ if (isset($_POST["updateuser"])) {
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$bio = $_POST['bio'];
-
-
 
 }
 

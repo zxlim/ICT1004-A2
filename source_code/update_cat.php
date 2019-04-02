@@ -42,8 +42,6 @@ require_once("serverside/components/admin/category.php");
                 </div>
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-                    //echo $_POST['name'];
                     if (isset($results_updatecatdetails)) {
                         if ($successupdate) { ?>
                             <h3 style="text-align:center">Category has been successfully updated.</h3>

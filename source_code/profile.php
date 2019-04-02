@@ -86,7 +86,8 @@ define("WEBPAGE_TITLE", "Profile");
                                     <?php if((int)($_GET['id']) === $_SESSION["user_id"]){ ?>
                                         <div class="col-12 form-group card_area align-items-center text-center">
                                             <button type="submit" name="selling_submit" class="btn info-btn">
-                                                <a href="edit_profile.php?id=<?php echo$_SESSION["user_id"]; ?>">Edit Profile</a>
+<!--                                                <a href="user_profile.php?id=--><?php //echo$_SESSION["user_id"]; ?><!--">Edit Profile</a>-->
+                                                <a href="edit_profile.php">Edit Profile</a>
                                             </button>
                                         </div>
                                    <?php } ?>

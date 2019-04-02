@@ -1,5 +1,4 @@
 <?php
-
 if (defined("CLIENT") === FALSE) {
     /**
      * Ghetto way to prevent direct access to "include" files.
@@ -7,7 +6,6 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
-
 ?>
 <header class="header_area sticky-header">
     <div class="main_menu">
@@ -77,7 +75,7 @@ if (defined("CLIENT") === FALSE) {
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <?php if (session_isauth() === true) { ?>
+                        <?php if (session_isauth() === true && $admin != true) { ?>
                             <li class="nav-item">
                                 <button class="notification" id="nav_notification">
                                     <span class="lnr lnr-bubble"></span>
@@ -88,7 +86,7 @@ if (defined("CLIENT") === FALSE) {
                                     <span class="lnr lnr-store"></span>
                                 </button>
                             </li>
-                            <?php } ?>
+                        <?php } ?>
                         <li class="nav-item">
                             <button class="search" id="search">
                                 <span class="lnr lnr-magnifier"></span>

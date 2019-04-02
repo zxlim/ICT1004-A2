@@ -81,7 +81,7 @@ require_once("serverside/components/admin/category.php");
 
                             <div class="col-md-6 float-left">
                                 <h4>Are you sure you want to delete this category?</h4>
-                                <button type="submit" name="deletecat" class="genric-btn danger large circle">Delete
+                                <button type="submit" name="deletecat" class="genric-btn danger large">Delete
                                     Category
                                 </button>
                             </div>

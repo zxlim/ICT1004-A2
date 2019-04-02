@@ -27,11 +27,29 @@ $results_selectuser = array();
 $results_updateuserdetails = array();
 
 
-if (isset($_GET["id"]) && validate_int($_GET["id"])) {
-	$user_id = (int)($_GET["id"]);
+//if($_GET["id"] !== $_SESSION["user_id"]){
+//
+//}
+$user_id = (int)$_SESSION["user_id"];
+
+
+
+//if (isset($_GET["id"]) && validate_int($_GET["id"])) {
+//	$user_id = (int)($_GET["id"]);
+//
+//}
+$conn = get_conn();
+
+if (isset($_POST["updateuser"])) {
+	$user_id = (int)($_POST["id"]);
+	$user_name = $_POST['name'];
+	$loginid= $_POST['loginid'];
+	$password = pw_hash($_POST['password1']);
+	$email = $_POST['email'];
+	$mobile = $_POST['mobile'];
+	$bio = $_POST['bio'];
+
 }
-
-
 
 $sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, profile_pic FROM user where (id=$user_id)";
 //echo $sql_updateuserdetails;

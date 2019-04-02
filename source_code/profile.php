@@ -7,6 +7,12 @@ define("WEBPAGE_TITLE", "Profile");
 <html lang="en" class="no-js">
 <head>
     <?php require_once("serverside/templates/html.head.php"); ?>
+    <style>
+        a {
+            color: inherit;
+        }
+    </style>
+
 </head>
 <body>
 <!-- Header -->
@@ -77,14 +83,13 @@ define("WEBPAGE_TITLE", "Profile");
                                 </div>
                                 <div class="row">
                                     <br/>
-                                    <?php if($_GET['id'] == $_SESSION["user_id"]){ ?>
+                                    <?php if((int)($_GET['id']) === $_SESSION["user_id"]){ ?>
                                         <div class="col-12 form-group card_area align-items-center text-center">
                                             <button type="submit" name="selling_submit" class="btn info-btn">
-                                                Edit Profile
+                                                <a href="user_profile.php?id=<?php echo$_SESSION["user_id"]; ?>">Edit Profile</a>
                                             </button>
                                         </div>
                                    <?php } ?>
-
                                 </div>
                             </div>
                         </div>

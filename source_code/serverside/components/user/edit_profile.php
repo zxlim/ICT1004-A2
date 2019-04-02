@@ -41,6 +41,8 @@ if (isset($_POST["updateuser"])) {
 	$mobile = $_POST['mobile'];
 	$bio = $_POST['bio'];
 
+
+
 }
 
 $sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, profile_pic FROM user where (id=$user_id)";

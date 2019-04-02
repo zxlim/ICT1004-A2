@@ -177,7 +177,7 @@ require_once("serverside/components/user/edit_profile.php");
               <br  />
               <br  />
               <div class="col-md-12 form-group">
-                <button type="submit" value="submit" class="primary-btn" name="updateuser">Update</button>
+                <button type="submit" value="submit" class="genric-btn primary circle" name="updateuser">Update</button>
               </div>
             </div>
             </form>

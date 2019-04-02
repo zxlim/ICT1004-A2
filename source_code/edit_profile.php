@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="col-lg-5 offset-lg-1">
-                    <form name="form-login" id="form-login" action="user_profile.php" method="post"
+                    <form name="form-login" id="form-login" action="edit_profile.php" method="post"
                           enctype="multipart/form-data">
                         <div class="s_product_text">
                             <?php

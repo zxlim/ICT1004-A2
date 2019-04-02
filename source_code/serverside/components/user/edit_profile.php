@@ -18,9 +18,9 @@ require_once("serverside/functions/security.php");
 
 
 
-$user_id = 99999;
+$user_id = NULL;
 $user_name = NULL;
-$user_name = $loginid = $password = $email = $mobile = $bio = $avatar_path = $Test_pic = "";
+$user_name = $loginid = $password = $email = $mobile = $bio = $profilepicaarray = $profilepic_path = $Test_pic = "";
 $nameErr = $loginidErr = $pwdErr = $pwdcfmErr = $emailErr = $genderError = $mobileErr = $bioErr =  "";
 
 $results_selectuser = array();
@@ -30,25 +30,13 @@ $results_updateuserdetails = array();
 if (isset($_GET["id"]) && validate_int($_GET["id"])) {
 	$user_id = (int)($_GET["id"]);
 }
-$conn = get_conn();
-
-if (isset($_POST["updateuser"])) {
-	$user_id = (int)($_POST["id"]);
-	$user_name = $_POST['name'];
-	$loginid= $_POST['loginid'];
-	$password = pw_hash($_POST['password1']);
-	$email = $_POST['email'];
-	$mobile = $_POST['mobile'];
-	$bio = $_POST['bio'];
 
 
-
-}
 
 $sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, profile_pic FROM user where (id=$user_id)";
-$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio', profile_pic='$avatar_path' WHERE (id='$user_id')";
 //echo $sql_updateuserdetails;
 
+$conn = get_conn();
 
 if ($query = $conn->prepare($sql_selectuser)) {
 	$query->execute();
@@ -81,9 +69,26 @@ if ($query = $conn->prepare($sql_selectuser)) {
 	$query->close();
 }
 
+
+if (isset($_POST["updateuser"])) {
+	$user_id = (int)($_POST["id"]);
+	$user_name = $_POST['name'];
+	$loginid= $_POST['loginid'];
+	$password = pw_hash($_POST['password1']);
+	$email = $_POST['email'];
+	$mobile = $_POST['mobile'];
+	$bio = $_POST['bio'];
+	$profilepicarray = $_POST['profileimgur_link'];
+	$profilepic_path = $profilepicarray[0];
+
+$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio', profile_pic='$profilepic_path' WHERE (id='$user_id')";
+
+
+
 if ($query = $conn->prepare($sql_updateuserdetails)) {
 	// echo $_POST["id"];
 	$query->execute();
+	$data = NULL;
 	if ($query->execute()) {
 		$successupdate = 1;
 	}
@@ -93,5 +98,5 @@ if ($query = $conn->prepare($sql_updateuserdetails)) {
 	array_push($results_updateuserdetails, $data);
 	$query->close();
 }
-
+}
 $conn->close();

@@ -126,7 +126,7 @@ if (isset($_POST["updatecat"])) {
 	$selected_update_cat_id = $_POST['id'];
 	$selected_update_cat_name = $_POST['name'];
 	//print_r(explode(",",$str,2));
-}
+
 
 
 
@@ -146,7 +146,7 @@ if ($query = $conn->prepare($sql_updatecatdetails)) {
 	array_push($results_updatecatdetails, $data);
 	$query->close();
 }
-
+}
 
 if (isset($_POST["deletecat"])) {
 	$delete_cat = (int)($_POST["id"]);

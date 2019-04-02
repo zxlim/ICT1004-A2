@@ -108,7 +108,8 @@ require_once("serverside/components/admin/user.php");
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <button type="submit" name="deleteuser" class="genric-btn danger circle">Delete User</button>
+                                <p></p>
+                                <button type="submit" name="deleteuser" class="genric-btn danger large circle">Delete User</button>
                             </div>
                         </div>
                     </form>

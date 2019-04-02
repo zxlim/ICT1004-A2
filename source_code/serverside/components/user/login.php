@@ -38,17 +38,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$error_message = "Please enter your password.";
 	} else {
 		// Input fields validated.
-		$sql = "SELECT id, loginid, name, password, admin FROM user WHERE loginid = ?";
+		$sql = "SELECT id, loginid, name, password, suspended, admin FROM user WHERE loginid = ?";
 
 		$conn = get_conn();
 
 		if ($query = $conn->prepare($sql)) {
 			$query->bind_param("s", $_POST["loginid"]);
 			$query->execute();
-			$query->bind_result($id, $loginid, $name, $password, $is_admin);
+			$query->bind_result($id, $loginid, $name, $password, $suspended, $is_admin);
 
 			if ($query->fetch()) {
-				if (pw_verify($_POST["password"], $password) === TRUE) {
+				if ((bool)($suspended) === TRUE) {
+					// User is suspended.
+					$delay = TRUE;
+					$error_login = TRUE;
+					$error_message = "Your account is suspended.";
+				} else if (pw_verify($_POST["password"], $password) === TRUE) {
 					// Authentication successful.
 					session_start();
 

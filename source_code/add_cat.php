@@ -36,7 +36,7 @@ require_once("serverside/components/admin/category.php");
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <div class="panel-title">
                         <i class="fa fa-money fa-fw"></i>
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -51,7 +51,7 @@ require_once("serverside/components/admin/category.php");
                             </button>
                         <?php } else {
                         ?>
-                    </h3>
+                    </div>
                 </div>
                 <!-- Add Category Form -->
                 <form class="row contact_form" name="form-contact" id="form-contact" method="POST" action="add_cat.php">
@@ -69,7 +69,7 @@ require_once("serverside/components/admin/category.php");
                         </div>
                     </div>
                     <div class="col-md-4 float-right">
-                        <button type="submit" name="newcat" class="primary-btn">Add New Category</button>
+                        <button type="submit" name="newcat" class="generic-btn primary">Add New Category</button>
                     </div>
                 </form>
                 <!-- End Add Category Form -->

@@ -46,23 +46,14 @@ require_once("serverside/components/admin/user.php");
 
                             //echo $_POST['name'];
                             if (isset($results_deletecat)) {
-                                if ($successdel) {
-                                    //echo "success ";
-                                    ?>
+                                if ($successdel) { ?>
                                     <h3 style="text-align:center">Category has been successfully deleted.</h3>
-
-
-                                    <?php
-                                } else {
-                                    ?>
+                                <?php } else { ?>
                                     <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-
-                                    <?php
-                                }
+                                <?php }
                             } ?>
                             <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard
                             </button>
-                            <p></p>
                             <?php
                         }
                         else {
@@ -92,7 +83,7 @@ require_once("serverside/components/admin/user.php");
 
                             <div class="col-md-6 float-left">
                                 <h4>Are you sure you want to delete this category?</h4>
-                                <button type="submit" name="deletecat" class="primary-btn">Delete Category</button>
+                                <button type="submit" name="deletecat" class="genric-btn danger circle">Delete Category</button>
                             </div>
                         </div>
                     </form>

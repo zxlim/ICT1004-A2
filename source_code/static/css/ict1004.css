@@ -589,3 +589,25 @@ hr .dotted {
 	width: 50vh;
 	height: 50vh;
 }
+
+
+/**
+* Reviews styling.
+*/
+
+.fa-star-b {
+    color: #ddd;
+}
+
+.fa-star-f {
+	color: #FFD700;
+}
+
+.review-profile-pic {
+	width: 70px;
+	height: 71px;
+}
+
+/**
+* End of Reviews styling.
+*/

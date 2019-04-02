@@ -22,6 +22,15 @@ require_once("serverside/functions/database.php");
 // DB Conn Part
 $conn = get_conn();
 
+// User's reviews
+$reviews = array();
+$review_scores = array();
+$sql_reviews = "SELECT r.id, r.buyer_id, r.seller_id, r.datetime, r.rating, r.description, u.name, u.profile_pic 
+FROM review AS r 
+INNER JOIN user AS u 
+ON r.buyer_id = u.id 
+WHERE r.seller_id = ?";
+
 // This part is when the user click his own profile
 $own_profile_results = array();
 $own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE id = ?";
@@ -45,4 +54,29 @@ if ($query = $conn->prepare($own_profiles_sql)) {
     }
     $query->close();
 }
+
+if ($query = $conn->prepare($sql_reviews)) {
+    $query->bind_param("i", $user_id);
+    $query->execute();
+    $query->bind_result($id, $buyer_id, $seller_id, $datetime, $rating, $description, $seller_name, $seller_profile_pic);
+    
+    while ($query->fetch()) {
+        $data = array(
+            "id" => (int)($id),
+            "buyer_id" => (int)($buyer_id),
+            "seller_id" => (int)($seller_id),
+            "datetime" => $datetime,
+            "rating" => $rating,
+            "description" => $description,
+            "seller_name" => $seller_name,
+            "seller_profile_pic" => $seller_profile_pic
+        );
+        
+        array_push($reviews, $data);
+        array_push($review_scores, $rating);
+    }
+    
+    $query->close();
+}
+
 ?>

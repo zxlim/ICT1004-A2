@@ -107,7 +107,9 @@ define("WEBPAGE_TITLE", "Profile");
     </div>
 </section>
 
+
 <!-- Misc Section -->
+    <?php if(!empty($own_profile_results)){ ?>
     <section class="product_description_area">
         <div class="container">
             <ul class="nav nav-tabs" id="item-tabs" role="tablist">
@@ -130,8 +132,8 @@ define("WEBPAGE_TITLE", "Profile");
                                     <div class="box_total">
                                         <h5>Overall</h5>
                                         <?php 
-                                        echo '<h4>' . array_sum($review_scores)/count($review_scores) . '</h4>';
-                                        echo '<h6>(' . sizeof($review_scores) . ' Reviews)</h6>'; ?>
+                                        echo '<h4>' . (!empty($review_scores) ? (array_sum($review_scores)/count($review_scores)) : '-') . '</h4>';
+                                        echo '<h6>(' . (!empty($review_scores) ? sizeof($review_scores) : '0') . ' Reviews)</h6>'; ?>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -225,6 +227,7 @@ define("WEBPAGE_TITLE", "Profile");
             </div>
         </div>
     </section>
+    <?php } ?>
     <!-- End Misc Section-->
 
 <!-- Footer -->

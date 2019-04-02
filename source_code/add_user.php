@@ -88,7 +88,7 @@ require_once("serverside/components/admin/user.php");
                     </div>
                     <div class="col-md-4">
                         <div class="col-md-12 text-right">
-                            <button type="submit" name="newuser" class="genric-btn primary">Add New User</button>
+                            <button type="submit" name="newuser" class="primary-btn">Add New User</button>
                         </div>
                     </div>
                 </form>

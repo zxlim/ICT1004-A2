@@ -71,7 +71,7 @@ require_once("serverside/components/admin/category.php");
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <button type="submit" name="updatecat" class="genric-btn primary">Update</button>
+                            <button type="submit" name="updatecat" class="primary-btn">Update</button>
                         </div>
                     <?php } ?>
                 </form>

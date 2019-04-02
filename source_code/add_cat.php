@@ -69,7 +69,7 @@ require_once("serverside/components/admin/category.php");
                         </div>
                     </div>
                     <div class="col-md-4 float-right">
-                        <button type="submit" name="newcat" class="generic-btn primary">Add New Category</button>
+                        <button type="submit" name="newcat" class="primary-btn">Add New Category</button>
                     </div>
                 </form>
                 <!-- End Add Category Form -->

@@ -58,7 +58,7 @@ define("WEBPAGE_TITLE", "Profile");
                                     </div>
                                     <div class="col-5">
                                         <h4>Email</h4>
-                                        <p><?php safe_echo($profile["email"]); ?></p>
+                                        <p class="word_break"><?php safe_echo($profile["email"]); ?></p>
                                     </div>
                                     <div class="col-3">
                                         <h4>Gender</h4>

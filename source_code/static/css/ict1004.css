@@ -312,7 +312,9 @@ hr .dotted {
 	padding: 20px;
 	text-align: center;
 }
-
+.word_break {
+	word-break: break-word;
+}
 .sell_btn {
 	margin-left: 20px;
 }

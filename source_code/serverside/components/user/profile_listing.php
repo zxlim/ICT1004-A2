@@ -1,4 +1,4 @@
-    <?php
+<?php
 if (defined("CLIENT") === FALSE) {
     /**
      * Ghetto way to prevent direct access to "include" files.
@@ -6,10 +6,7 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
-    $user_id = $_GET['id'];
-    #$id = $item["user_id"];
-    #echo "Boooom : ".$user_id;
-
+$user_id = $_GET['id'];
 
 if (!$session_is_authenticated === True) {
     header("Location: login.php");
@@ -28,7 +25,7 @@ $conn = get_conn();
 // This part is when the user click his own profile
 $own_profile_results = array();
 $own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE id = ?";
-                                                                                #$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
+#$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
 if ($query = $conn->prepare($own_profiles_sql)) {
     $query->bind_param("i", $user_id);
     $query->execute();

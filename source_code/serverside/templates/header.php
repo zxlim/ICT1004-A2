@@ -75,7 +75,7 @@ if (defined("CLIENT") === FALSE) {
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <?php if (session_isauth() === true) { ?>
+                        <?php if (session_isauth() === true && $admin != true) { ?>
                             <li class="nav-item">
                                 <button class="notification" id="nav_notification">
                                     <span class="lnr lnr-bubble"></span>

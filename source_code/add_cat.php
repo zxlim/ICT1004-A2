@@ -38,10 +38,8 @@ require_once("serverside/components/admin/admin.php");
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <i class="fa fa-money fa-fw"></i>
-
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
                             //echo $_POST['name'];
                             if (isset($results_addnewcat)) {
                                 if ($successaddcat) { ?>
@@ -51,11 +49,7 @@ require_once("serverside/components/admin/admin.php");
                             <?php } ?>
                             <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard
                             </button>
-                            <p></p>
-                            <?php
-                        }
-                        else {
-
+                        <?php } else {
                         ?>
                     </h3>
                 </div>

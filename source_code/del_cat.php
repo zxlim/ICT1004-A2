@@ -43,7 +43,6 @@ require_once("serverside/components/admin/user.php");
                     <h3 class="panel-title">
                         <i class="fa fa-money fa-fw"></i>
                         <?php if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
                             //echo $_POST['name'];
                             if (isset($results_deletecat)) {
                                 if ($successdel) { ?>
@@ -61,10 +60,10 @@ require_once("serverside/components/admin/user.php");
                     </h3>
                 </div>
 
-                <?php foreach ($results_selectedupdatecatdetails as $row) { ?>
-                    <!-- Delete Category Form -->
-                    <form class="contact_form" name="form-contact" id="form-contact" action="del_cat.php"
-                          METHOD="POST">
+                <!-- Delete Category Form -->
+                <form class="contact_form" name="form-contact" id="form-contact" action="del_cat.php"
+                      METHOD="POST">
+                    <?php foreach ($results_selectedupdatecatdetails as $row) { ?>
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -83,12 +82,14 @@ require_once("serverside/components/admin/user.php");
 
                             <div class="col-md-6 float-left">
                                 <h4>Are you sure you want to delete this category?</h4>
-                                <button type="submit" name="deletecat" class="genric-btn danger large circle">Delete Category</button>
+                                <button type="submit" name="deletecat" class="genric-btn danger large circle">Delete
+                                    Category
+                                </button>
                             </div>
                         </div>
-                    </form>
-                    <!-- End Delete Category Form -->
-                <?php } ?>
+                    <?php } ?>
+                </form>
+                <!-- End Delete Category Form -->
             </div>
         </div>
         <?php } ?>

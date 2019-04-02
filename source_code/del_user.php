@@ -46,33 +46,22 @@ require_once("serverside/components/admin/user.php");
 
                             //echo $_POST['name'];
                             if (isset($results_deleteuser)) {
-                                if ($successuserdel) {
-                                    //echo "success ";
-                                    ?>
+                                if ($successuserdel) { ?>
                                     <h3 style="text-align:center">User has been successfully deleted.</h3>
-
-                                    <?php
-                                } else {
-                                    ?>
+                                <?php } else { ?>
                                     <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-
-                                    <?php
-                                } ?>
+                                <?php } ?>
                                 <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard
                                 </button>
-                                <p></p>
-                                <?php
-                            }
-                        }
-                        else {
-                        ?>
+                            <?php }
+                        } else { ?>
                     </h3>
                 </div>
 
-                <?php foreach ($results_selectdeleteuser as $row) { ?>
-                    <!-- Delete User Form -->
-                    <form class="contact_form" name="form-contact" id="form-contact" action="del_user.php"
-                          METHOD="POST">
+                <!-- Delete User Form -->
+                <form class="contact_form" name="form-contact" id="form-contact" action="del_user.php"
+                      METHOD="POST">
+                    <?php foreach ($results_selectdeleteuser as $row) { ?>
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -104,17 +93,19 @@ require_once("serverside/components/admin/user.php");
                                 <div class="form-group">
                                     <h4>Email</h4>
                                     <input type="text" class="form-control" id="email" name="email"
-                                                  value="<?php safe_echo($row['email']); ?>" readonly>
+                                           value="<?php safe_echo($row['email']); ?>" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <p></p>
-                                <button type="submit" name="deleteuser" class="genric-btn danger large circle">Delete User</button>
+                                <button type="submit" name="deleteuser" class="genric-btn danger large circle">Delete
+                                    User
+                                </button>
                             </div>
                         </div>
-                    </form>
-                    <!-- End Delete Category Form -->
-                <?php } ?>
+                    <?php } ?>
+                </form>
+                <!-- End Delete Category Form -->
             </div>
         </div>
         <?php } ?>

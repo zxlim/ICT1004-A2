@@ -45,26 +45,19 @@ require_once("serverside/components/admin/admin.php");
 
                     //echo $_POST['name'];
                     if (isset($results_updatecatdetails)) {
-                        if ($successupdate) {
-                            ?>
+                        if ($successupdate) { ?>
                             <h3 style="text-align:center">Category has been successfully updated.</h3>
-
-                            <?php
-                        } else {
-                            ?>
+                        <?php } else { ?>
                             <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-                            <?php
-                        } ?>
+                        <?php } ?>
                         <button class="primary-btn" onclick="location.href='admin_page.php'">Back to Dashboard</button>
-                        <p></p>
-                        <?php
-                    }
-                } else {
-                foreach ($results_selectedupdatecatdetails as $row) {
-                    ?>
-                    <!-- Update Category Form -->
-                    <form class="row contact_form" name="form-contact" id="form-contact" action="update_cat.php"
-                          METHOD="POST">
+
+                    <?php }
+                } else { ?>
+                <!-- Update Category Form -->
+                <form class="row contact_form" name="form-contact" id="form-contact" action="update_cat.php"
+                      METHOD="POST">
+                    <?php foreach ($results_selectedupdatecatdetails as $row) { ?>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <h4>Category ID</h4>
@@ -82,9 +75,9 @@ require_once("serverside/components/admin/admin.php");
                         <div class="col-md-4">
                             <button type="submit" name="updatecat" class="primary-btn">Update</button>
                         </div>
-                    </form>
-                    <!-- End Update Category Form -->
-                <?php } ?>
+                    <?php } ?>
+                </form>
+                <!-- End Update Category Form -->
             </div>
         </div>
         <?php } ?>

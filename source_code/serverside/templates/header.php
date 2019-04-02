@@ -42,27 +42,28 @@ if (defined("CLIENT") === FALSE) {
                         <li class="<?php safe_echo(active_nav(['login.php', 'register.php'])); ?> submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">
-                                Account
+                                <span class="lnr lnr-user"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <?php if (session_isauth() === true) { ?>
-                                    <li class="<?php safe_echo(active_nav(['profile.php'])); ?>">
-                                        <a href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
-                                            <a class="nav-link"
-                                               href="profile.php?id=<?php echo $_SESSION["user_id"] ?>">Profile</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="logout.php">Logout</a>
-                                    </li>
-                                    <?php if ($admin === true) { ?>
+                                <?php if (session_isauth() === true) {
+                                    if ($admin === true) {
+                                        ?>
                                         <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
                                             <a class="nav-link" href="admin_page.php">Dashboard</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="logout.php">Logout</a>
+
+                                    <?php } else { ?>
+                                        <li class="<?php safe_echo(active_nav(['profile.php'])); ?>">
+                                            <a href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
+                                                <a class="nav-link"
+                                                   href="profile.php?id=<?php echo $_SESSION["user_id"] ?>">Profile</a>
                                         </li>
-                                    <?php }
-                                } else { ?>
+                                    <?php } ?>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="logout.php">Logout</a>
+                                    </li>
+                                <?php } else { ?>
                                     <li class="<?php safe_echo(active_nav(['login.php'])); ?>">
                                         <a class="nav-link" href="login.php">Login</a>
                                     </li>
@@ -87,14 +88,7 @@ if (defined("CLIENT") === FALSE) {
                                     <span class="lnr lnr-store"></span>
                                 </button>
                             </li>
-<!--                            --><?php //if ($admin === true) { ?>
-<!--                                <li class="nav-item">-->
-<!--                                    <button class="store" id="nav_store">-->
-<!--                                        <a href="admin_page.php"><span class="lnr lnr-user"></span></a>-->
-<!--                                    </button>-->
-<!--                                </li>-->
-                            <?php
-                        } ?>
+                            <?php } ?>
                         <li class="nav-item">
                             <button class="search" id="search">
                                 <span class="lnr lnr-magnifier"></span>

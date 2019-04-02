@@ -1,5 +1,4 @@
 <?php
-
 if (defined("CLIENT") === FALSE) {
     /**
      * Ghetto way to prevent direct access to "include" files.
@@ -7,7 +6,6 @@ if (defined("CLIENT") === FALSE) {
     http_response_code(404);
     die();
 }
-
 ?>
 <header class="header_area sticky-header">
     <div class="main_menu">
@@ -35,23 +33,9 @@ if (defined("CLIENT") === FALSE) {
                             <a class="nav-link" href="listing.php?cat=1">Shop</a>
                         </li>
 
-						<li class="<?php safe_echo(active_nav(['login.php', 'register.php'])); ?> submenu dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								Account
-							</a>
-							<ul class="dropdown-menu">
-								<?php if (session_isauth() === true) { ?>
-								<li class="<?php safe_echo(active_nav(['profile.php'])); ?>">
-									<a href="profile.php?id=<?php safe_echo($item["user_id"]); ?>">
-									<a class="nav-link" href="profile.php">Profile</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="logout.php">Logout</a>
-								</li>
-								<?php } else { ?>
-								<li class="<?php safe_echo(active_nav(['login.php'])); ?>">
-									<a class="nav-link" href="login.php">Login</a>
-								</li>
+                        <li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
+                            <a class="nav-link" href="contact.php">Contact Us</a>
+                        </li>
 
                         <li class="<?php safe_echo(active_nav(['login.php', 'register.php'])); ?> submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
@@ -102,7 +86,7 @@ if (defined("CLIENT") === FALSE) {
                                     <span class="lnr lnr-store"></span>
                                 </button>
                             </li>
-                            <?php } ?>
+                        <?php } ?>
                         <li class="nav-item">
                             <button class="search" id="search">
                                 <span class="lnr lnr-magnifier"></span>

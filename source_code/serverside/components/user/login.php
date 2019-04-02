@@ -48,21 +48,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			$query->bind_result($id, $loginid, $name, $password, $suspended, $is_admin);
 
 			if ($query->fetch()) {
-				if ((bool)($suspended) === TRUE) {
-					// User is suspended.
-					$delay = TRUE;
-					$error_login = TRUE;
-					$error_message = "Your account is suspended.";
-				} else if (pw_verify($_POST["password"], $password) === TRUE) {
-					// Authentication successful.
-					session_start();
+				if (pw_verify($_POST["password"], $password) === TRUE) {
+					// Password correct.
+					if ((bool)($suspended) === TRUE) {
+						// User is suspended.
+						$error_login = TRUE;
+						$error_message = "Your account is suspended.";
+					} else {
+						// Authentication successful.
+						session_start();
 
-					$_SESSION["csrf_token"] = generate_token(16);
-					$_SESSION["is_authenticated"] = TRUE;
-					$_SESSION["is_admin"] = (bool)($is_admin);
-					$_SESSION["user_id"] = (int)($id);
-					$_SESSION["user_loginid"] = $loginid;
-					$_SESSION["user_name"] = $name;
+						$_SESSION["csrf_token"] = generate_token(16);
+						$_SESSION["is_authenticated"] = TRUE;
+						$_SESSION["is_admin"] = (bool)($is_admin);
+						$_SESSION["user_id"] = (int)($id);
+						$_SESSION["user_loginid"] = $loginid;
+						$_SESSION["user_name"] = $name;
+					}
 				} else {
 					// Password mismatch.
 					$delay = TRUE;

@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		header("Location: index.php");
 	} else {
 		$current_dt = get_datetime(TRUE);
-		$search_query = trim($_POST["search_query"]);
+		$search_query = html_safe($_POST["search_query"], TRUE);
 		$wild_search = "%" . $search_query . "%";
 
 		$sql = "SELECT l.id, l.title, l.price, l.tags, u.name, p.url

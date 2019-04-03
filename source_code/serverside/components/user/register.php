@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$conn = get_conn();
 
 		if ($query = $conn->prepare($sql_loginid)) {
-			$query->bind_param("s", $_POST["loginid"]);
+			$query->bind_param("s", html_safe($_POST["loginid"], TRUE));
 			$query->execute();
 			$query->bind_result($id);
 
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	if ($error_register === FALSE) {
 		// After passing second round.
-		switch (trim($_POST["gender"])) {
+		switch (html_safe($_POST["gender"], TRUE)) {
 			case "M":
 				// Male.
 				$gender = "M";
@@ -140,12 +140,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		$_SESSION["is_register"] = TRUE;
 		$_SESSION["registration_data"] = array(
-			"name" => trim($_POST["name"]),
-			"loginid" => trim($_POST["loginid"]),
-			"password" => pw_hash($_POST["password1"]),
-			"email" => trim($_POST["email"]),
+			"name" => html_safe($_POST["name"], TRUE),
+			"loginid" => html_safe($_POST["loginid"], TRUE),
+			"password" => pw_hash($_POST["password1"], TRUE),
+			"email" => html_safe($_POST["email"], TRUE),
 			"gender" => $gender,
-			"code" => trim(generate_token(8)),
+			"code" => html_safe(generate_token(8), TRUE),
 			"code_attempt" => 0,
 			"code_expiry" => (int)(strtotime(get_datetime(FALSE, 900))),
 		);

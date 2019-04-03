@@ -1,5 +1,4 @@
 <?php define("CLIENT", TRUE);
-define("REGISTER_ENDPOINT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/register.php");
 define("WEBPAGE_TITLE", "Register");
@@ -10,7 +9,6 @@ define("WEBPAGE_TITLE", "Register");
 	<?php require_once("serverside/templates/html.head.php"); ?>
 </head>
 <body>
-
 	<!-- Header -->
 	<?php require_once("serverside/templates/header.php"); ?>
 	<!-- End Header -->

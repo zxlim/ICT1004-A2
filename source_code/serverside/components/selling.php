@@ -114,8 +114,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$current_user_id = (int)($_SESSION["user_id"]);
 
 		foreach ($_POST["images"] as $key => $url) {
-			array_push($image_urls, $url);
+			array_push($image_urls, html_safe($url, TRUE));
 		}
+
+		$p_name = html_safe($_POST["product_name"], TRUE);
+		$p_desc = html_safe($_POST["product_desc"], TRUE);
+		$p_tags = html_safe($_POST["tags"], TRUE);
+		$p_price = html_safe($_POST["price"], TRUE);
+		$p_condition = html_safe($_POST["condition"], TRUE);
+		$p_age = html_safe($_POST["age"], TRUE);
+		$p_location = html_safe($_POST["location"], TRUE);
+		$p_exp = html_safe($_POST["listing_expiry"], TRUE);
+		$p_cat = html_safe($_POST["category"], TRUE);
 
 		$sql = "INSERT INTO listing
 				(title, description, tags, price, item_condition, item_age, meetup_location, show_until, category_id, seller_id)
@@ -128,8 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		// Create the listing.
 		if ($query = $conn->prepare($sql)) {
 			$query->bind_param("sssdiissii",
-				$_POST["product_name"], $_POST["product_desc"], $_POST["tags"], $_POST["price"], $_POST["condition"],
-				$_POST["age"], $_POST["location"], $_POST["listing_expiry"], $_POST["category"], $current_user_id
+				$p_name, $p_desc, $p_tags, $p_price, $p_condition, $p_age, $p_location, $p_exp, $p_cat, $current_user_id
 			);
 
 			$query->execute();
@@ -163,10 +172,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $categories = $locations = array();
 
 $sql_category = "SELECT id, name FROM category ORDER BY id";
-$sql_location = "SELECT * FROM locations";
+$sql_location = "SELECT * FROM locations ORDER BY id";
 
 $conn = get_conn();
 
+// Get all defined listing categories.
 if ($query = $conn->prepare($sql_category)) {
 	$query->execute();
 	$query->bind_result($id, $name);
@@ -183,6 +193,7 @@ if ($query = $conn->prepare($sql_category)) {
 	$query->close();
 }
 
+// Get all defined meetup locations.
 if ($query = $conn->prepare($sql_location)) {
 	$query->execute();
 	$query->bind_result($id, $code, $name, $line);

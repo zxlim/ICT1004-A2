@@ -1,5 +1,4 @@
 <?php define("CLIENT", TRUE);
-define("REGISTER_ENDPOINT", TRUE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/verify.php");
 define("WEBPAGE_TITLE", "Verify Email");

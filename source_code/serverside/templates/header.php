@@ -14,9 +14,7 @@ if (defined("CLIENT") === FALSE) {
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<a class="navbar-brand logo_h" href="index.php">
 					<img class="nav-logo" src="static/img/fasttrade_logo.png" alt="FastTrade Brand Logo"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -40,7 +38,7 @@ if (defined("CLIENT") === FALSE) {
 						<li class="<?php safe_echo(active_nav(['login.php', 'register.php', 'admin.php'])); ?> submenu dropdown">
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
 							   aria-haspopup="true" aria-expanded="false">
-								<span class="lnr lnr-user"></span>
+								<span class="lnr lnr-user"></span><span class="user-nav-link">&nbsp;Account</span>
 							</a>
 							<ul class="dropdown-menu">
 								<?php

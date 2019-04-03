@@ -122,12 +122,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 	// POST request method.
 	if ($_POST["action"] === "update_category") {
 		// UPDATE: category.
+		$id = html_safe($_POST["id"], TRUE);
+		$cat_name = html_safe($_POST["name"], TRUE);
+
 		$sql = "UPDATE category
 				SET name = ?
 				WHERE id = ?";
 
 		if ($query = $conn->prepare($sql)) {
-			$query->bind_param("si", $_POST["name"], $_POST["id"]);
+			$query->bind_param("si", $cat_name, $id);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
 				$response_message = "Failed to update category.";
@@ -138,13 +141,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		}
 	} else if ($_POST["action"] === "update_location") {
 		// UPDATE: location.
+		$id = html_safe($_POST["id"], TRUE);
+		$stn_code = validate_notempty($_POST["stn_code"]) ? html_safe($_POST["stn_code"], TRUE) : NULL;
+		$stn_line = validate_notempty($_POST["stn_line"]) ? html_safe($_POST["stn_line"], TRUE) : NULL;
+		$stn_name = html_safe($_POST["stn_name"], TRUE);
+
 		$sql = "UPDATE locations
 				SET stn_code = ?, stn_name = ?, stn_line = ?
 				WHERE id = ?";
 
 		if ($query = $conn->prepare($sql)) {
 			$query->bind_param("sssi",
-				$_POST["stn_code"], $_POST["stn_name"], $_POST["stn_line"], $_POST["id"]
+				$stn_code, $stn_name, $stn_line, $id
 			);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
@@ -156,8 +164,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		}
 	} else if ($_POST["action"] === "update_user") {
 		// UPDATE: user.
-		$user_mobile = validate_notempty($_POST["mobile"]) ? $_POST["mobile"] : NULL;
-		$user_bio = validate_notempty($_POST["bio"]) ? $_POST["bio"] : NULL;
+		$id = html_safe($_POST["id"], TRUE);
+
+		$user_name = html_safe($_POST["name"], TRUE);
+		$user_loginid = html_safe($_POST["loginid"], TRUE);
+		$user_email = html_safe($_POST["email"], TRUE);
+		$user_gender = html_safe($_POST["gender"], TRUE);
+		$user_mobile = validate_notempty($_POST["mobile"]) ? html_safe($_POST["mobile"], TRUE) : NULL;
+		$user_bio = validate_notempty($_POST["bio"]) ? html_safe($_POST["bio"], TRUE) : NULL;
+		$user_suspended = html_safe($_POST["suspended"], TRUE);
+		$user_admin = html_safe($_POST["admin"], TRUE);
 
 		$sql = "UPDATE user
 				SET name = ?, loginid = ?, email = ?, gender = ?, mobile = ?, bio = ?, suspended = ?, admin = ?
@@ -165,8 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 
 		if ($query = $conn->prepare($sql)) {
 			$query->bind_param("ssssssiii",
-				$_POST["name"], $_POST["loginid"], $_POST["email"], $_POST["gender"],
-				$user_mobile, $user_bio, $_POST["suspended"], $_POST["admin"], $_POST["id"]
+				$user_name, $user_loginid, $user_email, $user_gender, $user_mobile, $user_bio, $user_suspended, $user_admin, $id
 			);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
@@ -178,11 +193,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		}
 	} else if ($_POST["action"] === "delete_user") {
 		// DELETE: location.
+		$id = html_safe($_POST["id"], TRUE);
+
 		$sql = "DELETE FROM user
 				WHERE id = ?";
 
 		if ($query = $conn->prepare($sql)) {
-			$query->bind_param("i", $_POST["id"]);
+			$query->bind_param("i", $id);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
 				$response_message = "Failed to user location.";
@@ -193,11 +210,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		}
 	} else if ($_POST["action"] === "delete_category") {
 		// DELETE: category.
+		$id = html_safe($_POST["id"], TRUE);
+
 		$sql = "DELETE FROM category
 				WHERE id = ?";
 
 		if ($query = $conn->prepare($sql)) {
-			$query->bind_param("i", $_POST["id"]);
+			$query->bind_param("i", $id);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
 				$response_message = "Failed to delete category.";
@@ -208,11 +227,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		}
 	} else if ($_POST["action"] === "delete_location") {
 		// DELETE: location.
+		$id = html_safe($_POST["id"], TRUE);
+
 		$sql = "DELETE FROM locations
 				WHERE id = ?";
 
 		if ($query = $conn->prepare($sql)) {
-			$query->bind_param("i", $_POST["id"]);
+			$query->bind_param("i", $id);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
 				$response_message = "Failed to delete location.";
@@ -223,20 +244,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		}
 	} else if ($_POST["action"] === "insert_user") {
 		// INSERT: user.
+		$user_name = html_safe($_POST["name"], TRUE);
+		$user_loginid = html_safe($_POST["loginid"], TRUE);
 		$user_pw = pw_hash($_POST["password"]);
+		$user_email = html_safe($_POST["email"], TRUE);
 		$current_dt = get_datetime();
+		$user_suspended = html_safe($_POST["suspended"], TRUE);
+		$user_admin = html_safe($_POST["admin"], TRUE);
 
 		$sql = "INSERT INTO user (name, loginid, password, email, join_date, suspended, admin)
 				VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		if ($query = $conn->prepare($sql)) {
 			$query->bind_param("sssssii",
-				$_POST["name"], $_POST["loginid"], $user_pw, $_POST["email"],
-				$current_dt, $_POST["suspended"], $_POST["admin"]
+				$user_name, $user_loginid, $user_pw, $user_email, $current_dt, $user_suspended, $user_admin
 			);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
-				$response_message = "Failed to create user: ".$query->error;
+				$response_message = "Failed to create user.";
 			} else {
 				$response_message = "Created user successfully.";
 			}
@@ -246,11 +271,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		unset($user_pw);
 	} else if ($_POST["action"] === "insert_category") {
 		// INSERT: category.
+		$cat_name = html_safe($_POST["name"], TRUE);
+
 		$sql = "INSERT INTO category (name)
 				VALUES (?)";
 
 		if ($query = $conn->prepare($sql)) {
-			$query->bind_param("s", $_POST["name"]);
+			$query->bind_param("s", $cat_name);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
 				$response_message = "Failed to create category.";
@@ -261,16 +288,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 		}
 	} else if ($_POST["action"] === "insert_location") {
 		// INSERT: location.
-		$stn_code = validate_notempty($_POST["stn_code"]) ? $_POST["stn_code"] : NULL;
-		$stn_line = validate_notempty($_POST["stn_line"]) ? $_POST["stn_line"] : NULL;
+		$stn_code = validate_notempty($_POST["stn_code"]) ? html_safe($_POST["stn_code"], TRUE) : NULL;
+		$stn_line = validate_notempty($_POST["stn_line"]) ? html_safe($_POST["stn_line"], TRUE) : NULL;
+		$stn_name = html_safe($_POST["stn_name"], TRUE);
 
 		$sql = "INSERT INTO locations (stn_code, stn_name, stn_line)
 				VALUES (?, ?, ?)";
 
 		if ($query = $conn->prepare($sql)) {
-			$query->bind_param("sss",
-				$stn_code, $_POST["stn_name"], $stn_line
-			);
+			$query->bind_param("sss", $stn_code, $stn_name, $stn_line);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
 				$response_message = "Failed to create location.";

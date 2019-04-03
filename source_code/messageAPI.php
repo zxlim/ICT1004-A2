@@ -25,22 +25,26 @@ if (session_isauth() === FALSE) {
 	$response["message"] = "Authentication is required to access this resource";
 } else if ($_SERVER["REQUEST_METHOD"] === "GET") {
 	// GET request.
-	if (isset($_GET["state"]) && isset($_GET["action"]) && ($_GET["action"] === "ping" || $_GET["action"] === "list")) {
+	if (
+		isset($_GET["state"]) && isset($_GET["action"]) &&
+		($_GET["action"] === "ping" || $_GET["action"] === "list")
+	) {
 		// Valid request `ping`.
-		$action = $_GET["action"];
-		$state = $_GET["state"];
+		$action = html_safe($_GET["action"], TRUE);
+		$state = html_safe($_GET["state"], TRUE);
 		$valid_request = TRUE;
-	} else if (isset($_GET["ctr"]) === FALSE || validate_int($_GET["ctr"]) === FALSE ||
+	} else if (
+		isset($_GET["ctr"]) === FALSE || validate_int($_GET["ctr"]) === FALSE ||
 		isset($_GET["id"]) === FALSE || validate_int($_GET["id"]) === FALSE
-		) {
+	) {
 		// Bad request.
 		$response["status"] = 400;
 		$response["message"] = "Bad Request";
 	} else {
 		// Valid request.
 		$action = "fetch";
-		$convo_id = $_GET["id"];
-		$offset = $_GET["ctr"];
+		$convo_id = html_safe($_GET["id"], TRUE);
+		$offset = html_safe($_GET["ctr"], TRUE);
 		$valid_request = TRUE;
 	}
 } else if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["id"]) && validate_int($_POST["id"])) {
@@ -52,8 +56,8 @@ if (session_isauth() === FALSE) {
 	} else {
 		// Valid request.
 		$action = "send";
-		$convo_id = $_POST["id"];
-		$msg_data = $_POST["msg_data"];
+		$convo_id = html_safe($_POST["id"], TRUE);
+		$msg_data = html_safe($_POST["msg_data"], TRUE);
 		$valid_request = TRUE;
 	}
 } else {

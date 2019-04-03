@@ -44,23 +44,6 @@ function session_isauth(): bool {
 	}
 }
 
-function session_isregmode(): bool {
-	/**
-	* A function to check if a client session is being used for registration.
-	*
-	* @return	bool	$result		TRUE if client is in registration mode else FALSE.
-	*/
-	if (session_isstarted() === FALSE) {
-		// Session not yet started.
-		return FALSE;
-	} else if (isset($_SESSION["is_register"]) && (bool)($_SESSION["is_register"]) === TRUE) {
-		return TRUE;
-	} else {
-		// Not in registration mode.
-		return FALSE;
-	}
-}
-
 function session_end(): bool {
 	/**
 	* A function to end a session instance and invalidate the session cookie.

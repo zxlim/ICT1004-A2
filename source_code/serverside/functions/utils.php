@@ -8,7 +8,7 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-function html_safe(string $string_raw): string {
+function html_safe(string $string_raw, bool $trim = TRUE): string {
 	/**
 	* A function to encode some predefined characters into HTML entities.
 	*
@@ -16,10 +16,14 @@ function html_safe(string $string_raw): string {
 	*
 	* @return	string	$str		The encoded string.
 	*/
-	// Encode string to UTF-8, then encode HTML entities.
 	if (strlen(trim($string_raw)) !== 0) {
-		$string = utf8_encode($string_raw);
-		return htmlspecialchars($string);
+		$string = htmlspecialchars(utf8_encode($string_raw));
+		
+		if ($trim === TRUE) {
+			return trim($string);
+		} else {
+			return $string;
+		}
 	}
 	return "";
 }

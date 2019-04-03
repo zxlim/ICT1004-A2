@@ -16,13 +16,13 @@ require_once("serverside/functions/validation.php");
 require_once("serverside/functions/security.php");
 require_once("serverside/functions/database.php");
 
-if ($session_is_regmode === FALSE) {
-	header("HTTP/1.1 403 Forbidden");
-	header("Location: register.php");
-	die("You are not allowed to access the requested resource.");
-} else if ($session_is_authenticated === TRUE) {
+if ($session_is_authenticated === TRUE) {
 	header("HTTP/1.1 403 Forbidden");
 	header("Location: index.php");
+	die("You are not allowed to access the requested resource.");
+} else if (isset($_SESSION["is_register"]) === FALSE || $_SESSION["is_register"] === FALSE) {
+	header("HTTP/1.1 403 Forbidden");
+	header("Location: register.php");
 	die("You are not allowed to access the requested resource.");
 }
 
@@ -84,6 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$conn->close();
 
 			if ($error_validate === FALSE) {
+				// Code is verified.
 				session_end();
 				header("Location: login.php");
 			}

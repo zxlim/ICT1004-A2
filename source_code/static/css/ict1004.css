@@ -70,6 +70,10 @@ hr .dotted {
 	overflow: scroll !important;
 }
 
+.user-nav-link {
+	display: none;
+}
+
 .header_area .navbar .nav.navbar-nav.navbar-right .notification,
 .header_area .navbar .nav.navbar-nav.navbar-right .store {
 	background: transparent;
@@ -84,6 +88,10 @@ hr .dotted {
 }
 
 @media (max-width: 991px) {
+	.user-nav-link {
+		display: inline-block;
+	}
+
 	.header_area .navbar .nav.navbar-nav.navbar-right li {
 		margin-top: -3em;
 	}

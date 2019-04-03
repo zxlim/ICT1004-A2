@@ -47,26 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// User's reviews
-$reviews = array();
-$review_scores = array();
-
-$sql_reviews = "SELECT r.id, r.buyer_id, r.seller_id, r.datetime, r.rating, r.description, u.name, u.profile_pic 
-    FROM review AS r 
-    INNER JOIN user AS u 
-    ON r.buyer_id = u.id 
-    WHERE r.seller_id = ?";
-
 // Profile Page
 $profile = NULL;
 $sql_profiles = "SELECT id, name, email, join_date, gender, bio, profile_pic, admin FROM user WHERE id = ?";
-
-// Profiles Listing
-$profiles_listings = array();
-$sql_listings = "SELECT picture.url, listing.title, listing.price, listing.sold FROM listing 
-INNER JOIN picture on picture.listing_id = listing.id
-WHERE listing.seller_id = ?
-GROUP BY listing.id";
 
 // Profile Page
 if ($query = $conn->prepare($sql_profiles)) {
@@ -89,12 +72,16 @@ if ($query = $conn->prepare($sql_profiles)) {
     }
 
     $query->close();
-} else{
-    echo $conn->error;
 }
 
 
 // Profiles Listing
+$profiles_listings = array();
+$sql_listings = "SELECT picture.url, listing.title, listing.price, listing.sold FROM listing 
+INNER JOIN picture on picture.listing_id = listing.id
+WHERE listing.seller_id = ?
+GROUP BY listing.id";
+
 if ($query = $conn->prepare($sql_listings)) {
     $query->bind_param("i", $user_id);
     $query->execute();
@@ -103,10 +90,10 @@ if ($query = $conn->prepare($sql_listings)) {
     while ($query->fetch()) {
         if ((bool)($admin) === FALSE) {
             $data = array(
-              "url" => $url,
-              "title" => $title,
-              "price" => $price,
-              "status" => $status
+                "url" => $url,
+                "title" => $title,
+                "price" => $price,
+                "status" => $status
             );
             array_push($profiles_listings, $data);
         }
@@ -115,6 +102,15 @@ if ($query = $conn->prepare($sql_listings)) {
 }
 
 // User's reviews
+$reviews = array();
+$review_scores = array();
+
+$sql_reviews = "SELECT r.id, r.buyer_id, r.seller_id, r.datetime, r.rating, r.description, u.name, u.profile_pic 
+    FROM review AS r 
+    INNER JOIN user AS u 
+    ON r.buyer_id = u.id 
+    WHERE r.seller_id = ?";
+
 if ($query = $conn->prepare($sql_reviews)) {
     $query->bind_param("i", $user_id);
     $query->execute();

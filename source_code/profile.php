@@ -154,13 +154,17 @@ define("WEBPAGE_TITLE", "Profile");
                             <?php foreach ($profiles_listings as $list) { ?>
                                 <div class="table-row">
                                     <div class="col-md-3 name text-center">
-                                        <img src="<?php safe_echo($list['url'])?>" class="img-thumbnail" width="175" height="175">
+                                        <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail" width="175"
+                                             height="175">
                                     </div>
                                     <div class="col-md-3 name text-center">
                                         <?php safe_echo($list["title"]); ?>
                                     </div>
                                     <div class="col-md-2 name text-center">
                                         <?php safe_echo($list["price"]); ?>
+                                    </div>
+                                    <div class="col-md-2 name text-center">
+                                        <?php safe_echo($list["status"]); ?>
                                     </div>
                                     <div class="col-md-2 name text-center">
                                         <button type="submit" class="genric-btn small info mr-1">View</button>

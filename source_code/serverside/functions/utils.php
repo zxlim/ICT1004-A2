@@ -13,11 +13,12 @@ function html_safe(string $string_raw, bool $trim = TRUE): string {
 	* A function to encode some predefined characters into HTML entities.
 	*
 	* @param	string	$string_raw	The string to encode and echo.
+	* @param	bool	$trim		Whether to trim the string.
 	*
 	* @return	string	$str		The encoded string.
 	*/
 	if (strlen(trim($string_raw)) !== 0) {
-		$string = htmlspecialchars(utf8_encode($string_raw));
+		$string = htmlspecialchars($string_raw);
 		
 		if ($trim === TRUE) {
 			return trim($string);

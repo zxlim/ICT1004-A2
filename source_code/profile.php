@@ -150,7 +150,7 @@ define("WEBPAGE_TITLE", "Profile");
                                 if ($list["status"] === 1) {
                                     if ($current_user_id === $user_id) {
                             ?>
-                            <div class="table-row user">
+                            <div class="table-row bg-light">
                                 <figure class="col-md-3">
                                     <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
                                          width="175"

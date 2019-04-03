@@ -14,11 +14,7 @@ $session_is_regmode = FALSE;
 if (session_isauth() === TRUE) {
 	// Client is authenticated.
 	$session_is_authenticated = TRUE;
-
 	$session_is_admin = $_SESSION["is_admin"];
-
-	// Backwards compatibility.
-	$admin = $_SESSION["is_admin"];
 } else if (session_isregmode() === TRUE && defined("REGISTER_ENDPOINT") === TRUE && REGISTER_ENDPOINT === TRUE) {
 	// Registration going on.
 	$session_is_regmode = TRUE;

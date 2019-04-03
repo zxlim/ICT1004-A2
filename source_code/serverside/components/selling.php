@@ -12,6 +12,12 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
+if ($session_is_admin === TRUE) {
+	// No admins allowed here.
+	header("Location: index.php");
+	die(); // Prevent further execution of PHP code.
+}
+
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 

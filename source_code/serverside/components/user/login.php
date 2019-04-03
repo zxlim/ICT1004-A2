@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			sleep(2);
 		} else if ($error_login === FALSE && (bool)($is_admin) === TRUE) {
 			// Administrator session.
-			header("Location: admin_page.php");
+			header("Location: admin.php");
 		} else if ($error_login === FALSE) {
 			header("Location: index.php");
 		}

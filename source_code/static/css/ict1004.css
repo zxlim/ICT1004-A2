@@ -11,6 +11,11 @@
 	margin-right: auto !important;
 }
 
+.text-center {
+	text-align: center !important;
+	align-items: center !important;
+}
+
 .text-info {
 	color: #38a4ff !important;
 }
@@ -585,7 +590,113 @@ hr .dotted {
 /**
 * End of FastTrade Messenger styling.
 */
+
 #photos {
 	width: 50vh;
 	height: 50vh;
 }
+
+/**
+* Admin Dashboard.
+*/
+.progress-table-wrap > .progress-table > .table-head > div
+.progress-table-wrap > .progress-table > .table-row > div {
+	display: flex;
+	align-items: center;
+	vertical-align: middle;
+}
+
+.progress-table-wrap > .progress-table > .table-head > .id,
+.progress-table-wrap > .progress-table > .table-head > .name,
+.progress-table-wrap > .progress-table > .table-head > .email,
+.progress-table-wrap > .progress-table > .table-head > .suspended,
+.progress-table-wrap > .progress-table > .table-head > .admin,
+.progress-table-wrap > .progress-table > .table-head > .code,
+.progress-table-wrap > .progress-table > .table-head > .line,
+.progress-table-wrap > .progress-table > .table-head > .actions {
+	color: #222222;
+	line-height: 40px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.progress-table-wrap > .progress-table .id {
+	width: 5% !important;
+	padding-left: 10px;
+}
+
+.progress-table-wrap > .progress-table.user .name {
+	width: 20% !important;
+}
+
+.progress-table-wrap > .progress-table.user .email {
+	width: 25% !important;
+}
+
+.progress-table-wrap > .progress-table.user .suspended {
+	width: 10% !important;
+}
+
+.progress-table-wrap > .progress-table.user .admin {
+	width: 10% !important;
+}
+
+.progress-table-wrap > .progress-table.user .actions,
+.progress-table-wrap > .progress-table.cat .actions,
+.progress-table-wrap > .progress-table.loc .actions {
+	width: 30% !important;
+}
+
+.progress-table-wrap > .progress-table.user .insert-new .name,
+.progress-table-wrap > .progress-table.user .insert-new .email,
+.progress-table-wrap > .progress-table.user .insert-new .loginid,
+.progress-table-wrap > .progress-table.user .insert-new .pw {
+	width: 25% !important;
+}
+
+.progress-table-wrap > .progress-table.user .insert-new .suspended,
+.progress-table-wrap > .progress-table.user .insert-new .admin {
+	width: 15% !important;
+}
+
+.progress-table-wrap > .progress-table.cat .name {
+	width: 65% !important;
+}
+
+.progress-table-wrap > .progress-table.loc .code {
+	width: 10% !important;
+}
+
+.progress-table-wrap > .progress-table.loc .line {
+	width: 20% !important;
+}
+
+.progress-table-wrap > .progress-table.loc .name {
+	width: 35% !important;
+}
+
+.progress-table-wrap > .progress-table form,
+.progress-table-wrap > .progress-table .actions .genric-btn {
+	display: inline-block;
+}
+
+.progress-table-wrap > .progress-table .insert-new form {
+	width: 100%;
+}
+
+.progress-table-wrap > .progress-table .single-input {
+	width: 90%;
+	border-bottom: 0.5px solid #aaa;
+	-webkit-transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-o-transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0s;
+}
+
+.progress-table-wrap > .progress-table form .single-input:focus,
+.progress-table-wrap > .progress-table form .single-input:active {
+	border-bottom: 0.5px solid #ddd;
+}
+/**
+* End of Admin Dashboard.
+*/

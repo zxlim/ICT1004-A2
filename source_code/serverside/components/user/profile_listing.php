@@ -9,21 +9,19 @@ if (defined("CLIENT") === FALSE) {
 
 require_once("serverside/functions/validation.php");
 
-if (isset($_GET['id']) === TRUE) {
-    $user_id = $_GET['id'];
+if ($session_is_admin === TRUE) {
+    // No admins allowed here.
+    header("Location: index.php");
+    die(); // Prevent further execution of PHP code.
+}
+
+if (isset($_GET['id']) === TRUE && validate_int($_GET['id']) === TRUE) {
+    $user_id = (int)($_GET['id']);
 } else if (session_isauth() === TRUE) {
     $user_id = $_SESSION["user_id"];
 } else {
+    // Default profile.
     $user_id = 1;
-}
-
-if (!$session_is_authenticated === True) {
-    header("Location: login.php");
-    exit;
-}
-
-if ($session_is_authenticated === TRUE) {
-    $current_user_id = (int)($_SESSION["user_id"]);
 }
 
 require_once("serverside/functions/database.php");
@@ -32,26 +30,30 @@ require_once("serverside/functions/database.php");
 $conn = get_conn();
 
 // This part is when the user click his own profile
-$own_profile_results = array();
-$own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE id = ?";
-#$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
-if ($query = $conn->prepare($own_profiles_sql)) {
+$profile = NULL;
+
+$sql = "SELECT id, name, email, join_date, gender, bio, profile_pic, admin FROM user WHERE id = ?";
+
+if ($query = $conn->prepare($sql)) {
     $query->bind_param("i", $user_id);
     $query->execute();
-    $query->bind_result($id, $name, $email, $join_date, $gender, $bio, $profile_pic);
+    $query->bind_result($id, $name, $email, $join_date, $gender, $bio, $profile_pic, $admin);
 
-    while ($query->fetch()) {
-        $data = array(
-            "id" => (int)$id,
-            "name" => $name,
-            "email" => $email,
-            "join_date" => $join_date,
-            "gender" => $gender,
-            "bio" => $bio,
-            "profile_pic" => $profile_pic
-        );
-        array_push($own_profile_results, $data);
+    if ($query->fetch()) {
+        if ((bool)($admin) === FALSE) {
+            $profile = array(
+                "id" => (int)$id,
+                "name" => $name,
+                "email" => $email,
+                "join_date" => $join_date,
+                "gender" => $gender,
+                "bio" => $bio,
+                "profile_pic" => $profile_pic
+            );
+        }
     }
+
     $query->close();
 }
-?>
+
+$conn->close();

@@ -116,7 +116,7 @@ define("WEBPAGE_TITLE", "Profile");
 
 
 <!-- Misc Section -->
-    <?php if(!empty($own_profile_results)){ ?>
+    <?php if($profile !== NULL){ ?>
     <section class="product_description_area">
         <div class="container">
             <ul class="nav nav-tabs" id="item-tabs" role="tablist">
@@ -195,7 +195,7 @@ define("WEBPAGE_TITLE", "Profile");
                                 <form class="row contact_form" action="profile.php" method="post" id="reviewForm" novalidate="novalidate">
                                     <p>Your Rating:</p>
                                     <fieldset class="rating">
-                                        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Outstanding - 5 stars"></label>
+                                        <input type="radio" id="star5" name="rating" value="5" checked/><label class = "full" for="star5" title="Outstanding - 5 stars"></label>
                                         <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Outstanding - 4.5 stars"></label>
                                         <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Good - 4 stars"></label>
                                         <input type="radio" id="star3half" name="rating" value="3.5" /><label class="half" for="star3half" title="Good - 3.5 stars"></label>
@@ -204,7 +204,7 @@ define("WEBPAGE_TITLE", "Profile");
                                         <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Fair - 2 stars"></label>
                                         <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="Fair - 1.5 stars"></label>
                                         <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Poor - 1 star"></label>
-                                        <input type="radio" id="starhalf" name="rating" value="0.5" checked/><label class="half" for="starhalf" title="Poor - 0.5 stars"></label>
+                                        <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Poor - 0.5 stars"></label>
                                     </fieldset>
 <!--
                                     <ul class="list">
@@ -222,7 +222,7 @@ define("WEBPAGE_TITLE", "Profile");
 <!--                                            <input type="text" name="description" placeholder="Review" />-->
                                         </div>
                                     </div>
-                                    <input type="text" name="sellerId" value="<?php echo (int)($_GET['id']) ?>" hidden/>
+                                    <input type="text" name="sellerId" value="<?php echo isset($_GET['id']) ? (int)($_GET['id']) : '' ?>" hidden/>
                                     <div class="col-md-12 text-right">
                                         <button type="submit" value="submit" class="primary-btn">Submit Now</button>
                                     </div>

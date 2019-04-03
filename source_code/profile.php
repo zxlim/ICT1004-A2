@@ -170,11 +170,6 @@ define("WEBPAGE_TITLE", "Profile");
                                         <div class="col-md-2 name text-center">
                                             Sold
                                         </div>
-                                        <div class="col-md-2 name text-center">
-                                            <?php if ($list["status"] === 0) { ?>
-                                                <button type="submit" class="genric-btn info mr-1">View</button>
-                                            <?php } ?>
-                                        </div>
                                     </div>
                                 <?php } else { ?>
                                     <div class="table-row">
@@ -193,9 +188,7 @@ define("WEBPAGE_TITLE", "Profile");
                                         Available
                                     </div>
                                     <div class="col-md-2 name text-center">
-                                        <?php if ($list["status"] === 0) { ?>
-                                            <button type="submit" class="genric-btn info mr-1">View</button>
-                                        <?php } ?>
+                                        <button type="submit" class="genric-btn info mr-1">View</button>
                                     </div>
                                 <?php } ?>
                                 </div>

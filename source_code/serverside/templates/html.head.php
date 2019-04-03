@@ -15,13 +15,16 @@ if (defined("CLIENT") === FALSE) {
 
 <title>
 	<?php
-	safe_echo(APP_TITLE);
 	if (defined("WEBPAGE_TITLE") === TRUE) {
-		safe_echo(sprintf(" | %s", WEBPAGE_TITLE));
+		safe_echo(sprintf("%s | %s", APP_TITLE, WEBPAGE_TITLE));
+	} else {
+		safe_echo(APP_TITLE);
 	}
 	?>
 </title>
+
 <link rel="icon" type="image/png" href="static/img/fasttrade_logo.ico" sizes="32x32" />
+
 <link rel="stylesheet" href="static/css/vendor/linearicons.css">
 <link rel="stylesheet" href="static/css/vendor/font-awesome.min.css">
 <link rel="stylesheet" href="static/css/vendor/themify-icons.css">

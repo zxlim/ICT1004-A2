@@ -185,7 +185,7 @@ define("WEBPAGE_TITLE", "Profile");
                         <div class="col-lg-6">
                             <div class="review_box">
                                 <h4>Add a Review</h4>
-                                <form class="row contact_form" action="profile.php" method="post" id="ratingForm" novalidate="novalidate">
+                                <form class="row contact_form" action="profile.php" method="post" id="reviewForm" novalidate="novalidate">
                                     <p>Your Rating:</p>
                                     <fieldset class="rating">
                                         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Outstanding - 5 stars"></label>
@@ -199,6 +199,7 @@ define("WEBPAGE_TITLE", "Profile");
                                         <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Poor - 1 star"></label>
                                         <input type="radio" id="starhalf" name="rating" value="0.5" checked/><label class="half" for="starhalf" title="Poor - 0.5 stars"></label>
                                     </fieldset>
+<!--
                                     <ul class="list">
                                         <li><a href="#"><i class="fa fa-star"></i></a></li>
                                         <li><a href="#"><i class="fa fa-star"></i></a></li>
@@ -207,6 +208,7 @@ define("WEBPAGE_TITLE", "Profile");
                                         <li><a href="#"><i class="fa fa-star"></i></a></li>
                                     </ul>
                                     <p>Outstanding</p>
+-->
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <textarea class="form-control" name="description" id="description" rows="1" placeholder="Review" onfocus="if (!window.__cfRLUnblockHandlers) return false; this.placeholder = ''" onblur="if (!window.__cfRLUnblockHandlers) return false; this.placeholder = 'Review'"></textarea>
@@ -241,6 +243,26 @@ define("WEBPAGE_TITLE", "Profile");
 <!-- End Footer -->
 
 <?php require_once("serverside/templates/html.js.php"); ?>
-    
+    <script>
+        $(document).ready(function() {
+            console.log("ready!!");
+           $("#reviewForm").on('submit',function(e){
+               console.log("in");
+               e.preventDefault();
+               var rating = $('input[name=rating]').val();
+               var description = $('#description').val();
+               var sellerId = $('#sellerId').val();
+               
+               $.ajax({
+                  type: 'post',
+                   url: 'profile.php',
+                   data: $('#reviewForm').serialize(),
+                   success: function(){
+                     notify('Review Added!!!', 'success');  
+                   }
+               });
+           });
+        });
+    </script>
 </body>
 </html>

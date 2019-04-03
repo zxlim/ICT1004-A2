@@ -44,11 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $query->close();
         }
 // STOPPED HERE, NEED TO REDIRECT BACK SOMEHOW with GET PARAMETERS
-//        header("Location: /profile.php");
+//        header('Location: '.$_SERVER['REQUEST_URI']);
 //        die();
     }
     
-}  else {
+}
 
     if (isset($_GET['id']) === TRUE) {
         $user_id = $_GET['id'];
@@ -129,6 +129,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $query->close();
     }
     
-}
+
 $conn->close();
 ?>

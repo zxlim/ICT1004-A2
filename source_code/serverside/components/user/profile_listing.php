@@ -99,7 +99,7 @@ if ($query = $conn->prepare($sql_listings)) {
                 "url" => $url,
                 "title" => $title,
                 "price" => $price,
-                "status" => (bool) $status
+                "status" => (int) $status
             );
             array_push($profiles_listings, $data);
         }

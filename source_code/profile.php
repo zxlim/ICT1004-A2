@@ -147,9 +147,9 @@ define("WEBPAGE_TITLE", "Profile");
                                     Actions
                                 </div>
                             </div>
-
+                                <?php print_r($profiles_listings); ?>
                             <?php foreach ($profiles_listings as $list) {
-                                if ($current_user_id !== NULL && $current_user_id === $user_id && $list["status"] === True) {
+                                if ($current_user_id === $user_id && $list["status"] === 1) {
                                     ?>
 
                                     <div class="table-row disabled">

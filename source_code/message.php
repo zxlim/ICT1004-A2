@@ -26,10 +26,10 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 							Home<span class="lnr lnr-arrow-right"></span>
 						</a>
 						<a href="listing.php?id=<?php safe_echo($item["cat_id"]); ?>">
-							<?php safe_echo($item["cat_name"]); ?><span class="lnr lnr-arrow-right"></span>
+							<?php safe_echo(truncate($item["cat_name"], 35)); ?><span class="lnr lnr-arrow-right"></span>
 						</a>
 						<a href="item.php?id=<?php safe_echo($item["id"]); ?>">
-							<?php safe_echo($item["title"]); ?>
+							<?php safe_echo(truncate($item["title"], 35)); ?>
 						</a>
 					</nav>
 					<?php } else { ?>
@@ -57,7 +57,7 @@ define("WEBPAGE_TITLE", "Chat with Seller");
 					<div class="col-md-1 col-1"></div>
 					<div class="col-md-9 col-11">
 						<h4 class="vertical-align-middle">
-							<?php safe_echo($item["title"]); ?>
+							<?php safe_echo(truncate($item["title"], 64)); ?>
 							
 						</h4>
 					</div>

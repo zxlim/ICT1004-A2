@@ -10,9 +10,9 @@ function log_debug(msg) {
 	* Logs message to console with `[DEBUG]` tag.
 	*/
 	const enable_debug = false;
-	if (enable_debug === true && msg !== null && msg.trim().length !== 0) {
-		console.log("[DEBUG] " + String(msg));
-	}
+	// if (enable_debug === true && msg !== null && msg.trim().length !== 0) {
+	// 	console.log("[DEBUG] " + String(msg));
+	// }
 }
 
 
@@ -79,7 +79,7 @@ class FastTradeMessenger {
 					let m_dt = String(m.datetime);
 					let m_r = Boolean(m.read);
 
-					var m_notice = m_notice = "<div class='ftmsg ftmsg-sender p-3 shadow'>";
+					var m_notice = "<div class='ftmsg ftmsg-sender p-3 shadow'>";
 					var m_read = "";
 
 					if (m_sender_id === FTMsg.sender_id) {
@@ -254,7 +254,11 @@ class FastTradeMessengerNotification {
 							var start_tag = "<li class='noti'>";
 
 							if (m_r === false && convo_id !== Number(FTNotification.convo_id)) {
-								notify("<div class='ftnoti-banner'><span class='dt'>" + m_dt + "</span><br />" + noti_msg + "</div>");
+								notify(
+									"<div class='ftnoti-banner'><span class='dt'>" + m_dt + "</span><br />" +
+									u_name + " sent a new message regarding <a class='item' href='message.php?id=" +
+									convo_id + "'>" + l_name + "</a>.</div>"
+								);
 								$("#nav_notification").addClass("unread");
 								start_tag = "<li class='noti unread'>";
 							}

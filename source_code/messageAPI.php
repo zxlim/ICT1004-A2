@@ -102,7 +102,8 @@ if ($action === "ping") {
 			INNER JOIN user AS u ON m.sender_id = u.id
 			WHERE m.sender_id != ?
 			AND (c.user1 = ? OR c.user2 = ?)
-			GROUP BY c.id";
+			GROUP BY c.id
+			ORDER BY m.datetime DESC";
 
 	if ($query = $conn->prepare($sql)) {
 		$query->bind_param("iii", $user_id, $user_id, $user_id);
@@ -116,7 +117,7 @@ if ($action === "ping") {
 				"datetime_epoch" => (int)(strtotime($msg_dt)),
 				"read" => (bool)($msg_rr),
 				"listing_id" => (int)($listing_id),
-				"listing_title" => html_safe($listing_title),
+				"listing_title" => html_safe(truncate($listing_title, 64)),
 				"user_id" => (int)($uid),
 				"user_name" => html_safe($uname),
 			);
@@ -135,7 +136,8 @@ if ($action === "ping") {
 			INNER JOIN listing AS l ON c.listing_id = l.id
 			INNER JOIN user AS u ON m.sender_id = u.id
 			WHERE c.user1 = ? OR c.user2 = ?
-			GROUP BY c.id";
+			GROUP BY c.id
+			ORDER BY m.datetime DESC";
 
 	if ($query = $conn->prepare($sql)) {
 		$query->bind_param("ii", $user_id, $user_id);

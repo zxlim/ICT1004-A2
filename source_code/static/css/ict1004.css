@@ -353,7 +353,7 @@ hr .dotted {
 .ftnotification,
 .ftnotification a {
 	line-height: 1.5em;
-	color: #777;
+	color: #666;
 }
 
 .ftnotification li {
@@ -365,7 +365,7 @@ hr .dotted {
 	display: block;
 	width: 100% !important;
 	padding: 1em;
-	background-color: rgba(240, 240, 240, 0.75);
+	background-color: rgba(200, 200, 200, 0.9);
 	-webkit-transition: all 0.3s ease 0s;
 	-moz-transition: all 0.3s ease 0s;
 	-o-transition: all 0.3s ease 0s;
@@ -399,10 +399,14 @@ hr .dotted {
 	transition: all 0.3s ease 0s;
 }
 
-.ftnoti-banner > span.item,
+.ftnoti-banner > a.item,
 .ftnotification li > a > span.item {
 	text-decoration: underline;
 	font-weight: 700;
+}
+
+.ftnoti-banner > a.item {
+	color: #0c5460;
 }
 
 .ftnotification li > a > span.datetime {
@@ -411,6 +415,7 @@ hr .dotted {
 
 .ftnotification a:hover {
 	background-color: rgba(250, 250, 250, 1);
+	color: #555;
 }
 
 .ftnotification li.unread > a:hover {

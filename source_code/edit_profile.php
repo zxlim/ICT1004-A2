@@ -1,32 +1,14 @@
 <?php define("CLIENT", TRUE);
+define("REQUIRE_AUTH", TRUE);
 require_once("serverside/base.php");
-require_once("serverside/constants.php");
 require_once("serverside/components/user/edit_profile.php");
+define("WEBPAGE_TITLE", "Edit Profile");
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <?php require_once("serverside/templates/html.head.php"); ?>
-
-    <script type="text/javascript">
-        function validation() {
-            var a = document.form.pass.value;
-            if (a == "") {
-                alert("Please Enter Your Password");
-                document.form.pass.focus();
-                return false;
-            }
-            if ((a.length < 4) || (a.length > 8)) {
-                alert("Your Password must be 4 to 8 Character");
-                document.form.pass.select();
-                return false;
-            }
-        }
-    </script>
-
 </head>
-
 <body>
 <?php require_once("serverside/templates/header.php"); ?>
 <!-- Banner Section -->
@@ -184,8 +166,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
 
                     <?php } ?>
-                    <?php require_once("serverside/components/user/edit_profile.php");
-                    ?>
                 </div>
             </div>
         </div>

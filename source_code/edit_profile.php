@@ -37,7 +37,7 @@ require_once("serverside/components/user/edit_profile.php");
                 <h1>Edit Profile</h1>
                 <nav class="d-flex align-items-center">
                     <a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="login.php"></a>
+                    <a href="#">Edit Profile</a>
                 </nav>
             </div>
         </div>
@@ -95,13 +95,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="col-lg-5 offset-lg-1">
-                    <form name="form-login" id="form-login" action="edit_profile.php" method="post"
+                    <form name="form-edit" id="form-edit" action="edit_profile.php" method="post"
                           enctype="multipart/form-data">
                         <div class="s_product_text">
                             <?php
-                            foreach ($results_selectuser
-
-                            as $row) { ?>
+                            foreach ($results_selectuser as $row) { ?>
 
                             <input type="hidden" id="id" name="id" value="<?php safe_echo($row['id']); ?>">
 
@@ -123,14 +121,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="form-group">
                                 <h5>Password</h5>
                                 <input type="password" class="form-control" id="password1" name="password1"
-                                       placeholder="Password" required>
+                                       placeholder="Password">
                                 <span class="errorcolor"><?php echo $pwdErr; ?></span>
                             </div>
 
                             <div class="form-group">
                                 <h5>Confirm your Password</h5>
                                 <input type="password" class="form-control" id="password2" name="password2"
-                                       placeholder="Confirm Password" required>
+                                       placeholder="Confirm Password">
                                 <span class="errorcolor"><?php echo $pwdcfmErr; ?></span>
                             </div>
 
@@ -138,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="form-group">
                                 <h5>Email</h5>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                                       value="<?php echo $row['email']; ?>">
+                                       value="<?php echo $row['email']; ?>" required>
                                 <span class="errorcolor"><?php echo $emailErr; ?></span>
                             </div>
 

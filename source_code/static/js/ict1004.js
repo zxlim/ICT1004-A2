@@ -197,6 +197,27 @@ $(document).ready(function () {
 		}
 	});
 
+  $("#form-edit").on("submit", function (e) {
+    const form_data = $(this).serializeArray();
+    const result = zxcvbn($("#password1").val());
+
+    $("#error-password2").text("");
+
+    if (validate_email($("#email").val()) === false) {
+      notify("Please enter a valid email address.", "warning");
+      e.preventDefault();
+      return false;
+    } else if ($("#password1").val() !== $("#password2").val()) {
+      $("#error-password2").text("Confirm your password again.");
+      notify("Please check that you have entered the correct password.", "warning");
+      $("#password2").val("");
+      e.preventDefault();
+      return false;
+    }  else {
+      return true;
+    }
+  });
+
 	$("#form-verification").on("submit", function (e) {
 		if (validate_form_notempty($(this).serializeArray()) === false) {
 			notify("Please enter your verification code.", "warning");

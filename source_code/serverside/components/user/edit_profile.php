@@ -38,18 +38,7 @@ $user_id = (int)$_SESSION["user_id"];
 //	$user_id = (int)($_GET["id"]);
 //
 //}
-$conn = get_conn();
 
-if (isset($_POST["updateuser"])) {
-	$user_id = (int)($_POST["id"]);
-	$user_name = $_POST['name'];
-	$loginid= $_POST['loginid'];
-	$password = pw_hash($_POST['password1']);
-	$email = $_POST['email'];
-	$mobile = $_POST['mobile'];
-	$bio = $_POST['bio'];
-
-}
 
 $sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, profile_pic FROM user where (id=$user_id)";
 //echo $sql_updateuserdetails;
@@ -92,15 +81,22 @@ if (isset($_POST["updateuser"])) {
 	$user_id = (int)($_POST["id"]);
 	$user_name = $_POST['name'];
 	$loginid= $_POST['loginid'];
-	$password = pw_hash($_POST['password1']);
+
+
+
 	$email = $_POST['email'];
+
 	$mobile = $_POST['mobile'];
 	$bio = $_POST['bio'];
+	if (isset($_POST['profileimgur_link'])){
 	$profilepicarray = $_POST['profileimgur_link'];
 	$profilepic_path = $profilepicarray[0];
+}
+else {
+	$profilepic_path = $Test_pic;
+}
 
-$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', password='$password', email='$email', mobile='$mobile', bio='$bio', profile_pic='$profilepic_path' WHERE (id='$user_id')";
-
+$sql_updateuserdetails = "UPDATE user SET name='$user_name', loginid='$loginid', email='$email', mobile='$mobile', bio='$bio', profile_pic='$profilepic_path' WHERE (id='$user_id')";
 
 
 if ($query = $conn->prepare($sql_updateuserdetails)) {
@@ -108,13 +104,36 @@ if ($query = $conn->prepare($sql_updateuserdetails)) {
 	$query->execute();
 	$data = NULL;
 	if ($query->execute()) {
+		if (!(($_POST['password1']) == NULL)) {
+		$password = pw_hash($_POST['password1']);
+
+		$sql_updatepassword = "UPDATE user SET password='$password' WHERE (id='$user_id')";
+
+		if ($query = $conn->prepare($sql_updatepassword)) {
+			// echo $_POST["id"];
+			$query->execute();
+			if ($query->execute()) {
+				$successupdate = 1;
+			}
+			else {
+				$successupdate = 0;
+			}
+
+
+		}
+		}
+		else {
 		$successupdate = 1;
 	}
+}
 	else {
 		$successupdate = 0;
 	}
 	array_push($results_updateuserdetails, $data);
 	$query->close();
 }
+
+
+
 }
 $conn->close();

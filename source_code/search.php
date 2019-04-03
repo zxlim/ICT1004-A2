@@ -15,16 +15,16 @@ require_once("serverside/components/search.php");
 <!-- Features Section -->
 <section class="features-area section_gap">
     <div class="container section_gap">
-        <h2>Your search results for "<?php safe_echo($search_query) ?>"</h2>
-        <hr>
+        <h2>Search results for "<?php safe_echo($search_query) ?>"</h2>
+        <hr />
         <form method="post" action="search.php">
             <?php
             foreach ($results_listings as $row) {
                 foreach (explode(",", $row["tags"]) as $tag) {
                     if (trim($tag) !== $search_query) {
             ?>
-                <button type="submit" class="genric-btn info-border tags-btn" name="search_query" value="<?php safe_echo(trim($tag)); ?>">
-                    <?php safe_echo(trim($tag)); ?>
+                <button type="submit" class="genric-btn info-border tags-btn" name="search_query" value="<?php safe_echo($tag); ?>">
+                    <?php safe_echo($tag); ?>
                 </button>
             <?php }
                 }

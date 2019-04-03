@@ -74,7 +74,7 @@ if (isset($selected_cat_name)) {
 
 			$data = array(
 				"id" => (int)($id),
-				"title" => $title,
+				"title" => truncate($title, 32),
 				"price" => (float)($price),
 				"user_id" => (int)($user_id),
 				"user_name" => $user_name,

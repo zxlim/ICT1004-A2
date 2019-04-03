@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+/**
+* @license		MIT License
+* @copyright	Copyright (c) 2019 Zhao Xiang.
+*
+* @author		ZHAO XIANG LIM	(developer@zxlim.xyz)
+*/
 
 if (defined("CLIENT") === FALSE) {
 	/**

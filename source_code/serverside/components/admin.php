@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 			$query->close();
 		}
 	} else if ($_POST["action"] === "delete_user") {
-		// DELETE: location.
+		// DELETE: user.
 		$id = html_safe($_POST["id"], TRUE);
 
 		$sql = "DELETE FROM user
@@ -202,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $valid_request === TRUE) {
 			$query->bind_param("i", $id);
 			if (!$query->execute()) {
 				$valid_response = FALSE;
-				$response_message = "Failed to user location.";
+				$response_message = "Failed to delete user.";
 			} else {
 				$response_message = "Deleted user successfully.";
 			}

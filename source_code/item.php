@@ -122,12 +122,23 @@ define("WEBPAGE_TITLE", "Item Details");
 							<?php safe_echo($item["description"]); ?>
 						</p>
 						<div class="card_area d-flex align-items-center">
-							<?php if (isset($current_user_id) && $current_user_id === $item["user_id"]) { ?>
-							<a class="info-btn" href="#">
-								Edit Listing
-							</a>
-							<a class="danger-btn" href="#">Mark as Sold</a>
-							<?php } else { ?>
+							<?php
+							if (isset($current_user_id) && $current_user_id === $item["user_id"]) {
+								if ($item["sold"] === FALSE) {
+							?>
+							<form id="form-listing-sold" action="profile.php" method="post">
+								<input type="hidden" name="action" value="sold_listing" required readonly>
+								<input type="hidden" name="id" value="<?php safe_echo($item["id"]); ?>" required readonly>
+								<button type="submit" class="info-btn">Mark As Sold</button>
+							</form>
+							<?php } ?>
+
+							<form id="form-listing-delete" action="profile.php" method="post">
+								<input type="hidden" name="action" value="delete_listing" required readonly>
+								<input type="hidden" name="id" value="<?php safe_echo($item["id"]); ?>" required readonly>
+								<button type="submit" class="danger-btn">Delete Listing</button>
+							</form>
+							<?php } else if ($session_is_admin === FALSE) { ?>
 							<a class="success-btn" href="<?php safe_echo($convo_link); ?>" data-toggle="tooltip" data-placement="top" title="Chat with the Seller to make an offer!">
 								Make an Offer
 							</a>
@@ -182,13 +193,7 @@ define("WEBPAGE_TITLE", "Item Details");
 										</div>
 									</div>
 									<p>
-										<?php
-										if (isset($item["user_bio"]) === TRUE) {
-											safe_echo($item["user_bio"]);
-										} else {
-											safe_echo("This user prefers to keep their life a mystery...");
-										}
-										?>
+										<?php safe_echo($item["user_bio"]); ?>
 									</p>
 									<br /><br />
 								</div>
@@ -273,5 +278,28 @@ define("WEBPAGE_TITLE", "Item Details");
 	<!-- End Footer -->
 
 	<?php require_once("serverside/templates/html.js.php"); ?>
+	<script>
+		$(document).ready(function() {
+			$("#form-listing-sold").on("submit", function(e) {
+				const result = confirm("Are you sure you want to mark this listing as sold?");
+				if (result === true) {
+					return true;
+				} else {
+					e.preventDefault();
+					return false;
+				}
+			});
+
+			$("#form-listing-delete").on("submit", function(e) {
+				const result = confirm("Are you sure you want to delete this listing?");
+				if (result === true) {
+					return true;
+				} else {
+					e.preventDefault();
+					return false;
+				}
+			});
+		})
+	</script>
 </body>
 </html>

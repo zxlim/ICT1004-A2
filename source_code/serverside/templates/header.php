@@ -31,9 +31,9 @@ if (defined("CLIENT") === FALSE) {
 							<a class="nav-link" href="listing.php?cat=1">Shop</a>
 						</li>
 
-						<li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
+						<!-- <li class="<?php safe_echo(active_nav(['contact.php'])); ?>">
 							<a class="nav-link" href="contact.php">Contact Us</a>
-						</li>
+						</li> -->
 
 						<li class="<?php safe_echo(active_nav(['login.php', 'register.php', 'admin.php'])); ?> submenu dropdown">
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"

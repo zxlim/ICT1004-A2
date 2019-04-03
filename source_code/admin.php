@@ -110,7 +110,7 @@ define("WEBPAGE_TITLE", "Admin");
 									</select>
 								</div>
 							</div>
-							<div class="table-row"></div>
+							<div class="table-row bg-white"></div>
 							<div class="table-head">
 								<div class="id text-center">
 									ID
@@ -303,7 +303,7 @@ define("WEBPAGE_TITLE", "Admin");
 									<input type="submit" class="genric-btn success" form="insert_category" value="Create">
 								</div>
 							</div>
-							<div class="table-row"></div>
+							<div class="table-row bg-white"></div>
 							<div class="table-head">
 								<div class="id text-center">
 									ID
@@ -411,7 +411,7 @@ define("WEBPAGE_TITLE", "Admin");
 									<input type="submit" class="genric-btn success" form="insert_loc" value="Create">
 								</div>
 							</div>
-							<div class="table-row"></div>
+							<div class="table-row bg-white"></div>
 							<div class="table-head">
 								<div class="id text-center">
 									ID

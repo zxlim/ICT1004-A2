@@ -78,7 +78,7 @@ if ($query = $conn->prepare($sql_item)) {
 	);
 
 	if ($query->fetch()) {
-		if (strtotime($show_until) > strtotime($current_dt) || (bool)($sold) === FALSE || ($current_user_id === (int)($user_id))) {
+		if (strtotime($show_until) > strtotime($current_dt) && ((bool)($sold) === FALSE || ($current_user_id === (int)($user_id)))) {
 			if ($user_picture === NULL) {
 				$user_picture = "static/img/default/user.jpg";
 			}
@@ -97,13 +97,14 @@ if ($query = $conn->prepare($sql_item)) {
 				"price" => (float)($price),
 				"condition" => (int)($condition),
 				"item_age" => (int)($item_age),
+				"sold" => (bool)($sold),
 				"meetup_location" => $meetup_location,
 				"cat_id" => (int)($cat_id),
 				"cat_name" => $cat_name,
 				"user_id" => (int)($user_id),
 				"user_name" => $user_name,
 				"user_join_date" => date("M Y", strtotime($user_join_date)),
-				"user_bio" => $user_bio,
+				"user_bio" => validate_notempty($user_bio) ? $user_bio : "This user prefers to keep their life a mystery...",
 				"user_pic" => $user_picture,
 				"picture" => array(),
 			);
@@ -184,7 +185,7 @@ if (isset($item) === TRUE) {
 		$query->close();
 	}
 
-	if ($session_is_authenticated === TRUE) {
+	if ($session_is_authenticated === TRUE && $session_is_admin === FALSE) {
 		if ($current_user_id === (int)($item["user_id"])) {
 			$convo_link = "message_list.php";
 		} else {

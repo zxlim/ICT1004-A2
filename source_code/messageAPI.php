@@ -19,10 +19,14 @@ $response = array(
 // Responses are in JSON.
 header("Content-Type: application/json; charset=UTF-8");
 
-if (session_isauth() === FALSE) {
+if ($session_is_authenticated === FALSE) {
 	// Client not authenticated.
 	$response["status"] = 401;
 	$response["message"] = "Authentication is required to access this resource";
+} else if ($session_is_admin === TRUE) {
+	// Admins not allowed.
+	$response["status"] = 403;
+	$response["message"] = "You are not allowed to access the requested resource";
 } else if ($_SERVER["REQUEST_METHOD"] === "GET") {
 	// GET request.
 	if (

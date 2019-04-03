@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+/**
+* @license		MIT License
+* @copyright	Copyright (c) 2019 Zhao Xiang.
+*
+* @author		ZHAO XIANG LIM	(developer@zxlim.xyz)
+*/
 
 if (defined("CLIENT") === FALSE) {
 	/**
@@ -29,16 +35,17 @@ function html_safe(string $string_raw, bool $trim = TRUE): string {
 	return "";
 }
 
-function safe_echo($string): void {
+function safe_echo($string, bool $trim = TRUE): void {
 	/**
 	* A function to safely echo a string into an HTML template.
 	* Makes use of `html_safe` function.
 	*
 	* @param	mixed	$string		The string to echo.
+	* @param	bool	$trim		Whether to trim the string.
 	*/
 	if ($string !== NULL) {
 		$str = (string)($string);
-		echo(html_safe($str));
+		echo(html_safe($str, $trim));
 	}
 }
 

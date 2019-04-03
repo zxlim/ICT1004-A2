@@ -13,6 +13,10 @@
 
 .text-center {
 	text-align: center !important;
+	justify-content: center !important;
+	-webkit-flex-align: center !important;
+	-ms-flex-align: center !important;
+	-webkit-align-items: center !important;
 	align-items: center !important;
 }
 
@@ -162,7 +166,7 @@ hr .dotted {
 	overflow: hidden;
 }
 
-.img-equalise:after {
+.img-equalise::after {
 	content: "";
 	display: inline-block;
 	vertical-align: top;
@@ -177,6 +181,11 @@ hr .dotted {
 	left: 0;
 	object-fit: cover;
 	min-height: 300px;
+}
+
+.img-equalise > img.user-listing {
+	min-height: 100px !important;
+	max-height: 175px !important;
 }
 
 .img-related-item {
@@ -715,7 +724,7 @@ hr .dotted {
 */
 
 .fa-star-b {
-    color: #ddd;
+	color: #ddd;
 }
 
 .fa-star-f {
@@ -727,31 +736,43 @@ hr .dotted {
 	height: 71px;
 }
 
-.rating { 
-  border: none;
-  float: left;
+.rating {
+	border: none;
+	float: left;
 }
 
-.rating > input { 
-    display: none; 
+.rating > input {
+	display: none;
 } 
 
-.rating > label:before { 
-  margin: 5px;
-  font-size: 1.25em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: "\f005";
+.rating > label:before {
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 900;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: auto;
+	margin: 5px;
+	font-size: 1.25em;
+	content: "\f005";
 }
 
-.rating > .half:before { 
-  content: "\f089";
-  position: absolute;
+.rating > .half:before {
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 900;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: auto;
+	content: "\f089";
+	position: absolute;
 }
 
-.rating > label { 
-  color: #ddd; 
- float: right; 
+.rating > label {
+	color: #ddd;
+	float: right;
 }
 
 /* Rating Star Colors */

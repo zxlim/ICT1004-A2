@@ -16,7 +16,7 @@ if (defined("CLIENT") === FALSE) {
 require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
-if (isset($_GET["id"]) && validate_int($_GET["id"])) {
+if (isset($_GET["id"]) && validate_int($_GET["id"]) && $session_is_admin === FALSE) {
 	$convo_id = (int)($_GET["id"]);
 } else {
 	header("Location: listing.php");

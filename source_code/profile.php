@@ -198,9 +198,6 @@ define("WEBPAGE_TITLE", "Profile");
                                         <div class="col-md-2 name text-center">
                                             <a class="genric-btn small info mr-1"
                                                href="item.php?id=<?php safe_echo($list["id"]); ?>">View</a>
-                                            <hr>
-                                            <button type="button" class="genric-btn small primary mr-1">Mark As Sold
-                                            </button>
                                         </div>
                                     </div>
                                     <?php

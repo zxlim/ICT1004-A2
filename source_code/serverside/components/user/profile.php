@@ -232,13 +232,8 @@ if ($profile !== NULL) {
 
 $conn->close();
 
-if ($ajax_call === TRUE) {
-	// AJAX request call.
-	if ($response_error === TRUE) {
-		header("HTTP/1.1 500 Internal Server Error");
-	} else {
-		header("HTTP/1.1 200 OK");
-	}
+if ($ajax_call === TRUE && $response_error === TRUE) {
+	header("HTTP/1.1 500 Internal Server Error");
 	header("Content-Type: application/json; charset=UTF-8");
 	echo(json_encode(array("msg" => $response_msg)));
 	die(); // Prevent further execution of PHP code.

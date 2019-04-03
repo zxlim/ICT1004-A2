@@ -758,18 +758,6 @@ hr .dotted {
 	content: "\f005";
 }
 
-.rating > .half:before {
-	display: inline-block;
-	font-family: "Font Awesome 5 Free";
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 900;
-	-webkit-font-smoothing: antialiased;
-	text-rendering: auto;
-	content: "\f089";
-	position: absolute;
-}
-
 .rating > label {
 	color: #ddd;
 	float: right;

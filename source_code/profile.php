@@ -212,13 +212,16 @@ define("WEBPAGE_TITLE", "Profile");
 								<div class="col-6">
 									<div class="box_total">
 										<h5>Overall</h5>
-										<h4><?php safe_echo($review_overall); ?></h4>
+										<h4 id="r-overall"><?php safe_echo($review_overall); ?></h4>
+										<h6 id="r-count">(<?php safe_echo(count($user_reviews_ratings)); ?> Reviews)</h6>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="rating_list">
-										<h3>Based on <?php safe_echo(count($user_reviews_ratings)); ?> Review(s).</h3>
-										<ul class="list">
+										<h3>
+											Based on <span id="r-count"><?php safe_echo(count($user_reviews_ratings)); ?></span> Review(s).
+										</h3>
+										<ul class="list" id="r-count-list">
 											<li>
 												5 Star
 												<label class="fa fa-star fa-star-f"></label>
@@ -272,7 +275,7 @@ define("WEBPAGE_TITLE", "Profile");
 									</div>
 								</div>
 							</div>
-							<div class="review_list">
+							<div class="review_list" id="r-list">
 								<?php foreach ($user_reviews as $row) { ?>
 								<div class="review_item">
 									<div class="media">
@@ -334,32 +337,17 @@ define("WEBPAGE_TITLE", "Profile");
 												<input type="radio" id="star5" name="rating" value="5" checked>
 												<label class="full" for="star5" title="Outstanding - 5 stars"></label>
 
-												<input type="radio" id="star4half" name="rating" value="4.5">
-												<label class="half" for="star4half" title="Outstanding - 4.5 stars"></label>
-
 												<input type="radio" id="star4" name="rating" value="4">
 												<label class="full" for="star4" title="Good - 4 stars"></label>
-
-												<input type="radio" id="star3half" name="rating" value="3.5">
-												<label class="half" for="star3half" title="Good - 3.5 stars"></label>
 
 												<input type="radio" id="star3" name="rating" value="3">
 												<label class="full" for="star3" title="Decent - 3 stars"></label>
 
-												<input type="radio" id="star2half" name="rating" value="2.5">
-												<label class="half" for="star2half" title="Decent - 2.5 stars"></label>
-
 												<input type="radio" id="star2" name="rating" value="2">
 												<label class="full" for="star2" title="Fair - 2 stars"></label>
 
-												<input type="radio" id="star1half" name="rating" value="1.5">
-												<label class="half" for="star1half" title="Fair - 1.5 stars"></label>
-
 												<input type="radio" id="star1" name="rating" value="1">
 												<label class="full" for="star1" title="Poor - 1 star"></label>
-
-												<input type="radio" id="starhalf" name="rating" value="0.5">
-												<label class="half" for="starhalf" title="Poor - 0.5 stars"></label>
 											</fieldset>
 										</div>
 									</div>
@@ -427,14 +415,12 @@ define("WEBPAGE_TITLE", "Profile");
 						type: "post",
 						url: "profile.php?id=" + profile_id,
 						data: form_data,
-						dataType: "json",
 						success: function (response) {
-							notify(response.msg, "success");
-
-							setTimeout(function() {
-								// Refresh the page after a delay.
-								window.location.reload(true);
-							}, 1500);
+							notify("Review added successfully", "success");
+							$("#r-overall").load(" #r-overall");
+							$("#r-count").load(" #r-count");
+							$("#r-count-list").load(" #r-count-list");
+							$("#r-list").load(" #r-list");
 						},
 						error: function (response) {
 							notify(response.responseJSON.msg, "error");

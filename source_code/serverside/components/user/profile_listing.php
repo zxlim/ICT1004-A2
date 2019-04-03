@@ -89,6 +89,8 @@ if ($query = $conn->prepare($sql_profiles)) {
     }
 
     $query->close();
+} else{
+    echo $conn->error;
 }
 
 

@@ -84,10 +84,7 @@ define("WEBPAGE_TITLE", "Profile");
                                 <div class="row">
                                     <br/>
                                     <?php
-                                    if (
-                                        $session_is_authenticated === TRUE ||
-                                        (isset($_GET["id"]) && (int)($_GET["id"] === $_SESSION["user_id"]))
-                                    ) {
+                                    if ($current_user_id === $user_id) {
                                         ?>
                                         <div class="col-12 form-group card_area align-items-center text-center">
                                             <button type="submit" name="selling_submit" class="btn info-btn">
@@ -152,7 +149,7 @@ define("WEBPAGE_TITLE", "Profile");
                             </div>
 
                             <?php foreach ($profiles_listings as $list) {
-                                if ($current_user_id !== NULL && $current_user_id === $user_id && $list["status"] === 1) {
+                                if ($current_user_id !== NULL && $current_user_id === $user_id && $list["status"] === True) {
                                     ?>
 
                                     <div class="table-row disabled">

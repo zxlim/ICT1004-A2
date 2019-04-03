@@ -305,31 +305,18 @@ define("WEBPAGE_TITLE", "Profile");
                                         <fieldset class="rating">
                                             <input type="radio" id="star5" name="rating" value="5" checked/><label
                                                     class="full" for="star5" title="Outstanding - 5 stars"></label>
-                                            <input type="radio" id="star4half" name="rating" value="4.5"/><label
-                                                    class="half" for="star4half"
-                                                    title="Outstanding - 4.5 stars"></label>
                                             <input type="radio" id="star4" name="rating" value="4"/><label class="full"
                                                                                                            for="star4"
                                                                                                            title="Good - 4 stars"></label>
-                                            <input type="radio" id="star3half" name="rating" value="3.5"/><label
-                                                    class="half" for="star3half" title="Good - 3.5 stars"></label>
                                             <input type="radio" id="star3" name="rating" value="3"/><label class="full"
                                                                                                            for="star3"
                                                                                                            title="Decent - 3 stars"></label>
-                                            <input type="radio" id="star2half" name="rating" value="2.5"/><label
-                                                    class="half" for="star2half" title="Decent - 2.5 stars"></label>
                                             <input type="radio" id="star2" name="rating" value="2"/><label class="full"
                                                                                                            for="star2"
                                                                                                            title="Fair - 2 stars"></label>
-                                            <input type="radio" id="star1half" name="rating" value="1.5"/><label
-                                                    class="half" for="star1half" title="Fair - 1.5 stars"></label>
                                             <input type="radio" id="star1" name="rating" value="1"/><label class="full"
                                                                                                            for="star1"
                                                                                                            title="Poor - 1 star"></label>
-                                            <input type="radio" id="starhalf" name="rating" value="0.5"/><label
-                                                    class="half"
-                                                    for="starhalf"
-                                                    title="Poor - 0.5 stars"></label>
                                         </fieldset>
                                         <!--
                                                                             <ul class="list">
@@ -380,16 +367,16 @@ if (isset($review_status) && $review_status === TRUE) {
 <!-- End Footer -->
 
 <?php require_once("serverside/templates/html.js.php"); ?>
-    <script>
-        $(document).ready(function() {
-            console.log("ready!!");
+<script>
+    $(document).ready(function () {
+           console.log("ready!!");
            $("#reviewForm").on('submit',function(e){
                console.log("in");
                e.preventDefault();
                var rating = $('input[name=rating]').val();
                var description = $('#description').val();
                var sellerId = $('#sellerId').val();
-               
+
                $.ajax({
                   type: 'post',
                    url: 'profile.php',
@@ -411,7 +398,7 @@ if (isset($review_status) && $review_status === TRUE) {
                    }
                });
            });
-        });
+        
         $(".delete").on("submit", function (e) {
             const result = confirm("Are you sure you want to delete this record?");
 

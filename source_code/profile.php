@@ -83,9 +83,7 @@ define("WEBPAGE_TITLE", "Profile");
                                 </div>
                                 <div class="row">
                                     <br/>
-                                    <?php
-                                    if ($current_user_id === $user_id) {
-                                        ?>
+                                    <?php if ($current_user_id === $user_id) { ?>
                                         <div class="col-12 form-group card_area align-items-center text-center">
                                             <button type="submit" name="selling_submit" class="btn info-btn">
                                                 <a href="edit_profile.php">Edit Profile</a>
@@ -147,49 +145,57 @@ define("WEBPAGE_TITLE", "Profile");
                                     Actions
                                 </div>
                             </div>
-                                <?php print_r($profiles_listings); ?>
-                            <?php foreach ($profiles_listings as $list) {
-                                if ($current_user_id === $user_id && $list["status"] === 1) {
-                                    ?>
-
-                                    <div class="table-row disabled">
-                                        <figure class="col-md-3">
-                                            <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
-                                                 width="175"
-                                                 height="175">
-                                        </figure>
-                                        <div class="col-md-3 name text-center">
-                                            <?php safe_echo($list["title"]); ?>
-                                        </div>
-                                        <div class="col-md-2 name text-center">
-                                            $<?php safe_echo($list["price"]); ?>
-                                        </div>
-                                        <div class="col-md-2 name text-center">
-                                            Sold
-                                        </div>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="table-row">
-                                    <figure class="col-md-3">
-                                        <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
-                                             width="175"
-                                             height="175">
-                                    </figure>
-                                    <div class="col-md-3 name text-center">
-                                        <?php safe_echo($list["title"]); ?>
-                                    </div>
-                                    <div class="col-md-2 name text-center">
-                                        $<?php safe_echo($list["price"]); ?>
-                                    </div>
-                                    <div class="col-md-2 name text-center">
-                                        Available
-                                    </div>
-                                    <div class="col-md-2 name text-center">
-                                        <button type="submit" class="genric-btn info mr-1">View</button>
-                                    </div>
-                                <?php } ?>
+                            <?php
+                            foreach ($profiles_listings as $list) {
+                                if ($list["status"] === 1) {
+                                    if ($current_user_id === $user_id) {
+                            ?>
+                            <div class="table-row disabled">
+                                <figure class="col-md-3">
+                                    <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
+                                         width="175"
+                                         height="175">
+                                </figure>
+                                <div class="col-md-3 name text-center">
+                                    <?php safe_echo($list["title"]); ?>
                                 </div>
-                            <?php } ?>
+                                <div class="col-md-2 name text-center">
+                                    $<?php safe_echo($list["price"]); ?>
+                                </div>
+                                <div class="col-md-2 name text-center">
+                                    Sold
+                                </div>
+                                <div class="col-md-2 name text-center">
+                                    <button type="button" class="genric-btn danger mr-1">Delete</button>
+                                </div>
+                            </div>
+                            <?php
+                                    } // if.
+                                } else {
+                            ?>
+                            <div class="table-row">
+                                <figure class="col-md-3">
+                                    <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
+                                         width="175"
+                                         height="175">
+                                </figure>
+                                <div class="col-md-3 name text-center">
+                                    <?php safe_echo($list["title"]); ?>
+                                </div>
+                                <div class="col-md-2 name text-center">
+                                    $<?php safe_echo($list["price"]); ?>
+                                </div>
+                                <div class="col-md-2 name text-center">
+                                    Available
+                                </div>
+                                <div class="col-md-2 name text-center">
+                                    <a class="genric-btn info mr-1" href="item.php?id=<?php safe_echo($list["id"]); ?>">View</a>
+                                </div>
+                            </div>
+                            <?php
+                                } // if-else.
+                            } // foreach.
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -281,6 +287,7 @@ define("WEBPAGE_TITLE", "Profile");
                             </div>
                         </div>
                         <div class="col-lg-6">
+                            <?php if ($current_user_id !== $user_id) { ?>
                             <div class="review_box">
                                 <h4>Add a Review</h4>
                                 <form class="row contact_form" action="profile.php" method="post" id="reviewForm"
@@ -339,6 +346,7 @@ define("WEBPAGE_TITLE", "Profile");
                                     </div>
                                 </form>
                             </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

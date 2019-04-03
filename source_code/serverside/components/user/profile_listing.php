@@ -69,7 +69,7 @@ if ($query = $conn->prepare($sql_profiles)) {
                 "id" => (int)$id,
                 "name" => $name,
                 "email" => $email,
-                "join_date" => $join_date,
+                "join_date" => date("M Y", strtotime($join_date)),
                 "gender" => $gender,
                 "bio" => $bio,
                 "profile_pic" => $profile_pic
@@ -83,7 +83,7 @@ if ($query = $conn->prepare($sql_profiles)) {
 
 // Profiles Listing
 $profiles_listings = array();
-$sql_listings = "SELECT picture.url, listing.title, listing.price, listing.sold FROM listing 
+$sql_listings = "SELECT picture.url, listing.id, listing.title, listing.price, listing.sold FROM listing 
 INNER JOIN picture on picture.listing_id = listing.id
 WHERE listing.seller_id = ?
 GROUP BY listing.id";
@@ -91,11 +91,12 @@ GROUP BY listing.id";
 if ($query = $conn->prepare($sql_listings)) {
     $query->bind_param("i", $user_id);
     $query->execute();
-    $query->bind_result($url, $title, $price, $status);
+    $query->bind_result($url, $listing_id, $title, $price, $status);
 
     while ($query->fetch()) {
         if ((bool)($admin) === FALSE) {
             $data = array(
+                "id" => $listing_id,
                 "url" => $url,
                 "title" => $title,
                 "price" => $price,

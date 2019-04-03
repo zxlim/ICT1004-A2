@@ -153,6 +153,11 @@ define("WEBPAGE_TITLE", "Admin");
 										Edit
 									</button>
 
+									<?php if ($row["admin"] === TRUE) { ?>
+									<button type="button" class="genric-btn small danger ml-1 disabled">
+										Delete
+									</button>
+									<?php } else { ?>
 									<form class="delete" action="admin.php" method="post">
 										<input type="hidden" name="action" value="delete_user" required readonly>
 										<input type="hidden" name="id" value="<?php safe_echo($row["id"]); ?>" required readonly>
@@ -160,6 +165,7 @@ define("WEBPAGE_TITLE", "Admin");
 											Delete
 										</button>
 									</form>
+									<?php } ?>
 								</div>
 							</div>
 

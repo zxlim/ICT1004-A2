@@ -217,16 +217,16 @@ define("WEBPAGE_TITLE", "Profile");
                                 <div class="col-6">
                                     <div class="box_total">
                                         <h5>Overall</h5>
-                                        <?php
-                                        echo '<h4>' . (!empty($review_scores) ? (round(array_sum($review_scores) / count($review_scores), 2)) : '-') . '</h4>';
-                                        echo '<h6>(' . (!empty($review_scores) ? sizeof($review_scores) : '0') . ' Reviews)</h6>'; ?>
+                                        <?php 
+                                        echo '<h4 id="review-score">' . (!empty($review_scores) ? (round(array_sum($review_scores)/count($review_scores), 2)) : '-') . '</h4>';
+                                        echo '<h6 id="review-count">(' . (!empty($review_scores) ? sizeof($review_scores) : '0') . ' Reviews)</h6>'; ?>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="rating_list">
-                                        <?php
-                                        echo '<h3>Based on ' . sizeof($review_scores) . ' Reviews</h3>';
-                                        $review_counts = array_count_values($review_scores); ?>
+                                    <div class="rating_list" id="rating-list">
+                                        <?php 
+                                        echo '<h3 id="review-count2">Based on ' . sizeof($review_scores) . ' Reviews</h3>';
+                                        $review_counts = array_count_values($review_scores);?>
                                         <ul class="list">
                                             <li>5 Star <label class="fa fa-star fa-star-f"></label><label
                                                         class="fa fa-star fa-star-f"></label><label
@@ -263,8 +263,8 @@ define("WEBPAGE_TITLE", "Profile");
                                     </div>
                                 </div>
                             </div>
-                            <div class="review_list">
-                                <?php
+                            <div class="review_list" id="review-list">
+                                <?php 
                                 if (isset($reviews) === TRUE && empty($reviews) === FALSE) {
                                     foreach ($reviews as $review) { ?>
                                         <div class="review_item">
@@ -380,23 +380,37 @@ if (isset($review_status) && $review_status === TRUE) {
 <!-- End Footer -->
 
 <?php require_once("serverside/templates/html.js.php"); ?>
-<script>
-    $(document).ready(function () {
-        $("#reviewForm").on('submit', function (e) {
-            console.log("in");
-            e.preventDefault();
-            var rating = $('input[name=rating]').val();
-            var description = $('#description').val();
-            var sellerId = $('#sellerId').val();
-
-            $.ajax({
-                type: 'post',
-                url: 'profile.php',
-                data: $('#reviewForm').serialize(),
-                success: function () {
-                    notify('Review Added!!!', 'success');
-                }
-            });
+    <script>
+        $(document).ready(function() {
+            console.log("ready!!");
+           $("#reviewForm").on('submit',function(e){
+               console.log("in");
+               e.preventDefault();
+               var rating = $('input[name=rating]').val();
+               var description = $('#description').val();
+               var sellerId = $('#sellerId').val();
+               
+               $.ajax({
+                  type: 'post',
+                   url: 'profile.php',
+                   data: $('#reviewForm').serialize(),
+                   success: function(){
+                       //Send success Notification
+                        notify('Review Added.', 'success');  
+                       //Reload data
+                        $("#review-score").load(" #review-score");
+                        $("#review-count").load(" #review-count");
+                        $("#rating-list").load(" #rating-list");
+                        $("#review-list").load(" #review-list");
+                       //Reset Values
+                       $("#description").val("");
+                       $("input[name=rating][value=5]").prop('checked', true);
+                   },
+                   fail: function(){
+                       notify('Review Failed', 'warning');
+                   }
+               });
+           });
         });
         $(".delete").on("submit", function (e) {
             const result = confirm("Are you sure you want to delete this record?");

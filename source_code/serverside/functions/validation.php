@@ -43,7 +43,11 @@ function validate_numeric($input): bool {
 	*
 	* @return 	bool	$result	TRUE if variable is a number else FALSE.
 	*/
-	return is_numeric($input);
+	if (isset($input) === FALSE || $input === NULL) {
+		return FALSE;
+	} else {
+		return is_numeric($input);
+	}
 }
 
 function validate_int($input): bool {
@@ -55,7 +59,9 @@ function validate_int($input): bool {
 	*
 	* @return 	bool	$result	TRUE if variable is an integer else FALSE.
 	*/
-	if (filter_var($input, FILTER_VALIDATE_INT) !== 0 && filter_var($input, FILTER_VALIDATE_INT) === FALSE) {
+	if (isset($input) === FALSE || $input === NULL) {
+		return FALSE;
+	} else if (filter_var($input, FILTER_VALIDATE_INT) !== 0 && filter_var($input, FILTER_VALIDATE_INT) === FALSE) {
 		return FALSE;
 	} else {
 		return TRUE;
@@ -71,7 +77,11 @@ function validate_float($input): bool {
 	*
 	* @return 	bool	$result	TRUE if variable is a float else FALSE.
 	*/
-	return is_float($input);
+	if (isset($input) === FALSE || $input === NULL) {
+		return FALSE;
+	} else {
+		return is_float($input);
+	}
 }
 
 function validate_email($input): bool {
@@ -83,7 +93,9 @@ function validate_email($input): bool {
 	*
 	* @return 	bool	$result	TRUE if variable is an email address else FALSE.
 	*/
-	if (filter_var($input, FILTER_VALIDATE_EMAIL) === FALSE) {
+	if (isset($input) === FALSE || $input === NULL) {
+		return FALSE;
+	} else if (filter_var($input, FILTER_VALIDATE_EMAIL) === FALSE) {
 		return FALSE;
 	} else {
 		return TRUE;
@@ -100,11 +112,14 @@ function validate_password(string $input, array $data = array()): bool {
 	*
 	* @return 	bool	$result	TRUE if password is valid else FALSE.
 	*/
-	$zxcvbn = new Zxcvbn();
-	$strength = $zxcvbn->passwordStrength($input, $data);
-	if (strlen($input) < 8 || (int)($strength["score"]) < 2) {
-		return FALSE;
-	} else {
-		return TRUE;
+	if (isset($input) === FALSE || $input !== NULL) {
+		$zxcvbn = new Zxcvbn();
+		$strength = $zxcvbn->passwordStrength($input, $data);
+
+		if (strlen($input) >= 8 && (int)($strength["score"]) >= 2) {
+			return TRUE;
+		}
 	}
+
+	return FALSE;
 }

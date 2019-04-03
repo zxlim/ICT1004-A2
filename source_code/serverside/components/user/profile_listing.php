@@ -50,27 +50,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     
 }
 
-    if (isset($_GET['id']) === TRUE) {
-        $user_id = $_GET['id'];
-    } else if (session_isauth() === TRUE) {
-        $user_id = $_SESSION["user_id"];
-    } else {
-        $user_id = 1;
-    }
+if ($session_is_admin === TRUE) {
+    // No admins allowed here.
+    header("Location: index.php");
+    die(); // Prevent further execution of PHP code.
+}
 
-//    if (!$session_is_authenticated === True) {
-//        header("Location: login.php");
-//        exit;
-//    }
-//
-//    if ($session_is_authenticated === TRUE) {
-//        $current_user_id = (int)($_SESSION["user_id"]);
-//    }
+if (isset($_GET['id']) === TRUE && validate_int($_GET['id']) === TRUE) {
+    $user_id = (int)($_GET['id']);
+} else if (session_isauth() === TRUE) {
+    $user_id = $_SESSION["user_id"];
+} else {
+    // Default profile.
+    $user_id = 1;
+}
 
-    
 
-    // DB Conn Part
-    $conn = get_conn();
+// DB Conn Part
+$conn = get_conn();
 
     // User's reviews
     $reviews = array();
@@ -82,16 +79,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     WHERE r.seller_id = ?";
 
     // This part is when the user click his own profile
-    $own_profile_results = array();
-    $own_profiles_sql = "SELECT user.id, user.name, user.email, user.join_date, user.gender, user.bio, user.profile_pic FROM user WHERE id = ?";
-    #$sql = "SELECT admin from user WHERE loginid = '".$loginid."'";
-    if ($query = $conn->prepare($own_profiles_sql)) {
-        $query->bind_param("i", $user_id);
-        $query->execute();
-        $query->bind_result($id, $name, $email, $join_date, $gender, $bio, $profile_pic);
+$profile = NULL;
 
-        while ($query->fetch()) {
-            $data = array(
+$sql = "SELECT id, name, email, join_date, gender, bio, profile_pic, admin FROM user WHERE id = ?";
+
+if ($query = $conn->prepare($sql)) {
+    $query->bind_param("i", $user_id);
+    $query->execute();
+    $query->bind_result($id, $name, $email, $join_date, $gender, $bio, $profile_pic, $admin);
+
+    if ($query->fetch()) {
+        if ((bool)($admin) === FALSE) {
+            $profile = array(
                 "id" => (int)$id,
                 "name" => $name,
                 "email" => $email,
@@ -100,10 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 "bio" => $bio,
                 "profile_pic" => $profile_pic
             );
-            array_push($own_profile_results, $data);
         }
-        $query->close();
     }
+
+    $query->close();
+}
 
     if ($query = $conn->prepare($sql_reviews)) {
         $query->bind_param("i", $user_id);
@@ -131,4 +131,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     
 
 $conn->close();
-?>

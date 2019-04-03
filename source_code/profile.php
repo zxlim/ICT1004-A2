@@ -137,23 +137,37 @@ define("WEBPAGE_TITLE", "Profile");
                                 <div class="col-md-3 name text-center">
                                     Image
                                 </div>
-                                <div class="col-md-4 name text-center">
+                                <div class="col-md-3 name text-center">
                                     Product Name
                                 </div>
                                 <div class="col-md-2 name text-center">
                                     Price
                                 </div>
-
-                                <div class="col-md-3 actions text-center">
+                                <div class="col-md-2 actions text-center">
+                                    Status
+                                </div>
+                                <div class="col-md-2 actions text-center">
                                     Actions
                                 </div>
                             </div>
 
-                            <div class="table-row">
-                                <div class="name">
-                                    <img src="" class="img-thumbnail" width="175" height="175">
+                            <?php foreach ($profiles_listings as $list) { ?>
+                                <div class="table-row">
+                                    <div class="col-md-3 name text-center">
+                                        <img src="<?php safe_echo($list['url'])?>" class="img-thumbnail" width="175" height="175">
+                                    </div>
+                                    <div class="col-md-3 name text-center">
+                                        <?php safe_echo($list["title"]); ?>
+                                    </div>
+                                    <div class="col-md-2 name text-center">
+                                        <?php safe_echo($list["price"]); ?>
+                                    </div>
+                                    <div class="col-md-2 name text-center">
+                                        <button type="submit" class="genric-btn small info mr-1">View</button>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } ?>
+
                         </div>
                     </div>
                 </div>

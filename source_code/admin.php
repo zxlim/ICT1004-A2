@@ -63,7 +63,7 @@ define("WEBPAGE_TITLE", "Admin");
 					</div>
 					<br />
 					<div class="progress-table-wrap">
-						<div class="progress-table user">
+						<div class="progress-table user bg-white">
 							<div class="table-head">
 								<div class="id text-center">
 								</div>

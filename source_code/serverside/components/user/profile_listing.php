@@ -50,18 +50,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // User's reviews
 $reviews = array();
 $review_scores = array();
+
 $sql_reviews = "SELECT r.id, r.buyer_id, r.seller_id, r.datetime, r.rating, r.description, u.name, u.profile_pic 
     FROM review AS r 
     INNER JOIN user AS u 
     ON r.buyer_id = u.id 
     WHERE r.seller_id = ?";
 
-// This part is when the user click his own profile
+// Profile Page
 $profile = NULL;
+$sql_profiles = "SELECT id, name, email, join_date, gender, bio, profile_pic, admin FROM user WHERE id = ?";
 
-$sql = "SELECT id, name, email, join_date, gender, bio, profile_pic, admin FROM user WHERE id = ?";
+// Profiles Listing
+$profiles_listings = array();
+$sql_listings = "SELECT picture.url, listing.title, listing.price, listing.sold FROM listing 
+INNER JOIN picture on picture.listing_id = listing.id
+WHERE listing.seller_id = ?
+GROUP BY listing.id";
 
-if ($query = $conn->prepare($sql)) {
+// Profile Page
+if ($query = $conn->prepare($sql_profiles)) {
     $query->bind_param("i", $user_id);
     $query->execute();
     $query->bind_result($id, $name, $email, $join_date, $gender, $bio, $profile_pic, $admin);
@@ -83,6 +91,28 @@ if ($query = $conn->prepare($sql)) {
     $query->close();
 }
 
+
+// Profiles Listing
+if ($query = $conn->prepare($sql_listings)) {
+    $query->bind_param("i", $user_id);
+    $query->execute();
+    $query->bind_result($url, $title, $price, $status);
+
+    while ($query->fetch()) {
+        if ((bool)($admin) === FALSE) {
+            $data = array(
+              "url" => $url,
+              "title" => $title,
+              "price" => $price,
+              "status" => $status
+            );
+            array_push($profiles_listings, $data);
+        }
+    }
+    $query->close();
+}
+
+// User's reviews
 if ($query = $conn->prepare($sql_reviews)) {
     $query->bind_param("i", $user_id);
     $query->execute();

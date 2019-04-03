@@ -35,21 +35,32 @@ if (isset($_GET['id']) === TRUE && validate_int($_GET['id']) === TRUE) {
 $conn = get_conn();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $error_review = FALSE;
+    if ($_POST["action"] === "add_reviews") {
+        $error_review = FALSE;
 
-    if (validate_notempty($_POST["rating"]) == FALSE) {
-        $error_review = TRUE;
-    } else {
-        $sql_addreview = "INSERT INTO review (buyer_id, seller_id, datetime, rating, description)
+        if (validate_notempty($_POST["rating"]) == FALSE) {
+            $error_review = TRUE;
+        } else {
+            $sql_addreview = "INSERT INTO review (buyer_id, seller_id, datetime, rating, description)
         VALUES (?, ?, ?, ?, ?)";
-        $date = date('Y-m-d H:i:s');
+            $date = date('Y-m-d H:i:s');
 
-        if ($query = $conn->prepare($sql_addreview)) {
-            $query->bind_param("iisis", $user_id, $_POST["sellerId"], $date, $_POST["rating"], $_POST["description"]);
-            $review_status = $query->execute();
+            if ($query = $conn->prepare($sql_addreview)) {
+                $query->bind_param("iisis", $user_id, $_POST["sellerId"], $date, $_POST["rating"], $_POST["description"]);
+                $review_status = $query->execute();
 
-            $query->close();
+                $query->close();
+            }
         }
+    } else if ($_POST["action"] === "delete_listing") {
+        $item_id = $_POST['listing_id'];
+        $sql_delete_listing = "DELETE FROM listing WHERE id = ?";
+
+        if ($query = $conn->prepare($sql_delete_listing)) {
+            $query->bind_param("i", $item_id);
+            $query->execute();
+        }
+        $query->close();
     }
 }
 
@@ -100,7 +111,7 @@ if ($query = $conn->prepare($sql_listings)) {
                 "url" => $url,
                 "title" => $title,
                 "price" => $price,
-                "status" => (int) $status
+                "status" => (int)$status
             );
             array_push($profiles_listings, $data);
         }

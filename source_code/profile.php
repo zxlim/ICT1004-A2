@@ -149,50 +149,61 @@ define("WEBPAGE_TITLE", "Profile");
                             foreach ($profiles_listings as $list) {
                                 if ($list["status"] === 1) {
                                     if ($current_user_id === $user_id) {
-                            ?>
-                            <div class="table-row bg-light">
-                                <figure class="col-md-3">
-                                    <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
-                                         width="175"
-                                         height="175">
-                                </figure>
-                                <div class="col-md-3 name text-center">
-                                    <?php safe_echo($list["title"]); ?>
-                                </div>
-                                <div class="col-md-2 name text-center">
-                                    $<?php safe_echo($list["price"]); ?>
-                                </div>
-                                <div class="col-md-2 name text-center">
-                                    Sold
-                                </div>
-                                <div class="col-md-2 name text-center">
-                                    <button type="button" class="genric-btn danger mr-1">Delete</button>
-                                </div>
-                            </div>
-                            <?php
+                                        ?>
+                                        <div class="table-row bg-light">
+                                            <figure class="col-md-3">
+                                                <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
+                                                     width="175"
+                                                     height="175">
+                                            </figure>
+                                            <div class="col-md-3 name text-center">
+                                                <?php safe_echo($list["title"]); ?>
+                                            </div>
+                                            <div class="col-md-2 name text-center">
+                                                $<?php safe_echo($list["price"]); ?>
+                                            </div>
+                                            <div class="col-md-2 name text-center">
+                                                Sold
+                                            </div>
+                                            <form class="delete" action="profile.php" method="post">
+                                                <input type="hidden" name="action" value="delete_listing" required
+                                                       readonly>
+                                                <input type="hidden" name="listing_id"
+                                                       value="<?php safe_echo($list["id"]); ?>" required readonly>
+                                                <div class="col-md-2 name text-center">
+                                                    <button type="submit" class="genric-btn danger small mr-1">Delete
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <?php
                                     } // if.
                                 } else {
-                            ?>
-                            <div class="table-row">
-                                <figure class="col-md-3">
-                                    <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
-                                         width="175"
-                                         height="175">
-                                </figure>
-                                <div class="col-md-3 name text-center">
-                                    <?php safe_echo($list["title"]); ?>
-                                </div>
-                                <div class="col-md-2 name text-center">
-                                    $<?php safe_echo($list["price"]); ?>
-                                </div>
-                                <div class="col-md-2 name text-center">
-                                    Available
-                                </div>
-                                <div class="col-md-2 name text-center">
-                                    <a class="genric-btn info mr-1" href="item.php?id=<?php safe_echo($list["id"]); ?>">View</a>
-                                </div>
-                            </div>
-                            <?php
+                                    ?>
+                                    <div class="table-row">
+                                        <figure class="col-md-3">
+                                            <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
+                                                 width="175"
+                                                 height="175">
+                                        </figure>
+                                        <div class="col-md-3 name text-center">
+                                            <?php safe_echo($list["title"]); ?>
+                                        </div>
+                                        <div class="col-md-2 name text-center">
+                                            $<?php safe_echo($list["price"]); ?>
+                                        </div>
+                                        <div class="col-md-2 name text-center">
+                                            Available
+                                        </div>
+                                        <div class="col-md-2 name text-center">
+                                            <a class="genric-btn small info mr-1"
+                                               href="item.php?id=<?php safe_echo($list["id"]); ?>">View</a>
+                                            <hr>
+                                            <button type="button" class="genric-btn small primary mr-1">Mark As Sold
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <?php
                                 } // if-else.
                             } // foreach.
                             ?>
@@ -288,64 +299,68 @@ define("WEBPAGE_TITLE", "Profile");
                         </div>
                         <div class="col-lg-6">
                             <?php if ($current_user_id !== $user_id) { ?>
-                            <div class="review_box">
-                                <h4>Add a Review</h4>
-                                <form class="row contact_form" action="profile.php" method="post" id="reviewForm"
-                                      novalidate="novalidate">
-                                    <p>Your Rating:</p>
-                                    <fieldset class="rating">
-                                        <input type="radio" id="star5" name="rating" value="5" checked/><label
-                                                class="full" for="star5" title="Outstanding - 5 stars"></label>
-                                        <input type="radio" id="star4half" name="rating" value="4.5"/><label
-                                                class="half" for="star4half" title="Outstanding - 4.5 stars"></label>
-                                        <input type="radio" id="star4" name="rating" value="4"/><label class="full"
-                                                                                                       for="star4"
-                                                                                                       title="Good - 4 stars"></label>
-                                        <input type="radio" id="star3half" name="rating" value="3.5"/><label
-                                                class="half" for="star3half" title="Good - 3.5 stars"></label>
-                                        <input type="radio" id="star3" name="rating" value="3"/><label class="full"
-                                                                                                       for="star3"
-                                                                                                       title="Decent - 3 stars"></label>
-                                        <input type="radio" id="star2half" name="rating" value="2.5"/><label
-                                                class="half" for="star2half" title="Decent - 2.5 stars"></label>
-                                        <input type="radio" id="star2" name="rating" value="2"/><label class="full"
-                                                                                                       for="star2"
-                                                                                                       title="Fair - 2 stars"></label>
-                                        <input type="radio" id="star1half" name="rating" value="1.5"/><label
-                                                class="half" for="star1half" title="Fair - 1.5 stars"></label>
-                                        <input type="radio" id="star1" name="rating" value="1"/><label class="full"
-                                                                                                       for="star1"
-                                                                                                       title="Poor - 1 star"></label>
-                                        <input type="radio" id="starhalf" name="rating" value="0.5"/><label class="half"
-                                                                                                            for="starhalf"
-                                                                                                            title="Poor - 0.5 stars"></label>
-                                    </fieldset>
-                                    <!--
-                                                                        <ul class="list">
-                                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                        </ul>
-                                                                        <p>Outstanding</p>
-                                    -->
-                                    <div class="col-md-12">
-                                        <div class="form-group">
+                                <div class="review_box">
+                                    <h4>Add a Review</h4>
+                                    <form class="row contact_form" action="profile.php" method="post" id="reviewForm"
+                                          novalidate="novalidate">
+                                        <input type="hidden" name="action" value="add_reviews" required readonly>
+                                        <p>Your Rating:</p>
+                                        <fieldset class="rating">
+                                            <input type="radio" id="star5" name="rating" value="5" checked/><label
+                                                    class="full" for="star5" title="Outstanding - 5 stars"></label>
+                                            <input type="radio" id="star4half" name="rating" value="4.5"/><label
+                                                    class="half" for="star4half"
+                                                    title="Outstanding - 4.5 stars"></label>
+                                            <input type="radio" id="star4" name="rating" value="4"/><label class="full"
+                                                                                                           for="star4"
+                                                                                                           title="Good - 4 stars"></label>
+                                            <input type="radio" id="star3half" name="rating" value="3.5"/><label
+                                                    class="half" for="star3half" title="Good - 3.5 stars"></label>
+                                            <input type="radio" id="star3" name="rating" value="3"/><label class="full"
+                                                                                                           for="star3"
+                                                                                                           title="Decent - 3 stars"></label>
+                                            <input type="radio" id="star2half" name="rating" value="2.5"/><label
+                                                    class="half" for="star2half" title="Decent - 2.5 stars"></label>
+                                            <input type="radio" id="star2" name="rating" value="2"/><label class="full"
+                                                                                                           for="star2"
+                                                                                                           title="Fair - 2 stars"></label>
+                                            <input type="radio" id="star1half" name="rating" value="1.5"/><label
+                                                    class="half" for="star1half" title="Fair - 1.5 stars"></label>
+                                            <input type="radio" id="star1" name="rating" value="1"/><label class="full"
+                                                                                                           for="star1"
+                                                                                                           title="Poor - 1 star"></label>
+                                            <input type="radio" id="starhalf" name="rating" value="0.5"/><label
+                                                    class="half"
+                                                    for="starhalf"
+                                                    title="Poor - 0.5 stars"></label>
+                                        </fieldset>
+                                        <!--
+                                                                            <ul class="list">
+                                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                                            </ul>
+                                                                            <p>Outstanding</p>
+                                        -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
                                             <textarea class="form-control" name="description" id="description" rows="1"
                                                       placeholder="Review"
                                                       onfocus="if (!window.__cfRLUnblockHandlers) return false; this.placeholder = ''"
                                                       onblur="if (!window.__cfRLUnblockHandlers) return false; this.placeholder = 'Review'"></textarea>
-                                            <!--                                            <input type="text" name="description" placeholder="Review" />-->
+                                                <!--                                            <input type="text" name="description" placeholder="Review" />-->
+                                            </div>
                                         </div>
-                                    </div>
-                                    <input type="text" name="sellerId"
-                                           value="<?php echo isset($_GET['id']) ? (int)($_GET['id']) : '' ?>" hidden/>
-                                    <div class="col-md-12 text-right">
-                                        <button type="submit" value="submit" class="primary-btn">Submit Now</button>
-                                    </div>
-                                </form>
-                            </div>
+                                        <input type="text" name="sellerId"
+                                               value="<?php echo isset($_GET['id']) ? (int)($_GET['id']) : '' ?>"
+                                               hidden/>
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" value="submit" class="primary-btn">Submit Now</button>
+                                        </div>
+                                    </form>
+                                </div>
                             <?php } ?>
                         </div>
                     </div>
@@ -370,7 +385,6 @@ if (isset($review_status) && $review_status === TRUE) {
 <?php require_once("serverside/templates/html.js.php"); ?>
 <script>
     $(document).ready(function () {
-        console.log("ready!!");
         $("#reviewForm").on('submit', function (e) {
             console.log("in");
             e.preventDefault();
@@ -387,6 +401,24 @@ if (isset($review_status) && $review_status === TRUE) {
                 }
             });
         });
+        $(".delete").on("submit", function (e) {
+            const result = confirm("Are you sure you want to delete this record?");
+
+            if (result === true) {
+                return true;
+            } else {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        <?php if ($response_message !== NULL) { ?>
+        const resp = "<?php safe_echo($response_message); ?>";
+        <?php if ($valid_response === TRUE) { ?>
+        notify(resp, "info");
+        <?php } else { ?>
+        notify(resp, "danger");
+        <?php }} ?>
     });
 </script>
 </body>

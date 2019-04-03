@@ -17,7 +17,7 @@ if (defined("CLIENT") === FALSE) {
 	<?php
 	safe_echo(APP_TITLE);
 	if (defined("WEBPAGE_TITLE") === TRUE) {
-		safe_echo(sprintf(" | %s", WEBPAGE_TITLE));
+		safe_echo(sprintf(" | %s", WEBPAGE_TITLE), FALSE);
 	}
 	?>
 </title>

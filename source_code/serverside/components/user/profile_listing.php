@@ -16,6 +16,12 @@ if ($session_is_admin === TRUE) {
     die(); // Prevent further execution of PHP code.
 }
 
+if (session_isauth() === TRUE) {
+    $current_user_id = $_SESSION["user_id"];
+} else {
+    $current_user_id = NULL;
+}
+
 if (isset($_GET['id']) === TRUE && validate_int($_GET['id']) === TRUE) {
     $user_id = (int)($_GET['id']);
 } else if (session_isauth() === TRUE) {

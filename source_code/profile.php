@@ -151,26 +151,55 @@ define("WEBPAGE_TITLE", "Profile");
                                 </div>
                             </div>
 
-                            <?php foreach ($profiles_listings as $list) { ?>
-                                <div class="table-row">
-                                    <figure class="col-md-3 name text-center img-equalise">
-                                        <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail">
+                            <?php foreach ($profiles_listings as $list) {
+                                if ($current_user_id !== NULL && $current_user_id === $user_id && $list["status"] === 1) {
+                                    ?>
+
+                                    <div class="table-row disabled">
+                                        <figure class="col-md-3">
+                                            <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
+                                                 width="175"
+                                                 height="175">
+                                        </figure>
+                                        <div class="col-md-3 name text-center">
+                                            <?php safe_echo($list["title"]); ?>
+                                        </div>
+                                        <div class="col-md-2 name text-center">
+                                            $<?php safe_echo($list["price"]); ?>
+                                        </div>
+                                        <div class="col-md-2 name text-center">
+                                            Sold
+                                        </div>
+                                        <div class="col-md-2 name text-center">
+                                            <?php if ($list["status"] === 0) { ?>
+                                                <button type="submit" class="genric-btn info mr-1">View</button>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="table-row">
+                                    <figure class="col-md-3">
+                                        <img src="<?php safe_echo($list['url']) ?>" class="img-thumbnail"
+                                             width="175"
+                                             height="175">
                                     </figure>
                                     <div class="col-md-3 name text-center">
                                         <?php safe_echo($list["title"]); ?>
                                     </div>
                                     <div class="col-md-2 name text-center">
-                                        <?php safe_echo($list["price"]); ?>
+                                        $<?php safe_echo($list["price"]); ?>
                                     </div>
                                     <div class="col-md-2 name text-center">
-                                        <?php safe_echo($list["status"]); ?>
+                                        Available
                                     </div>
                                     <div class="col-md-2 name text-center">
-                                        <button type="submit" class="genric-btn small info mr-1">View</button>
+                                        <?php if ($list["status"] === 0) { ?>
+                                            <button type="submit" class="genric-btn info mr-1">View</button>
+                                        <?php } ?>
                                     </div>
+                                <?php } ?>
                                 </div>
                             <?php } ?>
-
                         </div>
                     </div>
                 </div>

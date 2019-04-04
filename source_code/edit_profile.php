@@ -81,7 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                           enctype="multipart/form-data">
                         <div class="s_product_text">
                             <?php
-                            foreach ($results_selectuser as $row) { ?>
+                            foreach ($results_selectuser
+
+                            as $row) { ?>
 
                             <input type="hidden" id="id" name="id" value="<?php safe_echo($row['id']); ?>">
 
@@ -262,7 +264,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var link = obj.data.link;
             var deleteHash = obj.data.deletehash; //TODO
 
-            $("#previewprofilepic").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'>");
+            $("#previewprofilepic").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'> <br> <input type='hidden' id='delete_hash' name='delete_hash' value='" + deleteHash + "'> <br> <button id='submit_delete' class='btn btn-link'>Remove</button>");
             $("#hidden_fieldsprofile").append("<input type='hidden' name='profileimgur_link[]' value='" + link + "'>");
         });
     }

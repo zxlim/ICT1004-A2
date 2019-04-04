@@ -85,12 +85,8 @@ function validate_email(str) {
 
 function allnumeric(num) {
     var numbers = /^[0-9]+$/;
-    if (num.match(numbers)) {
-        if (num > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    if (num.match(numbers) && Math.sign(num) === 1) {
+        return true;
     } else {
         return false;
     }
@@ -98,12 +94,8 @@ function allnumeric(num) {
 
 function decimals(num) {
     var numbers = /^[-+]?[0-9]+\.[0-9]+$/;
-    if (num.match(numbers)) {
-        if (num > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    if (num.match(numbers) && Math.sign(num) === 1) {
+        return true;
     } else {
         return false;
     }

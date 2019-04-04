@@ -211,10 +211,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
                 this.on("addedfile", function (file) {
                     if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
-                        alert("The file uploaded is not in the correct format");
+                        notify("The file uploaded is not in the correct format!", "danger");
                         this.removeFile(file);
                     } else if (fileCount > 1) {
-                        alert("1 file have already been uploaded");
                         this.removeFile(file);
                     } else {
                         fileCount += 1;
@@ -228,8 +227,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 this.on("complete", function (file) {
                     if (fileCount <= 1) {
                         upload2imgur(file);
-                    } else {
-                        alert("1 file have already been uploaded");
                     }
                     if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
                         var _this = this;
@@ -237,7 +234,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 });
                 this.on("maxfilesexceeded", function (file) {
-                    alert("You can only upload 1 file!");
+                    notify("You can only upload 1 file!", "danger");
                     this.removeFile(file);
                 });
             },
@@ -264,9 +261,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var link = obj.data.link;
             var deleteHash = obj.data.deletehash; //TODO
 
-            $("#previewprofilepic").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'>">;
-            // $("#previewprofilepic").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'> <br> <input type='hidden' id='delete_hash' name='delete_hash' value='" + deleteHash + "'> <br> <button id='submit_delete' class='btn btn-link'>Remove</button>");
-            $("#hidden_fieldsprofile").append("<input type='hidden' name='profileimgur_link[]' value='" + link + "'>");
+            var delete_button = "<button class='genric-btn danger small' onclick='deleteImgurImage(\"" + deleteHash + "\")'>Remove</button>";
+            $("#previewprofilepic").append("<figure id='" + deleteHash + "'><img src='" + link + "' class='img-thumbnail' width='175' height='175'><figcaption class='pt-3'>" + delete_button + "</figcaption></figure>");
+            $("#hidden_fieldsprofile").append("<input id='pic_" + deleteHash + "' type='hidden' name='profileimgur_link[]' value='" + link + "'>");
+        });
+    }
+
+    function deleteImgurImage(deleteHash) {
+        var settings = {
+            "url": "https://api.imgur.com/3/image/" + deleteHash,
+            "method": "DELETE",
+            "timeout": 0,
+            "headers": {
+                "Authorization": "Client-ID b0fe35e83401711"
+            },
+        };
+        $.ajax(settings).done(function (response) {
+            $("#" + deleteHash).remove();
+            $("#pic_" + deleteHash).remove();
         });
     }
 </script>

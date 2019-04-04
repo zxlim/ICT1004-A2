@@ -228,15 +228,14 @@ require_once("serverside/components/selling.php");
         $.ajax(settings).done(function (response) {
             var obj = JSON.parse(response);
             var link = obj.data.link;
-            var deleteHash = obj.data.deletehash; //TODO
+            var deleteHash = obj.data.deletehash;
 
-            // $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'>");
-            $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'> <br> <input type='hidden' id='delete_hash' name='delete_hash' value='" + deleteHash + "'> <br> <button id='submit_delete' class='btn btn-link'>Remove</button>");
-            $("#hidden_fields").append("<input type='hidden' name='images[]' value='" + link + "'>");
+            var delete_button = "<button class='genric-btn danger small' onclick='deleteImgurImage(\""+ deleteHash + "\")'>Remove</button>";
+            $("#preview").append("<figure id='"+ deleteHash +"'><img src='" + link + "' class='img-thumbnail' width='175' height='175'><figcaption class='pt-3'>"+ delete_button +"</figcaption></figure>");
+            $("#hidden_fields").append("<input id='pic_"+deleteHash+"' type='hidden' name='images[]' value='" + link + "'>");
         });
     }
 
-    //TODO
     function deleteImgurImage(deleteHash) {
         var settings = {
             "url": "https://api.imgur.com/3/image/" + deleteHash,
@@ -247,7 +246,8 @@ require_once("serverside/components/selling.php");
             },
         };
         $.ajax(settings).done(function (response) {
-            console.log(response);
+            $("#"+ deleteHash).remove();
+            $("#pic_"+ deleteHash).remove();
         });
     }
 </script>

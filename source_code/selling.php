@@ -174,10 +174,12 @@ require_once("serverside/components/selling.php");
 					});
 					this.on("addedfile", function (file) {
 						if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/jpg") {
-							alert("The file uploaded is not in the correct format");
+                            notify("The file uploaded is not in the correct format!", "danger");
+                            e.preventDefault();
 							this.removeFile(file);
 						} else if (fileCount > 5) {
-							alert("5 files have already been uploaded");
+                            notify("5 files have already been uploaded!", "danger");
+                            e.preventDefault();
 							this.removeFile(file);
 						} else {
 							fileCount += 1;
@@ -187,7 +189,8 @@ require_once("serverside/components/selling.php");
 						if (fileCount <= 5) {
 							upload2imgur(file);
 						} else {
-							alert("5 files have already been uploaded");
+                            notify("5 files have already been uploaded!", "danger");
+                            e.preventDefault();
 						}
 						if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
 							var _this = this;
@@ -195,7 +198,8 @@ require_once("serverside/components/selling.php");
 						}
 					});
 					this.on("maxfilesexceeded", function (file) {
-						alert("You can only upload 5 files!");
+                        notify("You can only upload 5 files!", "danger");
+                        e.preventDefault();
 						this.removeFile(file);
 					});
 				},

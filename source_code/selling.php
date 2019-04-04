@@ -190,7 +190,7 @@ require_once("serverside/components/selling.php");
                 });
                 this.on("remove", function () {
                     fileCount -= 1;
-                };
+                });
                 this.on("complete", function (file) {
                     if (fileCount <= 5) {
                         upload2imgur(file);

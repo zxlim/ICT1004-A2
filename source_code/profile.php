@@ -499,7 +499,7 @@ define("WEBPAGE_TITLE", "Profile");
             }
         });
         $(function () {
-            $("#item-tabs-content").pagination({
+            $("#listing").pagination({
                 items: 100,
                 itemsOnPage: 10,
                 cssStyle: 'light-theme'

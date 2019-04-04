@@ -275,14 +275,14 @@ define("WEBPAGE_TITLE", "Profile");
                                     <div class="box_total">
                                         <h5>Overall</h5>
                                         <h4 id="r-overall"><?php safe_echo($review_overall); ?></h4>
-                                        <h6 id="r-count">(<?php safe_echo(count($user_reviews_ratings)); ?>Reviews)</h6>
+                                        <h6 id="r-count">(<?php safe_echo(count($user_reviews_ratings)); ?> Reviews)</h6>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="rating_list">
                                         <h3>
                                             Based on <span
-                                                    id="r-count"><?php safe_echo(count($user_reviews_ratings)); ?></span>
+                                                    id="r-count2"><?php safe_echo(count($user_reviews_ratings)); ?></span>
                                             Review(s).
                                         </h3>
                                         <ul class="list" id="r-count-list">
@@ -486,11 +486,16 @@ define("WEBPAGE_TITLE", "Profile");
                     url: "profile.php?id=" + profile_id,
                     data: form_data,
                     success: function (response) {
+                        //Send notification
                         notify("Review added successfully", "success");
+                        //Reload data
                         $("#r-overall").load(" #r-overall");
                         $("#r-count").load(" #r-count");
                         $("#r-count-list").load(" #r-count-list");
-                        $("#r-list").load(" #r-list");
+                        $("#rating-list").load(" #rating-list");
+                        //Reset Values
+                        $("#description").val("");
+                        $("input[name=rating][value=5]").prop('checked', true);
                     },
                     error: function (response) {
                         notify(response.responseJSON.msg, "error");

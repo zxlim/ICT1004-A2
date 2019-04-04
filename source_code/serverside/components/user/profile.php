@@ -16,7 +16,7 @@ require_once("serverside/functions/validation.php");
 require_once("serverside/functions/database.php");
 
 
-$current_dt = get_datetime();
+$current_dt = get_datetime(TRUE);
 $review_overall = "-";
 $response_msg = $session_user_id = $profile = NULL;
 $ajax_call = $response_error = FALSE;

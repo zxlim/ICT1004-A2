@@ -1,7 +1,11 @@
-<?php define("CLIENT", TRUE);
+<?php define("CLIENT", FALSE);
 require_once("serverside/base.php");
 require_once("serverside/components/user/reset.php");
 define("WEBPAGE_TITLE", "Reset Password");
+/**
+* PAGE NOT IN USE.
+* REDIRECTS TO `index.php`.
+*/
 ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">

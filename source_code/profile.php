@@ -120,7 +120,6 @@ define("WEBPAGE_TITLE", "Profile");
 					<br/>
 					<div class="progress-table-wrap">
 						<div class="progress-table user bg-white">
-							<div class="table-row"></div>
 							<div class="table-head">
 								<div class="col-md-3 name text-center">
 									Image
@@ -140,13 +139,13 @@ define("WEBPAGE_TITLE", "Profile");
 							</div>
 							<?php
 							foreach ($user_listings as $row) {
-								if ($row["sold"] === TRUE || $row["expiry"] < $current_dt) {
+								if ($row["sold"] === TRUE || $row["expiry"] < strtotime($current_dt)) {
 									if ($session_user_id === $profile_id) {
 							?>
 							<div class="table-row bg-light">
 								<div class="col-md-3">
 									<figure class="img-equalise">
-										<img src="<?php safe_echo($row["url"]) ?>" class="img-thumbnail user-listing">
+										<img src="<?php safe_echo($row["url"]); ?>" class="img-thumbnail user-listing">
 									</figure>
 								</div>
 								<div class="col-md-3 name text-center word_break">
@@ -159,17 +158,27 @@ define("WEBPAGE_TITLE", "Profile");
 									<?php if ($row["sold"] === TRUE) { ?>
 									Sold
 									<?php } else { ?>
-									Expired
+									<span class="text-danger"><strong>Expired</strong></span>
 									<?php } ?>
 								</div>
 								<div class="col-md-2 name text-center">
-									<form class="delete" action="profile.php" method="post">
-										<input type="hidden" name="action" value="delete_listing" required readonly>
-										<input type="hidden" name="id" value="<?php safe_echo($row["id"]); ?>" required readonly>
-										<button type="submit" class="genric-btn danger small">
-											Delete
-										</button>
-									</form>
+									<div class="row">
+										<div class="col-12">
+											<a class="genric-btn small primary" href="item.php?id=<?php safe_echo($row["id"]); ?>">View</a>
+										</div>
+									</div>
+									<div class="row pt-3">
+										<div class="col-12">
+											<form class="form-confirm" action="profile.php" method="post">
+												<input type="hidden" name="action" value="delete_listing" required readonly>
+												<input type="hidden" name="id" value="<?php safe_echo($row["id"]); ?>" required readonly>
+												<input type="hidden" class="confirm-msg" value="Are you sure you want to delete this listing?" required readonly>
+												<button type="submit" class="genric-btn danger small">
+													Delete
+												</button>
+											</form>
+										</div>
+									</div>
 								</div>
 							</div>
 							<?php
@@ -188,11 +197,41 @@ define("WEBPAGE_TITLE", "Profile");
 								<div class="col-md-2 name text-center">
 									$<?php safe_echo($row["price"]); ?>
 								</div>
-								<div class="col-md-2 name text-center">
-									Available
+								<div class="col-md-2 name text-center text-success">
+									<strong>Available</strong>
 								</div>
 								<div class="col-md-2 name text-center">
-									<a class="genric-btn small info" href="item.php?id=<?php safe_echo($row["id"]); ?>">View</a>
+									<div class="row">
+										<div class="col-12">
+											<a class="genric-btn small primary" href="item.php?id=<?php safe_echo($row["id"]); ?>">View</a>
+										</div>
+									</div>
+									<?php if ($session_user_id === $profile_id) { ?>
+									<div class="row pt-3">
+										<div class="col-12">
+											<form class="form-confirm" action="profile.php" method="post">
+												<input type="hidden" name="action" value="sold_listing" required readonly>
+												<input type="hidden" name="id" value="<?php safe_echo($row["id"]); ?>" required readonly>
+												<input type="hidden" class="confirm-msg" value="Are you sure you want to mark this listing as sold?" required readonly>
+												<button type="submit" class="genric-btn info small">
+													Mark as Sold
+												</button>
+											</form>
+										</div>
+									</div>
+									<div class="row pt-3">
+										<div class="col-12">
+											<form class="form-confirm" action="profile.php" method="post">
+												<input type="hidden" name="action" value="delete_listing" required readonly>
+												<input type="hidden" name="id" value="<?php safe_echo($row["id"]); ?>" required readonly>
+												<input type="hidden" class="confirm-msg" value="Are you sure you want to delete this listing?" required readonly>
+												<button type="submit" class="genric-btn danger small">
+													Delete
+												</button>
+											</form>
+										</div>
+									</div>
+									<?php } ?>
 								</div>
 							</div>
 							<?php
@@ -382,9 +421,10 @@ define("WEBPAGE_TITLE", "Profile");
 	<?php require_once("serverside/templates/html.js.php"); ?>
 
 	<script>
-		$(document).ready(function () {
-			$(".delete").on("submit", function(e) {
-				const result = confirm("Are you sure you want to delete this listing?");
+		$(document).ready(function() {
+			$(".form-confirm").on("submit", function(e) {
+				const msg = $(this).find(".confirm-msg").val();
+				const result = confirm(msg);
 				if (result === true) {
 					return true;
 				} else {

@@ -25,7 +25,7 @@ if (defined("CLIENT") === FALSE) {
 						<li><a class="a-darkgrey" href="index.php">Home</a></li>
 						<li><a class="a-darkgrey" href="shop.php">Shop</a></li>
 						<li><a class="a-darkgrey" href="login.php">Account</a></li>
-						<li><a class="a-darkgrey" href="contact.php">Contact Us</a></li>
+						<!-- <li><a class="a-darkgrey" href="contact.php">Contact Us</a></li> -->
 					</ul>
 				</div>
 			</div>

@@ -491,7 +491,9 @@ define("WEBPAGE_TITLE", "Profile");
                         //Reload data
                         $("#r-overall").load(" #r-overall");
                         $("#r-count").load(" #r-count");
+                        $("#r-count2").load(" #r-count2");
                         $("#r-count-list").load(" #r-count-list");
+                        $("#r-list").load(" #r-list");
                         $("#rating-list").load(" #rating-list");
                         //Reset Values
                         $("#description").val("");

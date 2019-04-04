@@ -465,7 +465,7 @@ define("WEBPAGE_TITLE", "Profile");
 
         <?php if (isset($response_msg) === TRUE) { ?>
         const resp = "<?php safe_echo($response_msg); ?>";
-        <?php if ($valid_response === TRUE) { ?>
+        <?php if ($response_error === FALSE) { ?>
         notify(resp, "info");
         <?php } else { ?>
         notify(resp, "danger");

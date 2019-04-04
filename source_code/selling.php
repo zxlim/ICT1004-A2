@@ -177,6 +177,7 @@ require_once("serverside/components/selling.php");
                             notify("The file uploaded is not in the correct format!", "danger");
 							this.removeFile(file);
 						} else if (fileCount > 5) {
+                            notify("5 files have already been uploaded!", "danger");
 							this.removeFile(file);
 						} else {
 							fileCount += 1;
@@ -185,9 +186,7 @@ require_once("serverside/components/selling.php");
 					this.on("complete", function (file) {
 						if (fileCount <= 5) {
 							upload2imgur(file);
-						} else {
-                            notify("5 files have already been uploaded!", "danger");
-						}
+						} 
 						if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
 							var _this = this;
 							_this.removeAllFiles();

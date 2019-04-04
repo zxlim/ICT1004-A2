@@ -35,6 +35,7 @@ LEFT JOIN picture AS p ON l.id = p.listing_id
 WHERE l.category_id = ?
 AND l.sold = 0
 AND DATE(l.show_until) > ?
+AND u.suspended = 0
 GROUP BY l.id
 ORDER BY l.view_counts DESC";
 

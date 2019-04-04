@@ -37,7 +37,8 @@ FROM listing AS l
 INNER JOIN locations AS loc ON l.meetup_location = loc.id
 INNER JOIN category AS c ON l.category_id = c.id
 INNER JOIN user AS u ON l.seller_id = u.id
-WHERE l.id = ?";
+WHERE l.id = ?
+AND u.suspended = 0";
 
 $sql_viewcount = "UPDATE listing
 SET view_counts = (view_counts + 1)

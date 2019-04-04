@@ -32,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		LEFT JOIN picture AS p ON l.id = p.listing_id
 		WHERE l.sold = 0
 		AND DATE(l.show_until) > ?
-		AND (title LIKE ? OR tags LIKE ?)
+		AND (l.title LIKE ? OR l.tags LIKE ?)
+		AND u.suspended = 0
 		GROUP BY l.id
 		ORDER BY l.view_counts DESC";
 

@@ -67,10 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	if (validate_notempty($_POST["price"], "int") === FALSE) {
 		$error_create = TRUE;
 		$error_price = "Price is required.";
-	} else if (validate_numeric($_POST["price"]) === FALSE) {
-		$error_create = TRUE;
-		$error_price = "Price is not in the correct format.";
-	} else if (validate_float((float)($_POST["price"])) === FALSE) {
+	} else if (
+		validate_numeric($_POST["price"]) === FALSE ||
+		validate_float((float)($_POST["price"])) === FALSE ||
+		(int)($_POST["price"]) <= 0
+	) {
 		$error_create = TRUE;
 		$error_price = "Price is not in the correct format.";
 	}
@@ -117,9 +118,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			array_push($image_urls, html_safe($url, TRUE));
 		}
 
-		$p_name = html_safe($_POST["product_name"], TRUE);
-		$p_desc = html_safe($_POST["product_desc"], TRUE);
-		$p_tags = html_safe($_POST["tags"], TRUE);
+		$p_name = trim($_POST["product_name"]);
+		$p_desc = trim($_POST["product_desc"]);
+		$p_tags = trim($_POST["tags"]);
 		$p_price = html_safe($_POST["price"], TRUE);
 		$p_condition = html_safe($_POST["condition"], TRUE);
 		$p_age = html_safe($_POST["age"], TRUE);

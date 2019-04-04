@@ -90,13 +90,14 @@ if ($profile !== NULL) {
 	if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) === TRUE) {
 		// POST request method.
 		if ($_POST["action"] === "add_reviews" && $session_is_admin === FALSE) {
+			$ajax_call = TRUE;
+			$response_error = TRUE;
+
 			if (
 				isset($session_user_id) && $session_user_id !== $profile_id &&
 				isset($_POST["rating"]) === TRUE && validate_int($_POST["rating"]) === TRUE &&
 				isset($_POST["description"]) === TRUE && validate_notempty($_POST["description"]) === TRUE
 			) {
-				$ajax_call = TRUE;
-
 				$r_rating = html_safe($_POST["rating"], TRUE);
 				$r_desc = html_safe($_POST["description"], TRUE);
 
@@ -109,9 +110,9 @@ if ($profile !== NULL) {
 					);
 
 					if (!$query->execute()) {
-						$response_error = TRUE;
 						$response_msg = "Failed to add review, please try again.";
 					} else {
+						$response_error = FALSE;
 						$response_msg = "Review added successfully.";
 					}
 

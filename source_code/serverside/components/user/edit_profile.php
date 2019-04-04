@@ -25,17 +25,7 @@ $nameErr = $loginidErr = $pwdErr = $pwdcfmErr = $emailErr = $genderError = $mobi
 $results_selectuser = array();
 $results_updateuserdetails = array();
 
-
-//if($_GET["id"] !== $_SESSION["user_id"]){
-//
-//}
 $user_id = (int)$_SESSION["user_id"];
-
-
-//if (isset($_GET["id"]) && validate_int($_GET["id"])) {
-//	$user_id = (int)($_GET["id"]);
-//
-//}
 
 
 $sql_selectuser = "SELECT id, name, loginid, email, gender, mobile, bio, profile_pic FROM user where (id=$user_id)";
@@ -106,7 +96,6 @@ if (isset($_POST["updateuser"])) {
                 $sql_updatepassword = "UPDATE user SET password='$password' WHERE (id='$user_id')";
 
                 if ($query = $conn->prepare($sql_updatepassword)) {
-                    // echo $_POST["id"];
                     $query->execute();
                     if ($query->execute()) {
                         $successupdate = 1;

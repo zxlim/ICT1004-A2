@@ -26,154 +26,131 @@ define("WEBPAGE_TITLE", "Edit Profile");
     </div>
 </section>
 <!-- End Banner Section -->
-<?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($results_updateuserdetails)) {
-        if ($successupdate) {
-            ?>
-            <h3 style="text-align:center">User Details has been successfully updated.</h3>
-            <?php
-        } else {
-            ?>
-            <h3 style="text-align:center">Sorry, an error has occured. Please try again.</h3>
-            <?php
-        }
-    }
-    //echo "success ";
+<!-- Admin Dashboard Page -->
+<section class="features-area section_gap">
 
-
-    //echo $_POST['name'];
-    ?>
-    <button class="primary-btn" onclick="location.href='index.php'">Back to Main Page</button>
-    <br/>
-    <br/>
-    <?php
-} else {
-    ?>
-    <!-- Admin Dashboard Page -->
-    <section class="features-area section_gap">
-
-        <div class="container">
-            <div class="row s_product_inner">
-                <div class="col-lg-6">
-                    <h5>Upload Profile Picture</h5>
-                    <div id="profile_picdrop" class="kt-dropzone dropzone m-dropzone--primary">
-                        <div class="kt-dropzone__msg dz-message needsclick">
-                            <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
-                            <p>
-                                <span class="kt-dropzone__msg-desc">Only allows .png .jpg .jpeg to be uploaded</span>
-                            </p>
-                            <p><span class="kt-dropzone__msg-desc">Upload only 1 file</span></p>
-                        </div>
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <h5>Upload Profile Picture</h5>
+                <div id="profile_picdrop" class="kt-dropzone dropzone m-dropzone--primary">
+                    <div class="kt-dropzone__msg dz-message needsclick">
+                        <h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
+                        <p>
+                            <span class="kt-dropzone__msg-desc">Only allows .png .jpg .jpeg to be uploaded</span>
+                        </p>
+                        <p><span class="kt-dropzone__msg-desc">Upload only 1 file</span></p>
                     </div>
-                    <br>
-                    <div align="center">
-                        <button type="submit" class="btn info-btn" id="uploadprofilepic">Upload</button>
-                    </div>
-
-                    <br>
-                    <div id="previewprofilepic" class="dotted_border"></div>
+                </div>
+                <br>
+                <div align="center">
+                    <button type="submit" class="btn info-btn" id="uploadprofilepic">Upload</button>
                 </div>
 
-                <div class="col-lg-5 offset-lg-1">
-                    <form name="form-edit" id="form-edit" action="edit_profile.php" method="post"
-                          enctype="multipart/form-data">
-                        <div class="s_product_text">
-                            <?php
-                            foreach ($results_selectuser
+                <br>
+                <div id="previewprofilepic" class="dotted_border">
 
-                            as $row) { ?>
-
-                            <input type="hidden" id="id" name="id" value="<?php safe_echo($row['id']); ?>">
-
-
-                            <div class="form-group" id="hidden_fieldsprofile"></div>
-                            <div class="form-group">
-                                <h5>Name</h5>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                                       value="<?php echo $row['name']; ?>" required>
-                                <span class="errorcolor"><?php echo $nameErr; ?></span>
-                            </div>
-                            <div class="form-group">
-                                <h5>LoginID</h5>
-                                <input type="text" class="form-control" id="loginid" name="loginid"
-                                       placeholder="Login ID" value="<?php echo $row['loginid']; ?>" required>
-                                <span class="errorcolor"><?php echo $loginidErr; ?></span>
-                            </div>
-
-                            <div class="form-group">
-                                <h5>Password</h5>
-                                <input type="password" class="form-control" id="password1" name="password1"
-                                       placeholder="Password">
-                                <span class="errorcolor"><?php echo $pwdErr; ?></span>
-                            </div>
-
-                            <div class="form-group">
-                                <h5>Confirm your Password</h5>
-                                <input type="password" class="form-control" id="password2" name="password2"
-                                       placeholder="Confirm Password">
-                                <span class="errorcolor"><?php echo $pwdcfmErr; ?></span>
-                            </div>
-
-
-                            <div class="form-group">
-                                <h5>Email</h5>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                                       value="<?php echo $row['email']; ?>" required>
-                                <span class="errorcolor"><?php echo $emailErr; ?></span>
-                            </div>
-
-                            <div class="form-group">
-                                <h5>Mobile</h5>
-                                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile"
-                                       value="<?php echo $row['mobile']; ?>">
-                                <span class="errorcolor"><?php echo $mobileErr; ?></span>
-                            </div>
-
-                            <div class="form-group">
-                                <h5>Bio</h5>
-                                <textarea class="form-control" id="bio" name="bio"
-                                          placeholder="Bio"><?php echo $row['bio']; ?></textarea>
-                                <span class="errorcolor"><?php echo $bioErr; ?></span>
-                            </div>
-
-                            <div class="form-group auto-margin">
-                                <h5>Gender</h5>
-                                <select class="default-select wide" id="gender" name="gender" required>
-                                    <option disabled>Gender</option>
-                                    <option value="N"<?php if ($gender === "N") { ?> selected="selected"<?php } ?>>
-                                        Prefer not to say
-                                    </option>
-                                    <option value="M"<?php if ($gender === "M") { ?> selected="selected"<?php } ?>>
-                                        Male
-                                    </option>
-                                    <option value="F"<?php if ($gender === "F") { ?> selected="selected"<?php } ?>>
-                                        Female
-                                    </option>
-                                    <option value="O"<?php if ($gender === "O") { ?> selected="selected"<?php } ?>>
-                                        Others
-                                    </option>
-                                </select>
-                            </div>
-
-                            <br/>
-                            <br/>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="genric-btn primary circle"
-                                        name="updateuser">Update
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <?php } ?>
                 </div>
             </div>
+
+            <div class="col-lg-5 offset-lg-1">
+                <form name="form-edit" id="form-edit" action="edit_profile.php" method="post"
+                      enctype="multipart/form-data">
+                    <div class="s_product_text">
+                        <?php
+                        foreach ($results_selectuser
+
+                        as $row) { ?>
+
+                        <input type="hidden" id="id" name="id" value="<?php safe_echo($row['id']); ?>">
+
+
+                        <div class="form-group" id="hidden_fieldsprofile"></div>
+                        <div class="form-group">
+                            <h5>Name</h5>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                   value="<?php echo $row['name']; ?>" required>
+                            <span class="errorcolor"><?php echo $nameErr; ?></span>
+                        </div>
+                        <div class="form-group">
+                            <h5>LoginID</h5>
+                            <input type="text" class="form-control" id="loginid" name="loginid"
+                                   placeholder="Login ID" value="<?php echo $row['loginid']; ?>" required>
+                            <span class="errorcolor"><?php echo $loginidErr; ?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <h5>Password</h5>
+                            <input type="password" class="form-control" id="password1" name="password1"
+                                   placeholder="Password">
+                            <span class="errorcolor"><?php echo $pwdErr; ?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <h5>Confirm your Password</h5>
+                            <input type="password" class="form-control" id="password2" name="password2"
+                                   placeholder="Confirm Password">
+                            <span class="errorcolor"><?php echo $pwdcfmErr; ?></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <h5>Email</h5>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                   value="<?php echo $row['email']; ?>" required>
+                            <span class="errorcolor"><?php echo $emailErr; ?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <h5>Mobile</h5>
+                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile"
+                                   value="<?php echo $row['mobile']; ?>">
+                            <span class="errorcolor"><?php echo $mobileErr; ?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <h5>Bio</h5>
+                            <textarea class="form-control" id="bio" name="bio"
+                                      placeholder="Bio"><?php echo $row['bio']; ?></textarea>
+                            <span class="errorcolor"><?php echo $bioErr; ?></span>
+                        </div>
+
+                        <div class="form-group auto-margin">
+                            <h5>Gender</h5>
+                            <select class="default-select wide" id="gender" name="gender" required>
+                                <option disabled>Gender</option>
+                                <option value="N"<?php if ($gender === "N") { ?> selected="selected"<?php } ?>>
+                                    Prefer not to say
+                                </option>
+                                <option value="M"<?php if ($gender === "M") { ?> selected="selected"<?php } ?>>
+                                    Male
+                                </option>
+                                <option value="F"<?php if ($gender === "F") { ?> selected="selected"<?php } ?>>
+                                    Female
+                                </option>
+                                <option value="O"<?php if ($gender === "O") { ?> selected="selected"<?php } ?>>
+                                    Others
+                                </option>
+                            </select>
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="genric-btn primary circle"
+                                    name="updateuser">Update
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <?php } ?>
+            </div>
         </div>
-    </section>
-    <!--End Admin Dashboard Page -->
-<?php } ?>
+    </div>
+</section>
+<!--End Admin Dashboard Page -->
 
 <!-- Footer -->
 <?php require_once("serverside/templates/footer.php"); ?>

@@ -3,7 +3,6 @@
 * If sessions are used in the page, please include this file first at the top.
 */
 
-set_session_defaults();
 session_start();
 
 $session_is_authenticated = FALSE;
@@ -21,7 +20,7 @@ if (session_isauth() === TRUE) {
 	} else if (defined("REQUIRE_SESSION") === FALSE || REQUIRE_SESSION === FALSE) {
 		// Page does not require session.
 		// Unset and destroy session instance.
-		session_end();
+		//session_end();
 	}
 	
 	if (defined("REQUIRE_AUTH") === TRUE && REQUIRE_AUTH === TRUE) {

@@ -14,11 +14,6 @@ if (defined("CLIENT") === FALSE) {
 	die();
 }
 
-function set_session_defaults(): void {
-	session_name("FastTrade08");
-	session_set_cookie_params(0, APP_ROOT, APP_DOMAIN, FALSE, TRUE);
-}
-
 function session_isstarted(): bool {
 	/**
 	* A function to check if PHP session has started.
@@ -58,7 +53,7 @@ function session_end(): bool {
 	* @return	bool	$result		TRUE if operation succeeded else FALSE.
 	*/
 	if (session_isstarted() === TRUE) {
-		if (session_unset() && session_destroy() && setcookie(session_name(), "", (time() - 3600), APP_ROOT, APP_DOMAIN, FALSE, TRUE)) {
+		if (session_unset() && session_destroy() && setcookie(session_name(), "", (time() - 3600))) {
 			return TRUE;
 		} else {
 			// Failed to end session.

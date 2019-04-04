@@ -22,3 +22,4 @@ if (defined("CLIENT") === FALSE) {
 <script src="static/js/vendor/dropzone.js"></script>
 <script src="static/js/ict1004.js"></script>
 <script src="static/js/ftmessenger_api.js"></script>
+<script src="static/js/vendor/simplePagination.js"></script>

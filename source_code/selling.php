@@ -177,7 +177,6 @@ require_once("serverside/components/selling.php");
                             notify("The file uploaded is not in the correct format!", "danger");
 							this.removeFile(file);
 						} else if (fileCount > 5) {
-                            notify("5 files have already been uploaded!", "danger");
 							this.removeFile(file);
 						} else {
 							fileCount += 1;

@@ -218,6 +218,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         fileCount += 1;
                     }
                 });
+
+                this.on("removedfile", function () {
+                    fileCount -= 1;
+                });
+
                 this.on("complete", function (file) {
                     if (fileCount <= 1) {
                         upload2imgur(file);

@@ -110,6 +110,7 @@ if ($profile !== NULL) {
 					);
 
 					if (!$query->execute()) {
+						$response_error = TRUE;
 						$response_msg = "Failed to add review, please try again.";
 					} else {
 						$response_error = FALSE;
@@ -134,6 +135,7 @@ if ($profile !== NULL) {
 					$response_error = TRUE;
 					$response_msg = "Failed to delete listing, please try again.";
 				} else {
+					$response_error = FALSE;
 					$response_msg = "Listing deleted successfully.";
 				}
 
@@ -154,6 +156,7 @@ if ($profile !== NULL) {
 					$response_error = TRUE;
 					$response_msg = "Failed to update listing status, please try again.";
 				} else {
+					$response_error = FALSE;
 					$response_msg = "Listing mark as sold.";
 				}
 

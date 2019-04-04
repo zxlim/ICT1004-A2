@@ -93,7 +93,7 @@ function allnumeric(num) {
 }
 
 function decimals(num) {
-    var numbers = /^[+]?[0-9]+\.[0-9]+$/;
+    var numbers = /^\d{0,8}(?:[.]\d{1,3})?$/;
     if (num.match(numbers) && Math.sign(num) === 1) {
         return true;
     } else {

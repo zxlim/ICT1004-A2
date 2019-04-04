@@ -231,7 +231,7 @@ require_once("serverside/components/selling.php");
             var deleteHash = obj.data.deletehash; //TODO
 
             // $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'>");
-            $("#previewprofilepic").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'> <br> <input type='hidden' id='delete_hash' name='delete_hash' value='" + deleteHash + "'> <br> <button id='submit_delete' class='btn btn-link'>Remove</button>");
+            $("#preview").append("<img src='" + link + "' class='img-thumbnail' width='175' height='175'> <br> <input type='hidden' id='delete_hash' name='delete_hash' value='" + deleteHash + "'> <br> <button id='submit_delete' class='btn btn-link'>Remove</button>");
             $("#hidden_fields").append("<input type='hidden' name='images[]' value='" + link + "'>");
         });
     }

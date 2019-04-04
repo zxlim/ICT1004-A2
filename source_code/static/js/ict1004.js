@@ -93,7 +93,7 @@ function allnumeric(num) {
 }
 
 function decimals(num) {
-    var numbers = /^[-+]?[0-9]+\.[0-9]+$/;
+    var numbers = /^[+]?[0-9]+\.[0-9]+$/;
     if (num.match(numbers) && Math.sign(num) === 1) {
         return true;
     } else {
@@ -247,7 +247,7 @@ $(document).ready(function () {
             notify("Listing Expiry is not in the correct format.", "warning");
             e.preventDefault();
             return false;
-        } else if (decimals($("#price").val() === false)) {
+        } else if (decimals($("#price").val()) === false) {
             notify("Price is not in the correct format.", "warning");
             e.preventDefault();
             return false;

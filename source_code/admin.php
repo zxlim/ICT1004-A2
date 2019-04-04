@@ -234,6 +234,13 @@ define("WEBPAGE_TITLE", "Admin");
 											<div class="row">
 												<div class="col-6 form-group">
 													<label>Suspended</label>
+													<?php if ($row["id"] === 1) { ?>
+													<select class="default-select wide" name="suspended" form="update_user_<?php safe_echo($row["id"]); ?>" required>
+														<option value="0" selected>
+															False
+														</option>
+													</select>
+													<?php } else if ($row["admin"] === FALSE) { ?>
 													<select class="default-select wide" name="suspended" form="update_user_<?php safe_echo($row["id"]); ?>" required>
 														<option value="0" <?php if ($row["suspended"] === FALSE) { safe_echo("selected"); } ?>>
 															False
@@ -242,9 +249,23 @@ define("WEBPAGE_TITLE", "Admin");
 															True
 														</option>
 													</select>
+													<?php } else { ?>
+													<select class="default-select wide" name="suspended" form="update_user_<?php safe_echo($row["id"]); ?>" required readonly>
+														<option value="0" selected>
+															False
+														</option>
+													</select>
+													<?php } ?>
 												</div>
 												<div class="col-6 form-group">
 													<label>Admin</label>
+													<?php if ($row["id"] === 1) { ?>
+														<select class="default-select wide" name="admin" form="update_user_<?php safe_echo($row["id"]); ?>" required>
+														<option value="1" selected>
+															True
+														</option>
+													</select>
+													<?php } else if ($row["suspended"] === FALSE) { ?>
 													<select class="default-select wide" name="admin" form="update_user_<?php safe_echo($row["id"]); ?>" required>
 														<option value="0" <?php if ($row["admin"] === FALSE) { safe_echo("selected"); } ?>>
 															False
@@ -253,6 +274,13 @@ define("WEBPAGE_TITLE", "Admin");
 															True
 														</option>
 													</select>
+													<?php } else { ?>
+													<select class="default-select wide" name="admin" form="update_user_<?php safe_echo($row["id"]); ?>" required readonly>
+														<option value="0" selected>
+															False
+														</option>
+													</select>
+													<?php } ?>
 												</div>
 											</div>
 										</div>

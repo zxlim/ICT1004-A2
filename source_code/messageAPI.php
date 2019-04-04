@@ -61,7 +61,7 @@ if ($session_is_authenticated === FALSE) {
 		// Valid request.
 		$action = "send";
 		$convo_id = html_safe($_POST["id"], TRUE);
-		$msg_data = html_safe($_POST["msg_data"], TRUE);
+		$msg_data = $_POST["msg_data"];
 		$valid_request = TRUE;
 	}
 } else {
